@@ -1,0 +1,18 @@
+<div class="center">
+    <h2 style="margin: 0 0 20px 0">Ingresa tus credenciales</h2>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-bottom: 20px">
+        <mat-label>Usuario</mat-label>
+        <input matInput [(ngModel)]="user.username">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-bottom: 20px">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="'password'" [(ngModel)]="user.password">
+    </mat-form-field>
+
+    <button mat-button (click)="onSubmit()" style="border: solid 1px">Inicia Sesión</button>
+</div>
+<mat-toolbar color="primary" style="position: fixed">
+    <h1>Version: 0.0.0</h1>
+</mat-toolbar>
