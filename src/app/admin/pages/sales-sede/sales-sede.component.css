@@ -1,0 +1,36 @@
+button {
+    border: solid 1px
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90.62%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.users {
+    background-color: lightgray;
+    border-radius: 15px;
+    width: 40%;
+    margin: 15px;
+}
+
+.user-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.user-form {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

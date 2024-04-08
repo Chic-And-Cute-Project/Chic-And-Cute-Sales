@@ -1,0 +1,58 @@
+<div class="column">
+    <h1 style="text-align: center">Vendedoras y Sedes</h1>
+    <div class="row">
+        <div class="user-form">
+            <div>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 20px">
+                    <mat-label>Nombre</mat-label>
+                    <input disabled matInput [(ngModel)]="user.name">
+                </mat-form-field>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>Apellido</mat-label>
+                    <input disabled matInput [(ngModel)]="user.lastName">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 20px">
+                    <mat-label>Usuario</mat-label>
+                    <input disabled matInput [(ngModel)]="user.username">
+                </mat-form-field>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>Sede</mat-label>
+                    <mat-select [(value)]="user.sede">
+                        <mat-option *ngFor="let sede of sedes" [value]="sede">
+                            {{sede}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div style="text-align: center;">
+                <button mat-button [disabled]="saveButtonDisabled" (click)="updateUser()">Guardar</button>
+            </div>
+        </div>
+        <div class="users">
+            <div class="user-title">
+                <h2 style="margin: 20px 10px">Usuarios</h2>
+                <button mat-flat-button style="background-color: lightgreen" (click)="addUser()">+</button>
+            </div>
+            <h4 style="margin-left: 10px">Usuarios activos</h4>
+            <ng-container *ngIf="usersEmpty; else elseTemplate">
+                <p style="margin-left: 20px">No existen usuarios activos</p>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <p *ngFor="let user of users" style="cursor: pointer; margin-left: 20px" (click)="selectUser(user)">{{ user.name + " " + user.lastName }}</p>
+            </ng-template>
+            <h4 style="margin-left: 10px">Usuarios inactivos</h4>
+            <ng-container *ngIf="usersInactiveEmpty; else elseTemplateEmpty">
+                <p style="margin-left: 20px">No existen usuarios inactivos</p>
+            </ng-container>
+            <ng-template #elseTemplateEmpty>
+                <p *ngFor="let user of usersInactive" style="cursor: pointer; margin-left: 20px" (click)="selectUser(user)">{{ user.name + " " + user.lastName }}</p>
+            </ng-template>
+
+        </div>
+    </div>
+    <div>
+        <button mat-button [routerLink]="['/home', role]" style="margin: 0 0 15px 15px">Regresar</button>
+    </div>
+</div>

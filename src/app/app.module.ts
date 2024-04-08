@@ -12,9 +12,14 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import { HomeSalesComponent } from './core/home/home-sales/home-sales.component';
-import { HomePrincipalComponent } from './core/home/home-principal/home-principal.component';
-import { HomeAdminComponent } from './core/home/home-admin/home-admin.component';
+import { HomeSalesComponent } from './core/pages/home/home-sales/home-sales.component';
+import { HomePrincipalComponent } from './core/pages/home/home-principal/home-principal.component';
+import { HomeAdminComponent } from './core/pages/home/home-admin/home-admin.component';
+import { SalesSedeComponent } from './admin/pages/sales-sede/sales-sede.component';
+import {MatSelectModule} from "@angular/material/select";
+import {MatOptionModule} from "@angular/material/core";
+import { AddUserDialogComponent } from './admin/dialogs/add-user-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
     declarations: [
@@ -23,7 +28,9 @@ import { HomeAdminComponent } from './core/home/home-admin/home-admin.component'
         LogInComponent,
         HomeSalesComponent,
         HomePrincipalComponent,
-        HomeAdminComponent
+        HomeAdminComponent,
+        SalesSedeComponent,
+        AddUserDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -33,7 +40,10 @@ import { HomeAdminComponent } from './core/home/home-admin/home-admin.component'
         MatToolbarModule,
         MatFormFieldModule,
         MatInputModule,
-        FormsModule
+        FormsModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatDialogModule
     ],
     providers: [
         provideAnimationsAsync()

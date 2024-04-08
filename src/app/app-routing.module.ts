@@ -4,11 +4,13 @@ import {PageNotFoundComponent} from "./shared/pages/page-not-found/page-not-foun
 import {LogInComponent} from "./security/pages/log-in/log-in.component";
 import {navigatorHomeGuard} from "./shared/services/navigator-home-guard/navigator-home.guard";
 import {navigatorLoginGuard} from "./shared/services/navigator-login-guard/navigator-login.guard";
-import {HomePrincipalComponent} from "./core/home/home-principal/home-principal.component";
+import {HomePrincipalComponent} from "./core/pages/home/home-principal/home-principal.component";
+import {SalesSedeComponent} from "./admin/pages/sales-sede/sales-sede.component";
 
 const routes: Routes = [
     { path: 'login', component: LogInComponent, canActivate: [navigatorLoginGuard]},
     { path: 'home/:role', component: HomePrincipalComponent, canActivate: [navigatorHomeGuard]},
+    { path: 'sales-sede/:role', component: SalesSedeComponent},
     { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: '**', component: PageNotFoundComponent }
 ];

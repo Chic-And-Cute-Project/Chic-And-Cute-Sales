@@ -1,0 +1,26 @@
+<div class="column">
+    <div class="content-end-text">
+        <p style="margin: 15px 15px 0 0">{{ user.name + " " + user.lastName }}</p>
+        <p style="margin: 0 15px 0 0">{{ user.sede }}</p>
+    </div>
+    <div class="content-middle">
+        <ng-container *ngIf="hasSede; else elseTemplate">
+            <h1 style="margin: 0 0 20px 0">Bienvenidos</h1>
+            <div class="buttons-container">
+                <button mat-button>Punto de Venta</button>
+                <button mat-button>Stock</button>
+                <button mat-button>Reportes</button>
+                <button mat-button>Cierre de Caja</button>
+                <button mat-button>Documentos</button>
+                <button mat-button>Recepción de Stock</button>
+            </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <h1 style="margin: 0 0 20px 0">No estás asignada a una sede</h1>
+            <h1 style="margin: 0">Contacta con administración si se trata de un error</h1>
+        </ng-template>
+    </div>
+    <div class="content-end">
+        <button mat-button (click)="signOut()" class="sign-out">Cerrar Sesión</button>
+    </div>
+</div>

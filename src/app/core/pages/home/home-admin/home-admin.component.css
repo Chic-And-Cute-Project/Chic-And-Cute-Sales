@@ -1,0 +1,39 @@
+button {
+    border: solid 1px
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.content-end-text {
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+}
+
+.content-middle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-end {
+    display: flex;
+    justify-content: end;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.sign-out {
+    background-color: #ff6464;
+    margin: 0 15px 0 0;
+}

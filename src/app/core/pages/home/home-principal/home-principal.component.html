@@ -1,8 +1,8 @@
-<div [ngSwitch]="true">
+<div [ngSwitch]="true" style="height: 90.62%">
     <ng-container *ngSwitchCase="role=='Admin'">
         <app-home-admin [role]="role"></app-home-admin>
     </ng-container>
-    <ng-container *ngSwitchCase="role=='Vendedora'">
+    <ng-container *ngSwitchCase="role=='Vendedor'">
         <app-home-sales [role]="role"></app-home-sales>
     </ng-container>
 </div>

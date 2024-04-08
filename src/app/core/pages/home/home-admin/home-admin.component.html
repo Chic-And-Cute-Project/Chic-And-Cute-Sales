@@ -1,0 +1,22 @@
+<div class="column">
+    <div class="content-end-text">
+        <p style="margin: 15px 15px 0 0">{{ user.name + " " + user.lastName }}</p>
+        <p style="margin: 0 15px 0 0">{{ user.sede }}</p>
+    </div>
+    <div class="content-middle">
+            <h1 style="margin: 0 0 20px 0">Bienvenido</h1>
+            <div class="buttons-container">
+                <button mat-button [routerLink]="['/sales-sede', role]">Vendedoras y Sedes</button>
+                <button mat-button>Punto de Venta</button>
+                <button mat-button>Stock</button>
+                <button mat-button>Reportes</button>
+                <button mat-button>Cierre de Caja</button>
+                <button mat-button>Documentos</button>
+                <button mat-button>Guía de Remisión</button>
+                <button mat-button>Recepción de Stock</button>
+            </div>
+    </div>
+    <div class="content-end">
+        <button mat-button (click)="signOut()" class="sign-out">Cerrar Sesión</button>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
+import {UserApiResponse} from "../../../security/models/apiResponses/userApiResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ export class BaseService<T> {
 
     httpOptions: { headers: HttpHeaders } = {
         headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('token')}`
         })
     };
 
