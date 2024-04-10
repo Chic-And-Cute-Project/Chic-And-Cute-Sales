@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Añadir nuevo descuento</h1>
+<div mat-dialog-content style="padding: 20px">
+    <div>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-bottom: 15px">
+            <mat-label>Nombre del Descuento</mat-label>
+            <input matInput required [(ngModel)]="data.discount.name">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Cantidad del Descuento</mat-label>
+            <input matInput required type="number" [(ngModel)]="data.discount.quantity">
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="close()">Close</button>
+    <button mat-button (click)="save()">Guardar</button>
+</div>

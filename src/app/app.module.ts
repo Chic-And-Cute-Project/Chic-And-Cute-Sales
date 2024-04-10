@@ -18,8 +18,11 @@ import { HomeAdminComponent } from './core/pages/home/home-admin/home-admin.comp
 import { SalesSedeComponent } from './admin/pages/sales-sede/sales-sede.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
-import { AddUserDialogComponent } from './admin/dialogs/add-user-dialog.component';
+import { AddUserDialogComponent } from './admin/dialogs/add-user/add-user-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { ProductsDiscountsComponent } from './admin/pages/products-discounts/products-discounts.component';
+import {AddProductDialogComponent} from "./admin/dialogs/add-product/add-product-dialog.component";
+import {AddDiscountDialogComponent} from "./admin/dialogs/add-discount/add-discount-dialog.component";
 
 @NgModule({
     declarations: [
@@ -30,7 +33,10 @@ import {MatDialogModule} from "@angular/material/dialog";
         HomePrincipalComponent,
         HomeAdminComponent,
         SalesSedeComponent,
-        AddUserDialogComponent
+        AddUserDialogComponent,
+        ProductsDiscountsComponent,
+        AddProductDialogComponent,
+        AddDiscountDialogComponent
     ],
     imports: [
         BrowserModule,

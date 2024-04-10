@@ -15,7 +15,7 @@ export class UserService extends BaseService<UserApiResponse>{
         this.basePath = this.basePath + 'users';
     }
 
-    getAll(): Observable<UserApiResponse> {
+    getAllSales(): Observable<UserApiResponse> {
         return this.http.get<UserApiResponse>(`${this.basePath}/getAllSales`, this.httpOptions)
             .pipe(catchError(this.handleError));
     }

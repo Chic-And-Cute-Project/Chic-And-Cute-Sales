@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BaseService} from "../../../shared/services/base/base.service";
-import {User} from "../../models/user";
 import {catchError, Observable} from "rxjs";
 import {UserApiResponse} from "../../models/apiResponses/userApiResponse";
 

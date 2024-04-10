@@ -5,7 +5,7 @@ import {UserApiResponse} from "../../../security/models/apiResponses/userApiResp
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../../security/models/user";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {AddUserDialogComponent} from "../../dialogs/add-user-dialog.component";
+import {AddUserDialogComponent} from "../../dialogs/add-user/add-user-dialog.component";
 
 @Component({
   selector: 'app-sales-sede',
@@ -39,7 +39,7 @@ export class SalesSedeComponent implements OnInit{
     }
 
     refreshUsers(): void {
-        this.userService.getAll().subscribe({
+        this.userService.getAllSales().subscribe({
             next: (response: UserApiResponse) => {
                 this.usersInactive = [];
                 this.users = response.users.filter( (u: User) => {

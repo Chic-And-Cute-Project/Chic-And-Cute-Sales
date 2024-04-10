@@ -1,0 +1,22 @@
+<div class="column">
+    <h1 style="text-align: center">Productos y Descuentos</h1>
+    <div class="row">
+        <div style="width: 50%">
+            <div class="title-button">
+                <h3 style="margin: 20px 10px">Productos</h3>
+                <button mat-flat-button style="background-color: lightgreen" (click)="createProduct()">+</button>
+            </div>
+            <p *ngFor="let product of products" style="margin-left: 20px">{{ product.fullName + " " + product.code + " " + product.price }}</p>
+        </div>
+        <div style="width: 50%">
+            <div class="title-button">
+                <h3 style="margin: 20px 10px">Descuentos</h3>
+                <button mat-flat-button style="background-color: lightgreen" (click)="createDiscount()">+</button>
+            </div>
+            <p *ngFor="let discount of discounts" style="margin-left: 20px">{{ discount.name + " " + discount.quantity }}</p>
+        </div>
+    </div>
+    <div>
+        <button mat-button [routerLink]="['/home', role]" style="margin: 0 0 15px 15px">Regresar</button>
+    </div>
+</div>
