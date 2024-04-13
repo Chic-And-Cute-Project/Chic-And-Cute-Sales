@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from "../../../../shared/services/auth/auth.service";
-import {Router} from "@angular/router";
 import {UserService} from "../../../services/user/user.service";
 import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -13,15 +12,18 @@ import {User} from "../../../../security/models/user";
 })
 export class HomeAdminComponent implements OnInit{
     @Input() role: string;
+    url: string;
     user: User;
 
     constructor(private userService: UserService, private authService: AuthService,
-                private snackBar: MatSnackBar, private router: Router) {
+                private snackBar: MatSnackBar) {
         this.role = "";
+        this.url = "";
         this.user = { name: "Nombre", lastName : "Apellido", sede: "Administración" } as User;
     }
 
     ngOnInit(): void {
+        this.url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/login';
         this.userService.getObject().subscribe({
             next: (response: UserApiResponse) => {
                 this.user = response.user;
@@ -34,6 +36,6 @@ export class HomeAdminComponent implements OnInit{
 
     signOut() {
         this.authService.logout();
-        this.router.navigate(['/login']).then();
+        window.location.assign(this.url);
     }
 }

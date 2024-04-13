@@ -1,0 +1,39 @@
+<div class="column">
+    <h1 style="text-align: center">Stock</h1>
+    <div>
+        <div>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-left: 15px">
+                <mat-label>Sede</mat-label>
+                <mat-select [(value)]="sedeSelected">
+                    <mat-option *ngFor="let sede of sedes" [value]="sede" (click)="selectSede(sede)">
+                        {{sede}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div style="margin: 15px">
+            <table mat-table [dataSource]="sedeSelected == 'Fábrica' ? inventoriesF : sedeSelected == 'Molina Plaza' ? inventoriesMP : inventoriesOP" class="mat-elevation-z8">
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Nombre de Producto </th>
+                    <td mat-cell  *matCellDef="let inventory">{{inventory.product.fullName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef> Código de Producto </th>
+                    <td mat-cell *matCellDef="let inventory">{{inventory.product.code}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                    <td mat-cell *matCellDef="let inventory">{{inventory.quantity}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['name', 'code', 'quantity']"></tr>
+                <tr style="cursor: pointer" mat-row *matRowDef="let inventory; columns: ['name', 'code', 'quantity'];" (click)="editInventory(inventory)"></tr>
+            </table>
+        </div>
+    </div>
+    <div>
+        <button mat-button [routerLink]="['/home', role]" style="margin: 0 0 15px 15px">Regresar</button>
+    </div>
+</div>

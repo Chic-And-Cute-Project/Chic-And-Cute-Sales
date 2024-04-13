@@ -13,6 +13,12 @@ export class UserService extends BaseService<UserApiResponse>{
     constructor(http: HttpClient) {
         super(http);
         this.basePath = this.basePath + 'users';
+        this.httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        };
     }
 
     getAllSales(): Observable<UserApiResponse> {

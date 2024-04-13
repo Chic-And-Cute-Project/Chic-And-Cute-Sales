@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BaseService} from "../../../shared/services/base/base.service";
 import {ProductApiResponse} from "../../models/apiResponses/productApiResponse";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable} from "rxjs";
 import {Product} from "../../models/product";
 
@@ -13,6 +13,12 @@ export class ProductService extends BaseService<ProductApiResponse>{
     constructor(http: HttpClient) {
         super(http);
         this.basePath = this.basePath + 'products';
+        this.httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        };
     }
 
     create(item: Product): Observable<ProductApiResponse> {

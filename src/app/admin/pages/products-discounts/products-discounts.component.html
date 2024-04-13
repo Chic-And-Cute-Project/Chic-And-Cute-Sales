@@ -6,14 +6,16 @@
                 <h3 style="margin: 20px 10px">Productos</h3>
                 <button mat-flat-button style="background-color: lightgreen" (click)="createProduct()">+</button>
             </div>
-            <p *ngFor="let product of products" style="margin-left: 20px">{{ product.fullName + " " + product.code + " " + product.price }}</p>
+            <p style="margin-left: 20px">Nombre completo; Código; Precio</p>
+            <p *ngFor="let product of products" style="margin-left: 20px">{{ product.fullName + "; " + product.code + "; S/." + product.price }}</p>
         </div>
         <div style="width: 50%">
             <div class="title-button">
                 <h3 style="margin: 20px 10px">Descuentos</h3>
                 <button mat-flat-button style="background-color: lightgreen" (click)="createDiscount()">+</button>
             </div>
-            <p *ngFor="let discount of discounts" style="margin-left: 20px">{{ discount.name + " " + discount.quantity }}</p>
+            <p style="margin-left: 20px">Nombre; Cantidad</p>
+            <p *ngFor="let discount of discounts" style="margin-left: 20px">{{ discount.name + "; " + discount.quantity }}%</p>
         </div>
     </div>
     <div>

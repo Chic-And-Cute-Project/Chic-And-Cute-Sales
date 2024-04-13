@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Editar cantidad de producto</h1>
+<div mat-dialog-content style="padding: 20px">
+    <div>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Cantidad del Descuento</mat-label>
+            <input matInput type="number" [(ngModel)]="data.inventory.quantity">
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="close()">Close</button>
+    <button mat-button (click)="save()">Guardar</button>
+</div>

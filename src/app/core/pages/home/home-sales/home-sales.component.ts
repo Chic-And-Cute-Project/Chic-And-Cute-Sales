@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from "../../../../shared/services/auth/auth.service";
-import {Router} from "@angular/router";
 import {User} from "../../../../security/models/user";
 import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 import {UserService} from "../../../services/user/user.service";
@@ -13,17 +12,20 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class HomeSalesComponent implements OnInit{
     @Input() role: string;
+    url: string;
     hasSede: boolean;
     user: User;
 
     constructor(private userService: UserService, private authService: AuthService,
-                private snackBar: MatSnackBar, private router: Router) {
+                private snackBar: MatSnackBar) {
         this.role = "";
+        this.url = "";
         this.hasSede = false;
         this.user = { name: "Nombre", lastName : "Apellido", sede: "Sin sede asignada" } as User;
     }
 
     ngOnInit(): void {
+        this.url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/login';
         this.userService.getObject().subscribe({
             next: (response: UserApiResponse) => {
                 this.user = response.user;
@@ -37,6 +39,6 @@ export class HomeSalesComponent implements OnInit{
 
     signOut() {
         this.authService.logout();
-        this.router.navigate(['/login']).then();
+        window.location.assign(this.url);
     }
 }

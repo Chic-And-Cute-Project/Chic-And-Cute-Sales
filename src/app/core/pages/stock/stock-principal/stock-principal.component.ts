@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
-    selector: 'app-home-principal',
-    templateUrl: './home-principal.component.html',
-    styleUrl: './home-principal.component.css'
+    selector: 'app-stock-principal',
+    templateUrl: './stock-principal.component.html',
+    styleUrl: './stock-principal.component.css'
 })
-export class HomePrincipalComponent implements OnInit{
+export class StockPrincipalComponent implements OnInit{
     role: string;
 
     constructor(private route: ActivatedRoute) {

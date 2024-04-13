@@ -1,0 +1,10 @@
+button {
+    border: solid 1px
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90.62%;
+}

@@ -7,14 +7,18 @@ import {navigatorLoginGuard} from "./shared/services/navigator-login-guard/navig
 import {HomePrincipalComponent} from "./core/pages/home/home-principal/home-principal.component";
 import {SalesSedeComponent} from "./admin/pages/sales-sede/sales-sede.component";
 import {ProductsDiscountsComponent} from "./admin/pages/products-discounts/products-discounts.component";
+import {StartComponent} from "./shared/pages/start/start.component";
+import {StockPrincipalComponent} from "./core/pages/stock/stock-principal/stock-principal.component";
 
 const routes: Routes = [
+    { path: 'start', component: StartComponent},
     { path: 'login', component: LogInComponent, canActivate: [navigatorLoginGuard]},
     { path: 'home/:role', component: HomePrincipalComponent, canActivate: [navigatorHomeGuard]},
     { path: 'sales-sede/:role', component: SalesSedeComponent},
     { path: 'products-discounts/:role', component: ProductsDiscountsComponent},
-    { path: '', redirectTo: 'login', pathMatch: 'full'},
-    { path: '**', component: PageNotFoundComponent }
+    { path: 'stock/:role', component: StockPrincipalComponent},
+    { path: '', redirectTo: 'start', pathMatch: 'full'},
+    { path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({

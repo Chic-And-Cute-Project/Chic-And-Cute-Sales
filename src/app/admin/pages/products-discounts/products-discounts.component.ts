@@ -10,6 +10,9 @@ import {DiscountApiResponse} from "../../models/apiResponses/discountApiResponse
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {AddProductDialogComponent} from "../../dialogs/add-product/add-product-dialog.component";
 import {AddDiscountDialogComponent} from "../../dialogs/add-discount/add-discount-dialog.component";
+import {InventoryService} from "../../../core/services/inventory/inventory.service";
+import {lastValueFrom} from "rxjs";
+import {Inventory} from "../../../core/models/inventory";
 
 @Component({
   selector: 'app-products-discounts',
@@ -22,8 +25,8 @@ export class ProductsDiscountsComponent implements OnInit{
     discounts: Array<Discount>;
 
     constructor(private productService: ProductService, private discountService: DiscountService,
-                private snackBar: MatSnackBar, private dialog: MatDialog,
-                private route: ActivatedRoute) {
+                private inventoryService: InventoryService, private snackBar: MatSnackBar,
+                private dialog: MatDialog, private route: ActivatedRoute) {
         this.role = this.route.snapshot.params['role'];
         this.products = [];
         this.discounts = [];
@@ -66,9 +69,33 @@ export class ProductsDiscountsComponent implements OnInit{
         const dialogRef = this.dialog.open(AddProductDialogComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe((result: { product: Product }) => {
-            this.productService.create(result.product).subscribe( response => {
-                this.products.push(response.product);
-            });
+            if (result) {
+                this.snackBar.open("Creando producto");
+                this.productService.create(result.product).subscribe({
+                    next: async (response: ProductApiResponse) => {
+                        const createInventoryMPResponse = this.inventoryService.create(
+                            {sede: "Molina Plaza", product: response.product._id}
+                        );
+                        await lastValueFrom(createInventoryMPResponse);
+
+                        const createInventoryOPResponse = this.inventoryService.create(
+                            {sede: "Open Plaza", product: response.product._id}
+                        );
+                        await lastValueFrom(createInventoryOPResponse);
+
+                        const createInventoryFResponse = this.inventoryService.create(
+                            {sede: "Fábrica", product: response.product._id}
+                        );
+                        await lastValueFrom(createInventoryFResponse);
+
+                        this.snackBar.dismiss();
+                        this.products.push(response.product);
+                    },
+                    error: (e) => {
+                        this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    }
+                });
+            }
         });
     }
 
@@ -82,9 +109,18 @@ export class ProductsDiscountsComponent implements OnInit{
         const dialogRef = this.dialog.open(AddDiscountDialogComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe((result: { discount: Discount }) => {
-            this.discountService.create(result.discount).subscribe( response => {
-                this.discounts.push(response.discount);
-            });
+            if (result) {
+                this.snackBar.open("Creando descuento");
+                this.discountService.create(result.discount).subscribe({
+                    next: (response: DiscountApiResponse) => {
+                        this.snackBar.dismiss();
+                        this.discounts.push(response.discount);
+                    },
+                    error: (e) => {
+                        this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    }
+                });
+            }
         });
     }
 }

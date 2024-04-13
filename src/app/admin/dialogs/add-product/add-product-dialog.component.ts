@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {AddProduct} from "../../models/dialogModels/add-product";
 
 @Component({
-    selector: 'app-add-user',
+    selector: 'app-add-product',
     templateUrl: './add-product-dialog.component.html',
     styleUrl: '../../pages/products-discounts/products-discounts.component.css'
 })

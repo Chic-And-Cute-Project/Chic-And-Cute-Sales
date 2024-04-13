@@ -8,9 +8,9 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {AddUserDialogComponent} from "../../dialogs/add-user/add-user-dialog.component";
 
 @Component({
-  selector: 'app-sales-sede',
-  templateUrl: './sales-sede.component.html',
-  styleUrl: './sales-sede.component.css'
+    selector: 'app-sales-sede',
+    templateUrl: './sales-sede.component.html',
+    styleUrl: './sales-sede.component.css'
 })
 export class SalesSedeComponent implements OnInit{
     role: string;
@@ -20,10 +20,10 @@ export class SalesSedeComponent implements OnInit{
     user: User;
     users: Array<User>;
     usersInactive: Array<User>;
-    sedes: Array<String>;
+    sedes: Array<string>;
 
     constructor(private userService: UserService, private snackBar: MatSnackBar,
-                private dialog: MatDialog, private route: ActivatedRoute) {
+                private route: ActivatedRoute, private dialog: MatDialog) {
         this.role = this.route.snapshot.params['role'];
         this.usersEmpty = true;
         this.usersInactiveEmpty = true;
@@ -31,7 +31,7 @@ export class SalesSedeComponent implements OnInit{
         this.user = { name: "Nombre", lastName: "Apellido", username: "Usuario", sede: "Sin sede asignada" } as User;
         this.users = [];
         this.usersInactive = [];
-        this.sedes = ["Molina Plaza", "Open Plaza", "Sin sede asignada"]
+        this.sedes = ["Molina Plaza", "Open Plaza", "Sin sede asignada"];
     }
 
     ngOnInit(): void {
@@ -74,15 +74,31 @@ export class SalesSedeComponent implements OnInit{
         const dialogRef = this.dialog.open(AddUserDialogComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe((result: { user: User }) => {
-            this.userService.create(result.user).subscribe( response => {
-                this.usersInactive.push(response.user);
-            });
+            if (result) {
+                this.snackBar.open("Creando usuario");
+                this.userService.create(result.user).subscribe({
+                    next: (response: UserApiResponse) => {
+                        this.snackBar.dismiss();
+                        this.usersInactive.push(response.user);
+                    },
+                    error: (e) => {
+                        this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    }
+                });
+            }
         });
     }
 
     updateUser() {
-        this.userService.update(this.user).subscribe(() => {
-            this.refreshUsers();
+        this.snackBar.open("Actualizando usuario");
+        this.userService.update(this.user).subscribe({
+            next: () => {
+                this.snackBar.dismiss();
+                this.refreshUsers();
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+            }
         });
     }
 }

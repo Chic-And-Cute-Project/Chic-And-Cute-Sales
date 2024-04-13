@@ -20,8 +20,10 @@ export class LogInComponent {
     }
 
     onSubmit() {
+        this.snackBar.open("Iniciando sesión");
         this.logInService.logIn(this.user).subscribe({
             next: (response: UserApiResponse) => {
+                this.snackBar.dismiss();
                 this.authService.login(response.token);
 
                 this.router.navigate(['/home', response.user.role]).then();

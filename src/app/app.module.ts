@@ -23,6 +23,12 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { ProductsDiscountsComponent } from './admin/pages/products-discounts/products-discounts.component';
 import {AddProductDialogComponent} from "./admin/dialogs/add-product/add-product-dialog.component";
 import {AddDiscountDialogComponent} from "./admin/dialogs/add-discount/add-discount-dialog.component";
+import { StartComponent } from './shared/pages/start/start.component';
+import { StockPrincipalComponent } from './core/pages/stock/stock-principal/stock-principal.component';
+import { StockAdminComponent } from './core/pages/stock/stock-admin/stock-admin.component';
+import { StockSalesComponent } from './core/pages/stock/stock-sales/stock-sales.component';
+import {MatTableModule} from "@angular/material/table";
+import {EditInventoryDialogComponent} from "./core/dialogs/edit-inventory/edit-inventory-dialog.component";
 
 @NgModule({
     declarations: [
@@ -36,7 +42,12 @@ import {AddDiscountDialogComponent} from "./admin/dialogs/add-discount/add-disco
         AddUserDialogComponent,
         ProductsDiscountsComponent,
         AddProductDialogComponent,
-        AddDiscountDialogComponent
+        AddDiscountDialogComponent,
+        StartComponent,
+        StockPrincipalComponent,
+        StockAdminComponent,
+        StockSalesComponent,
+        EditInventoryDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -49,7 +60,8 @@ import {AddDiscountDialogComponent} from "./admin/dialogs/add-discount/add-disco
         FormsModule,
         MatSelectModule,
         MatOptionModule,
-        MatDialogModule
+        MatDialogModule,
+        MatTableModule
     ],
     providers: [
         provideAnimationsAsync()
