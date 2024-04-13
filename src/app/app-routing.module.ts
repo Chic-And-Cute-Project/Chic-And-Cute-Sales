@@ -9,6 +9,7 @@ import {SalesSedeComponent} from "./admin/pages/sales-sede/sales-sede.component"
 import {ProductsDiscountsComponent} from "./admin/pages/products-discounts/products-discounts.component";
 import {StartComponent} from "./shared/pages/start/start.component";
 import {StockPrincipalComponent} from "./core/pages/stock/stock-principal/stock-principal.component";
+import {RemissionGuideComponent} from "./admin/pages/remission-guide/remission-guide.component";
 
 const routes: Routes = [
     { path: 'start', component: StartComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'sales-sede/:role', component: SalesSedeComponent},
     { path: 'products-discounts/:role', component: ProductsDiscountsComponent},
     { path: 'stock/:role', component: StockPrincipalComponent},
+    { path: 'remission-guide/:role', component: RemissionGuideComponent},
     { path: '', redirectTo: 'start', pathMatch: 'full'},
     { path: '**', component: PageNotFoundComponent}
 ];

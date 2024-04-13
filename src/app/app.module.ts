@@ -29,6 +29,8 @@ import { StockAdminComponent } from './core/pages/stock/stock-admin/stock-admin.
 import { StockSalesComponent } from './core/pages/stock/stock-sales/stock-sales.component';
 import {MatTableModule} from "@angular/material/table";
 import {EditInventoryDialogComponent} from "./core/dialogs/edit-inventory/edit-inventory-dialog.component";
+import {NgOptimizedImage} from "@angular/common";
+import { RemissionGuideComponent } from './admin/pages/remission-guide/remission-guide.component';
 
 @NgModule({
     declarations: [
@@ -47,7 +49,8 @@ import {EditInventoryDialogComponent} from "./core/dialogs/edit-inventory/edit-i
         StockPrincipalComponent,
         StockAdminComponent,
         StockSalesComponent,
-        EditInventoryDialogComponent
+        EditInventoryDialogComponent,
+        RemissionGuideComponent
     ],
     imports: [
         BrowserModule,
@@ -61,7 +64,8 @@ import {EditInventoryDialogComponent} from "./core/dialogs/edit-inventory/edit-i
         MatSelectModule,
         MatOptionModule,
         MatDialogModule,
-        MatTableModule
+        MatTableModule,
+        NgOptimizedImage
     ],
     providers: [
         provideAnimationsAsync()

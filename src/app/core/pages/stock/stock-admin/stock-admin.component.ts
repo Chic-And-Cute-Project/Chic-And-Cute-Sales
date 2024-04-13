@@ -19,7 +19,6 @@ export class StockAdminComponent implements OnInit {
     inventoriesOP: Array<Inventory>;
     inventoriesF: Array<Inventory>;
 
-
     constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar,
                 private dialog: MatDialog) {
         this.role = "";
@@ -67,10 +66,6 @@ export class StockAdminComponent implements OnInit {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
             }
         });
-    }
-
-    selectSede(sede: string) {
-        this.sedeSelected = sede;
     }
 
     editInventory(inventory: Inventory) {

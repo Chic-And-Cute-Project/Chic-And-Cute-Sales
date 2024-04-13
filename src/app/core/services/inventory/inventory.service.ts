@@ -40,4 +40,9 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         return this.http.get<InventoryApiResponse>(`${this.basePath}/mySede`, this.httpOptions)
             .pipe(catchError(this.handleError));
     }
+
+    getAvailableBySede(sede: string): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/availableSede?sede=${sede}`, this.httpOptions)
+            .pipe(catchError(this.handleError));
+    }
 }

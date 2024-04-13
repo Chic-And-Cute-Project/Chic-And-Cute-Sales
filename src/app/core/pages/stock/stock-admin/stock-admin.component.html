@@ -5,7 +5,7 @@
             <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-left: 15px">
                 <mat-label>Sede</mat-label>
                 <mat-select [(value)]="sedeSelected">
-                    <mat-option *ngFor="let sede of sedes" [value]="sede" (click)="selectSede(sede)">
+                    <mat-option *ngFor="let sede of sedes" [value]="sede">
                         {{sede}}
                     </mat-option>
                 </mat-select>
