@@ -14,19 +14,17 @@ import {EditInventoryDialogComponent} from "../../../dialogs/edit-inventory/edit
 export class StockAdminComponent implements OnInit {
     @Input() role: string;
     sedeSelected: string;
+    productName: string;
     sedes: Array<string>;
-    inventoriesMP: Array<Inventory>;
-    inventoriesOP: Array<Inventory>;
-    inventoriesF: Array<Inventory>;
+    inventoriesShow: Array<Inventory>;
 
     constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar,
                 private dialog: MatDialog) {
         this.role = "";
+        this.productName = "";
         this.sedeSelected = "Fábrica";
         this.sedes = ["Molina Plaza", "Open Plaza", "Fábrica"];
-        this.inventoriesMP = [];
-        this.inventoriesOP = [];
-        this.inventoriesF = [];
+        this.inventoriesShow = [];
     }
 
     ngOnInit(): void {
@@ -38,7 +36,8 @@ export class StockAdminComponent implements OnInit {
     refreshInventoryF(): void {
         this.inventoryService.getBySede("Fábrica").subscribe({
             next: (response: InventoryApiResponse) => {
-                this.inventoriesF = response.inventories;
+                this.snackBar.dismiss();
+                this.inventoriesShow = response.inventories;
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -49,7 +48,8 @@ export class StockAdminComponent implements OnInit {
     refreshInventoryMP(): void {
         this.inventoryService.getBySede("Molina Plaza").subscribe({
             next: (response: InventoryApiResponse) => {
-                this.inventoriesMP = response.inventories;
+                this.snackBar.dismiss();
+                this.inventoriesShow = response.inventories;
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -60,7 +60,8 @@ export class StockAdminComponent implements OnInit {
     refreshInventoryOP(): void {
         this.inventoryService.getBySede("Open Plaza").subscribe({
             next: (response: InventoryApiResponse) => {
-                this.inventoriesOP = response.inventories;
+                this.snackBar.dismiss();
+                this.inventoriesShow = response.inventories;
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -97,5 +98,56 @@ export class StockAdminComponent implements OnInit {
                 });
             }
         });
+    }
+
+    searchSale() {
+        if (this.productName != "") {
+            this.snackBar.open("Buscando procuctos");
+            if (this.sedeSelected == "Fábrica") {
+                this.inventoryService.searchProducts("Fábrica", this.productName).subscribe({
+                    next: response => {
+                        this.snackBar.dismiss();
+                        this.inventoriesShow = response.inventories;
+                    },
+                    error: (e) => {
+                        this.snackBar.open(e.message, "Entendido", { duration: 2000});
+                    }
+                });
+            } else if (this.sedeSelected == "Molina Plaza") {
+                this.inventoryService.searchProducts("Molina Plaza", this.productName).subscribe({
+                    next: response => {
+                        this.snackBar.dismiss();
+                        this.inventoriesShow = response.inventories;
+                    },
+                    error: (e) => {
+                        this.snackBar.open(e.message, "Entendido", { duration: 2000});
+                    }
+                });
+            } else {
+                this.inventoryService.searchProducts("Open Plaza", this.productName).subscribe({
+                    next: response => {
+                        this.snackBar.dismiss();
+                        this.inventoriesShow = response.inventories;
+                    },
+                    error: (e) => {
+                        this.snackBar.open(e.message, "Entendido", { duration: 2000});
+                    }
+                });
+            }
+        } else {
+            this.snackBar.open("Escribe un nombre", "Entendido", { duration: 2000});
+        }
+    }
+
+    reloadSearch() {
+        this.productName = "";
+        this.snackBar.open("Actualizando");
+        if (this.sedeSelected == "Fábrica") {
+            this.refreshInventoryF();
+        } else if (this.sedeSelected == "Molina Plaza") {
+            this.refreshInventoryMP();
+        } else {
+            this.refreshInventoryOP();
+        }
     }
 }

@@ -24,7 +24,12 @@ button {
 
 .user-title {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.user-title-item {
+    display: flex;
     align-items: center;
 }
 

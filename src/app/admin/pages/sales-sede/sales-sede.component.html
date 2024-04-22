@@ -32,18 +32,30 @@
         </div>
         <div class="users">
             <div class="user-title">
-                <h2 style="margin: 20px 10px">Usuarios</h2>
-                <button mat-flat-button style="background-color: lightgreen" (click)="addUser()">+</button>
+                <div class="user-title-item">
+                    <h2 style="margin: 20px 10px 20px 0">Usuarios</h2>
+                    <button mat-flat-button style="background-color: lightgreen" (click)="addUser()">+</button>
+                </div>
+                <div class="user-title-item">
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                        <mat-label>Nombre Vendedor</mat-label>
+                        <input matInput [(ngModel)]="userName">
+                        <button mat-icon-button matSuffix (click)="searchSale()" style="border: 0;">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <button mat-button (click)="reloadSearch()">Reiniciar Búsqueda</button>
+                </div>
             </div>
             <h4 style="margin-left: 10px">Usuarios activos</h4>
-            <ng-container *ngIf="usersEmpty; else elseTemplate">
+            <ng-container *ngIf="users.length == 0; else elseTemplate">
                 <p style="margin-left: 20px">No existen usuarios activos</p>
             </ng-container>
             <ng-template #elseTemplate>
                 <p *ngFor="let user of users" style="cursor: pointer; margin-left: 20px" (click)="selectUser(user)">{{ user.name + " " + user.lastName }}</p>
             </ng-template>
             <h4 style="margin-left: 10px">Usuarios inactivos</h4>
-            <ng-container *ngIf="usersInactiveEmpty; else elseTemplateEmpty">
+            <ng-container *ngIf="usersInactive.length == 0; else elseTemplateEmpty">
                 <p style="margin-left: 20px">No existen usuarios inactivos</p>
             </ng-container>
             <ng-template #elseTemplateEmpty>

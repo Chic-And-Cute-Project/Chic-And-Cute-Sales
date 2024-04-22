@@ -35,4 +35,9 @@ export class UserService extends BaseService<UserApiResponse>{
         return this.http.put<UserApiResponse>(`${this.basePath}?idUser=${user._id}`, user, this.httpOptions)
             .pipe(catchError(this.handleError));
     }
+
+    searchUsers(userName: string): Observable<UserApiResponse> {
+        return this.http.get<UserApiResponse>(`${this.basePath}/search?userName=${userName}`, this.httpOptions)
+            .pipe(catchError(this.handleError));
+    }
 }

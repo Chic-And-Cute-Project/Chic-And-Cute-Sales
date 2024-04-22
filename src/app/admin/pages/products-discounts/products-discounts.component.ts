@@ -12,7 +12,6 @@ import {AddProductDialogComponent} from "../../dialogs/add-product/add-product-d
 import {AddDiscountDialogComponent} from "../../dialogs/add-discount/add-discount-dialog.component";
 import {InventoryService} from "../../../core/services/inventory/inventory.service";
 import {lastValueFrom} from "rxjs";
-import {Inventory} from "../../../core/models/inventory";
 
 @Component({
   selector: 'app-products-discounts',

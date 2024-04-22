@@ -11,16 +11,49 @@ import {InventoryApiResponse} from "../../../models/apiResponses/inventoryApiRes
 })
 export class StockSalesComponent implements OnInit {
     @Input() role: string;
+    productName: string;
     inventories: Array<Inventory>;
 
     constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar) {
         this.role = "";
+        this.productName = "";
         this.inventories = [];
     }
 
     ngOnInit(): void {
         this.inventoryService.getByMySede().subscribe({
             next: (response: InventoryApiResponse) => {
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+            }
+        });
+    }
+
+    searchSale() {
+        if (this.productName != "") {
+            this.snackBar.open("Buscando procuctos");
+            this.inventoryService.searchMyProducts(this.productName).subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.snackBar.dismiss();
+                    this.inventories = response.inventories;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        } else {
+            this.snackBar.open("Escribe un nombre", "Entendido", { duration: 2000});
+        }
+    }
+
+    reloadSearch() {
+        this.productName = "";
+        this.snackBar.open("Actualizando");
+        this.inventoryService.getByMySede().subscribe({
+            next: (response: InventoryApiResponse) => {
+                this.snackBar.dismiss();
                 this.inventories = response.inventories;
             },
             error: (e) => {

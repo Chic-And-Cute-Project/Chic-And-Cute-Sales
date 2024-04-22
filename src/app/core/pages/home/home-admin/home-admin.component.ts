@@ -4,6 +4,7 @@ import {UserService} from "../../../services/user/user.service";
 import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../../../security/models/user";
+import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
 
 @Component({
     selector: 'app-home-admin',
@@ -16,7 +17,7 @@ export class HomeAdminComponent implements OnInit{
     user: User;
 
     constructor(private userService: UserService, private authService: AuthService,
-                private snackBar: MatSnackBar) {
+                private communicationService: CommunicationService, private snackBar: MatSnackBar) {
         this.role = "";
         this.url = "";
         this.user = { name: "Nombre", lastName : "Apellido", sede: "Administración" } as User;
@@ -27,6 +28,7 @@ export class HomeAdminComponent implements OnInit{
         this.userService.getObject().subscribe({
             next: (response: UserApiResponse) => {
                 this.user = response.user;
+                this.communicationService.emitTitleChange({ name: this.user.name + " " + this.user.lastName, sede: this.user.sede });
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});

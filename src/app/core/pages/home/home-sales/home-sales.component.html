@@ -1,8 +1,4 @@
 <div class="column">
-    <div class="content-end-text">
-        <p style="margin: 15px 15px 0 0">{{ user.name + " " + user.lastName }}</p>
-        <p style="margin: 0 15px 0 0">{{ user.sede }}</p>
-    </div>
     <div class="content-middle">
         <ng-container *ngIf="hasSede; else elseTemplate">
             <h1 style="margin: 0 0 20px 0">Bienvenidos</h1>

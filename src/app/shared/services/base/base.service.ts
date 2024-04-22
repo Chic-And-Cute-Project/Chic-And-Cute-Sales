@@ -22,8 +22,12 @@ export class BaseService<T> {
     }
 
     getObject(): Observable<T> {
-        return this.http.get<T>(`${this.basePath}/myObject`, this.httpOptions)
-            .pipe(catchError(this.handleError));
+        return this.http.get<T>(`${this.basePath}/myObject`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
     }
 
     getAll(): Observable<T> {

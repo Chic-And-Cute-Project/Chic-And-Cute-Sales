@@ -4,6 +4,7 @@ import {User} from "../../../../security/models/user";
 import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 import {UserService} from "../../../services/user/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
 
 @Component({
     selector: 'app-home-sales',
@@ -17,7 +18,7 @@ export class HomeSalesComponent implements OnInit{
     user: User;
 
     constructor(private userService: UserService, private authService: AuthService,
-                private snackBar: MatSnackBar) {
+                private communicationService: CommunicationService, private snackBar: MatSnackBar) {
         this.role = "";
         this.url = "";
         this.hasSede = false;
@@ -29,6 +30,7 @@ export class HomeSalesComponent implements OnInit{
         this.userService.getObject().subscribe({
             next: (response: UserApiResponse) => {
                 this.user = response.user;
+                this.communicationService.emitTitleChange({ name: this.user.name + " " + this.user.lastName, sede: this.user.sede });
                 this.hasSede = this.user.sede != "Sin sede asignada";
             },
             error: (e) => {

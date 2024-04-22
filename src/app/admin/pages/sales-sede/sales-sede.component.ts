@@ -14,8 +14,7 @@ import {AddUserDialogComponent} from "../../dialogs/add-user/add-user-dialog.com
 })
 export class SalesSedeComponent implements OnInit{
     role: string;
-    usersEmpty: boolean;
-    usersInactiveEmpty: boolean;
+    userName: string;
     saveButtonDisabled: boolean;
     user: User;
     users: Array<User>;
@@ -25,8 +24,7 @@ export class SalesSedeComponent implements OnInit{
     constructor(private userService: UserService, private snackBar: MatSnackBar,
                 private route: ActivatedRoute, private dialog: MatDialog) {
         this.role = this.route.snapshot.params['role'];
-        this.usersEmpty = true;
-        this.usersInactiveEmpty = true;
+        this.userName = "";
         this.saveButtonDisabled = true;
         this.user = { name: "Nombre", lastName: "Apellido", username: "Usuario", sede: "Sin sede asignada" } as User;
         this.users = [];
@@ -41,17 +39,9 @@ export class SalesSedeComponent implements OnInit{
     refreshUsers(): void {
         this.userService.getAllSales().subscribe({
             next: (response: UserApiResponse) => {
-                this.usersInactive = [];
-                this.users = response.users.filter( (u: User) => {
-                    if (u.sede != "Sin sede asignada") {
-                        return u;
-                    } else {
-                        this.usersInactive.push(u);
-                        return;
-                    }
-                });
-                this.usersEmpty = this.users.length <= 0;
-                this.usersInactiveEmpty = this.usersInactive.length <= 0;
+                this.snackBar.dismiss();
+                this.users = response.users.filter( user => user.sede != "Sin sede asignada");
+                this.usersInactive = response.users.filter( user => user.sede == "Sin sede asignada");
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -100,5 +90,29 @@ export class SalesSedeComponent implements OnInit{
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
             }
         });
+    }
+
+    searchSale() {
+        if (this.userName != "") {
+            this.snackBar.open("Buscando usuarios");
+            this.userService.searchUsers(this.userName).subscribe({
+                next: response => {
+                    this.snackBar.dismiss();
+                    this.users = response.users.filter( user => user.sede != "Sin sede asignada");
+                    this.usersInactive = response.users.filter( user => user.sede == "Sin sede asignada");
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", { duration: 2000});
+                }
+            });
+        } else {
+            this.snackBar.open("Escribe un nombre", "Entendido", { duration: 2000});
+        }
+    }
+
+    reloadSearch() {
+        this.userName = "";
+        this.snackBar.open("Reiniciando búsqueda");
+        this.refreshUsers();
     }
 }

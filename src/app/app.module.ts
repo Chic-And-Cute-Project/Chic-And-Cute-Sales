@@ -31,6 +31,7 @@ import {MatTableModule} from "@angular/material/table";
 import {EditInventoryDialogComponent} from "./core/dialogs/edit-inventory/edit-inventory-dialog.component";
 import {NgOptimizedImage} from "@angular/common";
 import { RemissionGuideComponent } from './admin/pages/remission-guide/remission-guide.component';
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
     declarations: [
@@ -65,7 +66,8 @@ import { RemissionGuideComponent } from './admin/pages/remission-guide/remission
         MatOptionModule,
         MatDialogModule,
         MatTableModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        MatIconModule
     ],
     providers: [
         provideAnimationsAsync()
