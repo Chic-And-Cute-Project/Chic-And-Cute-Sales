@@ -29,8 +29,6 @@ export class StockAdminComponent implements OnInit {
 
     ngOnInit(): void {
         this.refreshInventoryF();
-        this.refreshInventoryMP();
-        this.refreshInventoryOP();
     }
 
     refreshInventoryF(): void {

@@ -17,7 +17,7 @@ import { HomePrincipalComponent } from './core/pages/home/home-principal/home-pr
 import { HomeAdminComponent } from './core/pages/home/home-admin/home-admin.component';
 import { SalesSedeComponent } from './admin/pages/sales-sede/sales-sede.component';
 import {MatSelectModule} from "@angular/material/select";
-import {MatOptionModule} from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import { AddUserDialogComponent } from './admin/dialogs/add-user/add-user-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { ProductsDiscountsComponent } from './admin/pages/products-discounts/products-discounts.component';
@@ -32,6 +32,7 @@ import {EditInventoryDialogComponent} from "./core/dialogs/edit-inventory/edit-i
 import {NgOptimizedImage} from "@angular/common";
 import { RemissionGuideComponent } from './admin/pages/remission-guide/remission-guide.component';
 import {MatIconModule} from "@angular/material/icon";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 @NgModule({
     declarations: [
@@ -67,7 +68,9 @@ import {MatIconModule} from "@angular/material/icon";
         MatDialogModule,
         MatTableModule,
         NgOptimizedImage,
-        MatIconModule
+        MatIconModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ],
     providers: [
         provideAnimationsAsync()

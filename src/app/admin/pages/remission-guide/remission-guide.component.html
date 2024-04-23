@@ -5,33 +5,67 @@
             <div>
                 <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-left: 15px">
                     <mat-label>Sede Origen</mat-label>
-                    <mat-select [(value)]="sedeSelected">
-                        <mat-option *ngFor="let sede of sedes" [value]="sede" (click)="selectSede()">
+                    <mat-select [(value)]="remissionGuide.sedeFrom">
+                        <mat-option [disabled]="disableInventoryInput" *ngFor="let sede of sedes" [value]="sede" (click)="reloadSearch(false)">
                             {{sede}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div *ngFor="let inventory of inventoriesToGuide" class="remission-guide-item">
+            <div *ngFor="let inventory of remissionGuide.products; let i = index" class="remission-guide-item">
                 <div style="display: flex; align-items: center">
                     <mat-form-field subscriptSizing="dynamic" style="margin: 20px; width: 90px">
                         <mat-label>Cantidad</mat-label>
-                        <input type="number" matInput [(ngModel)]="inventory.quantity">
+                        <input type="number" [disabled]="disableInventoryInput" matInput [(ngModel)]="inventory.quantity">
                     </mat-form-field>
                     <p>{{ inventory.product.fullName }}</p>
                 </div>
-                <button mat-button (click)="deleteFromArray(inventory)" style="background-color: red">-</button>
+                <button mat-button (click)="deleteFromArray(i)" style="background-color: red">-</button>
             </div>
             <div style="text-align: center">
                 <button mat-button (click)="nextStep()">Confirmar guía</button>
             </div>
         </div>
         <div class="products">
-            <h2 style="margin: 20px 10px">Productos</h2>
-            <div *ngFor="let inventory of sedeSelected == 'Fábrica' ? inventoriesF : sedeSelected == 'Molina Plaza' ? inventoriesMP : inventoriesOP" style="cursor: pointer; margin-left: 20px" (click)="selectProduct(inventory)">
-                <p>{{ inventory.product.fullName }}</p>
-                <p>Disponibilidad ({{ inventory.quantity }})</p>
-            </div>
+            <ng-container *ngIf="step == '1'; else elseTemplate">
+                <div style="display: flex; align-items: center;">
+                    <h2 style="margin: 20px 10px">Productos</h2>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                        <mat-label>Nombre Producto</mat-label>
+                        <input matInput [(ngModel)]="productName">
+                        <button mat-icon-button matSuffix (click)="searchSale()" style="border: 0;">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <button mat-button (click)="reloadSearch(true)">Reiniciar Búsqueda</button>
+                </div>
+                <div *ngFor="let inventory of inventories" style="cursor: pointer; margin-left: 20px" (click)="selectProduct(inventory)">
+                    <p>{{ inventory.product.fullName }}</p>
+                    <p>Disponibilidad ({{ inventory.quantity }})</p>
+                </div>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div style="margin: 20px">
+                    <div style="margin-bottom: 20px">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Fecha de Emisión</mat-label>
+                            <input matInput [matDatepicker]="picker" [(ngModel)]="remissionGuide.date">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-left: 15px">
+                            <mat-label>Sede Destino</mat-label>
+                            <mat-select [(value)]="remissionGuide.sedeTo">
+                                <mat-option *ngFor="let sede of sedesDestiny" [value]="sede">
+                                    {{sede}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <button mat-button (click)="createRemissionGuide()">Generar Guía</button>
+                </div>
+            </ng-template>
+
         </div>
     </div>
     <div>
