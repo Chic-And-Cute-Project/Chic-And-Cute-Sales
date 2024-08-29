@@ -29,10 +29,16 @@ import { StockAdminComponent } from './core/pages/stock/stock-admin/stock-admin.
 import { StockSalesComponent } from './core/pages/stock/stock-sales/stock-sales.component';
 import {MatTableModule} from "@angular/material/table";
 import {EditInventoryDialogComponent} from "./core/dialogs/edit-inventory/edit-inventory-dialog.component";
-import {NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgOptimizedImage} from "@angular/common";
 import { RemissionGuideComponent } from './admin/pages/remission-guide/remission-guide.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { StockReceptionPrincipalComponent } from './core/pages/stock-reception/stock-reception-principal/stock-reception-principal.component';
+import { StockReceptionAdminComponent } from './core/pages/stock-reception/stock-reception-admin/stock-reception-admin.component';
+import { StockReceptionSalesComponent } from './core/pages/stock-reception/stock-reception-sales/stock-reception-sales.component';
+import { SalesPrincipalComponent } from './core/pages/sales/sales-principal/sales-principal.component';
+import { SalesSalesComponent } from './core/pages/sales/sales-sales/sales-sales.component';
+import { SalesAdminComponent } from './core/pages/sales/sales-admin/sales-admin.component';
 
 @NgModule({
     declarations: [
@@ -52,7 +58,13 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
         StockAdminComponent,
         StockSalesComponent,
         EditInventoryDialogComponent,
-        RemissionGuideComponent
+        RemissionGuideComponent,
+        StockReceptionPrincipalComponent,
+        StockReceptionAdminComponent,
+        StockReceptionSalesComponent,
+        SalesPrincipalComponent,
+        SalesSalesComponent,
+        SalesAdminComponent
     ],
     imports: [
         BrowserModule,
@@ -73,7 +85,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
         MatNativeDateModule,
     ],
     providers: [
-        provideAnimationsAsync()
+        provideAnimationsAsync(),
+        DatePipe
     ],
     bootstrap: [AppComponent]
 })

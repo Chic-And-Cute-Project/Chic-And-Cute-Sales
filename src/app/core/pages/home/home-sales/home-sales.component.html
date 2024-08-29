@@ -3,12 +3,12 @@
         <ng-container *ngIf="hasSede; else elseTemplate">
             <h1 style="margin: 0 0 20px 0">Bienvenidos</h1>
             <div class="buttons-container">
-                <button mat-button>Punto de Venta</button>
+                <button mat-button [routerLink]="['/sales-point', role]">Punto de Venta</button>
                 <button mat-button [routerLink]="['/stock', role]">Stock</button>
                 <button mat-button>Reportes</button>
                 <button mat-button>Cierre de Caja</button>
                 <button mat-button>Documentos</button>
-                <button mat-button>Recepción de Stock</button>
+                <button mat-button [routerLink]="['/stock-reception', role]">Recepción de Stock</button>
             </div>
         </ng-container>
         <ng-template #elseTemplate>

@@ -1,0 +1,106 @@
+<div class="column">
+    <h1 style="text-align: center">Punto de Venta</h1>
+    <div class="row">
+        <div class="sale">
+            <div>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-left: 15px">
+                    <mat-label>Sede Origen</mat-label>
+                    <mat-select [(value)]="sale.sede">
+                        <mat-option [disabled]="disableInventoryInput" [value]="'Molina Plaza'" (click)="reloadSearch(false)">Molina Plaza</mat-option>
+                        <mat-option [disabled]="disableInventoryInput" [value]="'Open Plaza'" (click)="reloadSearch(false)">Open Plaza</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngFor="let saleDetail of sale.detail; let i = index" class="sale-detail">
+                <div>
+                    <mat-form-field subscriptSizing="dynamic" style="margin: 20px; width: 90px">
+                        <mat-label>Cantidad</mat-label>
+                        <input type="number" [disabled]="disableInventoryInput" matInput [(ngModel)]="saleDetail.quantity" (ngModelChange)="updateFinalPrice(saleDetail)">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <p>{{ saleDetail.product.fullName }}</p>
+                    <p>Unidad: S/.{{ saleDetail.product.price }}</p>
+                </div>
+                <div>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                        <mat-label>Descuento</mat-label>
+                        <mat-select [(value)]="saleDetail.discount">
+                            <mat-option [disabled]="disableInventoryInput" *ngFor="let discount of discounts" [value]="discount.quantity" (click)="updateFinalPrice(saleDetail)">
+                                {{discount.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <p>S/.{{saleDetail.finalPrice}}</p>
+                </div>
+                <button [disabled]="disableInventoryInput" mat-button (click)="deleteFromArray(i)" style="background-color: red">-</button>
+            </div>
+            <div style="text-align: center">
+                <button mat-button (click)="nextStep()">Confirmar guía</button>
+            </div>
+        </div>
+        <div class="products">
+            <ng-container *ngIf="step == '1'; else elseTemplate">
+                <div style="display: flex; align-items: center; margin: 10px 0">
+                    <h2 style="margin: 0 10px">Productos</h2>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                        <mat-label>Nombre Producto</mat-label>
+                        <input matInput [(ngModel)]="productName">
+                        <button mat-icon-button matSuffix (click)="searchSale()" style="border: 0;">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <button mat-button (click)="reloadSearch(true)">Reiniciar Búsqueda</button>
+                </div>
+                <div *ngFor="let inventory of inventories" style="cursor: pointer; margin-left: 20px" (click)="selectProduct(inventory)">
+                    <p>{{ inventory.product.fullName }}</p>
+                    <p>Disponibilidad ({{ inventory.quantity }})</p>
+                </div>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div style="margin-left: 10px">
+                    <h2>Total a Pagar S/.{{finalPrice}}</h2>
+                </div>
+                <div style="margin-left: 10px">
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
+                        <mat-label>Forma de Pago</mat-label>
+                        <mat-select [(value)]="newPaymentMethod ? sale.paymentMethod.at(0)?.type : paymentMethod.type">
+                            <mat-option [disabled]="disablePaymentInput" [value]="'Efectivo'">Efectivo</mat-option>
+                            <mat-option [disabled]="disablePaymentInput" [value]="'Visa'">Visa</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
+                        <mat-label>Monto</mat-label>
+                        <input type="number" matInput [disabled]="disablePaymentInput" [(ngModel)]="newPaymentMethod ? sale.paymentMethod.at(0)?.amount : paymentMethod.amount">
+                    </mat-form-field>
+                    <button mat-button (click)="addNewPaymentMethod()">Agregar forma de pago</button>
+                </div>
+                <div *ngIf="newPaymentMethod" style="margin: 10px 0 10px 10px">
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
+                        <mat-label>Forma de Pago</mat-label>
+                        <mat-select [(value)]="paymentMethod.type">
+                            <mat-option [disabled]="disablePaymentInput" [value]="'Efectivo'">Efectivo</mat-option>
+                            <mat-option [disabled]="disablePaymentInput" [value]="'Visa'">Visa</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
+                        <mat-label>Monto</mat-label>
+                        <input type="number" matInput [disabled]="disablePaymentInput" [(ngModel)]="paymentMethod.amount">
+                    </mat-form-field>
+                </div>
+                <div style="margin: 10px 0 0 10px">
+                    <button mat-button (click)="savePaymentMethods()">Guardar formas de pago</button>
+                    <p>Total Pagado: S/. {{payedPrice}}</p>
+                    <p>Total: S/. {{finalPrice}}</p>
+                    <p>Vuelto: S/. {{returnPrice}}</p>
+                    <button mat-button (click)="createPayment()">Confirmar pago</button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <div>
+        <button mat-button [routerLink]="['/home', role]" style="margin: 0 0 15px 15px">Regresar</button>
+    </div>
+</div>

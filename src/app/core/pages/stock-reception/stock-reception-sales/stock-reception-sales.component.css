@@ -1,0 +1,17 @@
+button {
+    border: solid 1px
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.remission-guide-items {
+    width: 50%;
+    background-color: lightgray;
+    padding: 15px;
+    border-radius: 10px;
+}

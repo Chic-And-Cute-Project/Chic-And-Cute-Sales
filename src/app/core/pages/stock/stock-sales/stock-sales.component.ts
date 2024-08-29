@@ -21,8 +21,13 @@ export class StockSalesComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.refreshInventories();
+    }
+
+    refreshInventories() {
         this.inventoryService.getByMySede().subscribe({
             next: (response: InventoryApiResponse) => {
+                this.snackBar.dismiss();
                 this.inventories = response.inventories;
             },
             error: (e) => {
@@ -51,14 +56,6 @@ export class StockSalesComponent implements OnInit {
     reloadSearch() {
         this.productName = "";
         this.snackBar.open("Actualizando");
-        this.inventoryService.getByMySede().subscribe({
-            next: (response: InventoryApiResponse) => {
-                this.snackBar.dismiss();
-                this.inventories = response.inventories;
-            },
-            error: (e) => {
-                this.snackBar.open(e.message, "Entendido", {duration: 2000});
-            }
-        });
+        this.refreshInventories();
     }
 }

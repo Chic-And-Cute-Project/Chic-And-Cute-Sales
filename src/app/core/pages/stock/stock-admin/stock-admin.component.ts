@@ -15,16 +15,14 @@ export class StockAdminComponent implements OnInit {
     @Input() role: string;
     sedeSelected: string;
     productName: string;
-    sedes: Array<string>;
-    inventoriesShow: Array<Inventory>;
+    inventories: Array<Inventory>;
 
     constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar,
                 private dialog: MatDialog) {
         this.role = "";
         this.productName = "";
         this.sedeSelected = "Fábrica";
-        this.sedes = ["Molina Plaza", "Open Plaza", "Fábrica"];
-        this.inventoriesShow = [];
+        this.inventories = [];
     }
 
     ngOnInit(): void {
@@ -35,7 +33,7 @@ export class StockAdminComponent implements OnInit {
         this.inventoryService.getBySede("Fábrica").subscribe({
             next: (response: InventoryApiResponse) => {
                 this.snackBar.dismiss();
-                this.inventoriesShow = response.inventories;
+                this.inventories = response.inventories;
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -47,7 +45,7 @@ export class StockAdminComponent implements OnInit {
         this.inventoryService.getBySede("Molina Plaza").subscribe({
             next: (response: InventoryApiResponse) => {
                 this.snackBar.dismiss();
-                this.inventoriesShow = response.inventories;
+                this.inventories = response.inventories;
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -59,7 +57,7 @@ export class StockAdminComponent implements OnInit {
         this.inventoryService.getBySede("Open Plaza").subscribe({
             next: (response: InventoryApiResponse) => {
                 this.snackBar.dismiss();
-                this.inventoriesShow = response.inventories;
+                this.inventories = response.inventories;
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -105,7 +103,7 @@ export class StockAdminComponent implements OnInit {
                 this.inventoryService.searchProducts("Fábrica", this.productName).subscribe({
                     next: response => {
                         this.snackBar.dismiss();
-                        this.inventoriesShow = response.inventories;
+                        this.inventories = response.inventories;
                     },
                     error: (e) => {
                         this.snackBar.open(e.message, "Entendido", { duration: 2000});
@@ -115,7 +113,7 @@ export class StockAdminComponent implements OnInit {
                 this.inventoryService.searchProducts("Molina Plaza", this.productName).subscribe({
                     next: response => {
                         this.snackBar.dismiss();
-                        this.inventoriesShow = response.inventories;
+                        this.inventories = response.inventories;
                     },
                     error: (e) => {
                         this.snackBar.open(e.message, "Entendido", { duration: 2000});
@@ -125,7 +123,7 @@ export class StockAdminComponent implements OnInit {
                 this.inventoryService.searchProducts("Open Plaza", this.productName).subscribe({
                     next: response => {
                         this.snackBar.dismiss();
-                        this.inventoriesShow = response.inventories;
+                        this.inventories = response.inventories;
                     },
                     error: (e) => {
                         this.snackBar.open(e.message, "Entendido", { duration: 2000});

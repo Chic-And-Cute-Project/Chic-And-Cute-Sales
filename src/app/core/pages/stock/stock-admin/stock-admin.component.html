@@ -5,9 +5,9 @@
             <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 15px">
                 <mat-label>Sede</mat-label>
                 <mat-select [(value)]="sedeSelected">
-                    <mat-option *ngFor="let sede of sedes" [value]="sede" (click)="reloadSearch()">
-                        {{sede}}
-                    </mat-option>
+                    <mat-option [value]="'Molina Plaza'" (click)="reloadSearch()">Molina Plaza</mat-option>
+                    <mat-option [value]="'Open Plaza'" (click)="reloadSearch()">Open Plaza</mat-option>
+                    <mat-option [value]="'Fábrica'" (click)="reloadSearch()">Fábrica</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
@@ -20,7 +20,7 @@
             <button mat-button (click)="reloadSearch()">Reiniciar Búsqueda</button>
         </div>
         <div style="margin: 15px">
-            <table mat-table [dataSource]="inventoriesShow" class="mat-elevation-z8">
+            <table mat-table [dataSource]="inventories" class="mat-elevation-z8">
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Nombre de Producto </th>
                     <td mat-cell  *matCellDef="let inventory">{{inventory.product.fullName}}</td>

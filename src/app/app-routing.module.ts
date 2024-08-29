@@ -10,6 +10,10 @@ import {ProductsDiscountsComponent} from "./admin/pages/products-discounts/produ
 import {StartComponent} from "./shared/pages/start/start.component";
 import {StockPrincipalComponent} from "./core/pages/stock/stock-principal/stock-principal.component";
 import {RemissionGuideComponent} from "./admin/pages/remission-guide/remission-guide.component";
+import {
+    StockReceptionPrincipalComponent
+} from "./core/pages/stock-reception/stock-reception-principal/stock-reception-principal.component";
+import {SalesPrincipalComponent} from "./core/pages/sales/sales-principal/sales-principal.component";
 
 const routes: Routes = [
     { path: 'start', component: StartComponent},
@@ -19,6 +23,8 @@ const routes: Routes = [
     { path: 'products-discounts/:role', component: ProductsDiscountsComponent},
     { path: 'stock/:role', component: StockPrincipalComponent},
     { path: 'remission-guide/:role', component: RemissionGuideComponent},
+    { path: 'stock-reception/:role', component: StockReceptionPrincipalComponent},
+    { path: 'sales-point/:role', component: SalesPrincipalComponent},
     { path: '', redirectTo: 'start', pathMatch: 'full'},
     { path: '**', component: PageNotFoundComponent}
 ];

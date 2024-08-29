@@ -19,7 +19,6 @@ export class SalesSedeComponent implements OnInit{
     user: User;
     users: Array<User>;
     usersInactive: Array<User>;
-    sedes: Array<string>;
 
     constructor(private userService: UserService, private snackBar: MatSnackBar,
                 private route: ActivatedRoute, private dialog: MatDialog) {
@@ -29,7 +28,6 @@ export class SalesSedeComponent implements OnInit{
         this.user = { name: "Nombre", lastName: "Apellido", username: "Usuario", sede: "Sin sede asignada" } as User;
         this.users = [];
         this.usersInactive = [];
-        this.sedes = ["Molina Plaza", "Open Plaza", "Sin sede asignada"];
     }
 
     ngOnInit(): void {

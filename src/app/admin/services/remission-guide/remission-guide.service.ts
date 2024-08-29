@@ -8,7 +8,7 @@ import {RemissionGuideApiResponse} from "../../models/apiResponses/remissionGuid
 @Injectable({
   providedIn: 'root'
 })
-export class RemissionGuideService extends BaseService<RemissionGuide>{
+export class RemissionGuideService extends BaseService<RemissionGuideApiResponse>{
 
     constructor(http: HttpClient) {
         super(http);
@@ -24,5 +24,19 @@ export class RemissionGuideService extends BaseService<RemissionGuide>{
     create(item: RemissionGuide): Observable<RemissionGuideApiResponse> {
         return this.http.post<RemissionGuideApiResponse>(this.basePath, JSON.stringify(item), this.httpOptions)
             .pipe(catchError(this.handleError));
+    }
+
+    updateState(remissionGuideId: string): Observable<RemissionGuideApiResponse> {
+        return this.http.put<RemissionGuideApiResponse>(`${this.basePath}?idRemissionGuide=${remissionGuideId}`, { status: "Aceptado" }, this.httpOptions)
+            .pipe(catchError(this.handleError));
+    }
+
+    getAllByMySede(): Observable<RemissionGuideApiResponse> {
+        return this.http.get<RemissionGuideApiResponse>(`${this.basePath}/mySede`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
     }
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Inventory} from "../../../core/models/inventory";
 import {InventoryService} from "../../../core/services/inventory/inventory.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -20,11 +20,11 @@ export class RemissionGuideComponent implements OnInit{
     disableInventoryInput: boolean;
     remissionGuide: RemissionGuide;
     inventories: Array<Inventory>;
-    sedes: Array<string>;
     sedesDestiny: Array<string>;
 
     constructor(private inventoryService: InventoryService, private remissionGuideService: RemissionGuideService,
-                private snackBar: MatSnackBar, private route: ActivatedRoute) {
+                private snackBar: MatSnackBar, private route: ActivatedRoute,
+                private router: Router) {
         this.role = this.route.snapshot.params['role'];
         this.productName = "";
         this.step = "1";
@@ -33,8 +33,7 @@ export class RemissionGuideComponent implements OnInit{
         this.remissionGuide.sedeFrom = "Fábrica";
         this.remissionGuide.products = [];
         this.inventories = [];
-        this.sedes = ["Molina Plaza", "Open Plaza", "Fábrica"];
-        this.sedesDestiny = [];
+        this.sedesDestiny = ["Molina Plaza", "Open Plaza", "Fábrica"];
     }
 
     ngOnInit(): void {
@@ -85,9 +84,7 @@ export class RemissionGuideComponent implements OnInit{
             }
         });
         if (!elementExisting) {
-            let product: RemissionGuideItem = {} as RemissionGuideItem;
-            product.product = inventoryToAdd.product;
-            product.quantity = inventoryToAdd.quantity;
+            let product: RemissionGuideItem = { product: inventoryToAdd.product, quantity: inventoryToAdd.quantity } as RemissionGuideItem;
             this.remissionGuide.products.push(product);
         }
     }
@@ -105,7 +102,7 @@ export class RemissionGuideComponent implements OnInit{
             if (inventoryCorrect) {
                 this.disableInventoryInput = true;
                 this.step = "2";
-                this.sedesDestiny = this.sedes.filter(sede => sede != this.remissionGuide.sedeFrom);
+                this.sedesDestiny = this.sedesDestiny.filter(sede => sede != this.remissionGuide.sedeFrom);
             } else {
                 this.snackBar.open("Error con la cantidad de inventario", "Entendido", {duration: 2000});
             }
@@ -177,6 +174,7 @@ export class RemissionGuideComponent implements OnInit{
         this.remissionGuideService.create(this.remissionGuide).subscribe({
             next: () => {
                 this.snackBar.dismiss();
+                this.router.navigate(['/stock-reception', this.role]).then();
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});

@@ -1,0 +1,39 @@
+<div class="column">
+    <h1 style="text-align: center">Recepción de Stock</h1>
+    <div style="margin: 0 15px">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="width: 25%">
+            <mat-label>Guía de Remisión</mat-label>
+            <mat-select [(value)]="remissionGuide">
+                <mat-option *ngFor="let remissionGuide of remissionGuides" [value]="remissionGuide" (click)="selectRemissionGuide()">
+                    {{remissionGuide.sedeFrom + " - " + remissionGuide.sedeTo + " / " + datePipe.transform(remissionGuide.date, 'dd/MM/yyyy')}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div>
+            <ng-container *ngIf="remissionGuideSelected; else elseTemplate">
+                <div style="display: flex; justify-content: space-between;">
+                    <p>Sede Origen: {{remissionGuide.sedeFrom}}</p>
+                    <p>Sede Destino: {{remissionGuide.sedeTo}}</p>
+                    <p>Fecha de Creación: {{datePipe.transform(remissionGuide.date, 'dd/MM/yyyy')}}</p>
+                    <p>Estado: {{remissionGuide.status}}</p>
+                </div>
+                <div class="remission-guide-items">
+                    <div *ngFor="let remissionGuideItem of remissionGuide.products" style="display: flex; justify-content: space-between;">
+                        <p>{{remissionGuideItem.product.code}}</p>
+                        <p>{{remissionGuideItem.product.fullName}}</p>
+                        <p>{{remissionGuideItem.quantity}}</p>
+                    </div>
+                </div>
+                <button mat-button (click)="confirmRemissionGuide()" style="margin-top: 15px" [disabled]="remissionGuideAccepted">Confirmar Guía</button>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div style="display: flex; justify-content: center;">
+                    <h2>Guía de remisión no seleccionada</h2>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <div>
+        <button mat-button [routerLink]="['/home', role]" style="margin: 0 0 15px 15px">Regresar</button>
+    </div>
+</div>
