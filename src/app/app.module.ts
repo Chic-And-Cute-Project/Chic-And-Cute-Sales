@@ -15,7 +15,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { HomeSalesComponent } from './core/pages/home/home-sales/home-sales.component';
 import { HomePrincipalComponent } from './core/pages/home/home-principal/home-principal.component';
 import { HomeAdminComponent } from './core/pages/home/home-admin/home-admin.component';
-import { SalesSedeComponent } from './admin/pages/sales-sede/sales-sede.component';
+import { UsersSedeComponent } from './admin/pages/users-sede/users-sede.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import { AddUserDialogComponent } from './admin/dialogs/add-user/add-user-dialog.component';
@@ -23,7 +23,6 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { ProductsDiscountsComponent } from './admin/pages/products-discounts/products-discounts.component';
 import {AddProductDialogComponent} from "./admin/dialogs/add-product/add-product-dialog.component";
 import {AddDiscountDialogComponent} from "./admin/dialogs/add-discount/add-discount-dialog.component";
-import { StartComponent } from './shared/pages/start/start.component';
 import { StockPrincipalComponent } from './core/pages/stock/stock-principal/stock-principal.component';
 import { StockAdminComponent } from './core/pages/stock/stock-admin/stock-admin.component';
 import { StockSalesComponent } from './core/pages/stock/stock-sales/stock-sales.component';
@@ -48,12 +47,11 @@ import { SalesAdminComponent } from './core/pages/sales/sales-admin/sales-admin.
         HomeSalesComponent,
         HomePrincipalComponent,
         HomeAdminComponent,
-        SalesSedeComponent,
+        UsersSedeComponent,
         AddUserDialogComponent,
         ProductsDiscountsComponent,
         AddProductDialogComponent,
         AddDiscountDialogComponent,
-        StartComponent,
         StockPrincipalComponent,
         StockAdminComponent,
         StockSalesComponent,

@@ -1,19 +1,21 @@
 <div class="column">
     <div class="content-middle">
-            <h1 style="margin: 0 0 20px 0">Bienvenido</h1>
-            <div class="buttons-container">
-                <button mat-button [routerLink]="['/sales-sede', role]">Vendedoras y Sedes</button>
-                <button mat-button [routerLink]="['/products-discounts', role]">Productos y Descuentos</button>
-                <button mat-button [routerLink]="['/sales-point', role]">Punto de Venta</button>
-                <button mat-button [routerLink]="['/stock', role]">Stock</button>
-                <button mat-button>Reportes</button>
-                <button mat-button>Cierre de Caja</button>
-                <button mat-button>Documentos</button>
-                <button mat-button [routerLink]="['/remission-guide', role]">Guía de Remisión</button>
-                <button mat-button [routerLink]="['/stock-reception', role]">Recepción de Stock</button>
-            </div>
+        <h1>Bienvenido</h1>
+        <div class="buttons-container" style="margin-bottom: 15px">
+            <button mat-flat-button color="primary" [routerLink]="['/users-sede']" style="margin-right: 10px">Vendedoras y Sedes</button>
+            <button mat-flat-button color="primary" [routerLink]="['/products-discounts']" style="margin-right: 10px">Productos y Descuentos</button>
+            <button mat-flat-button color="primary" [routerLink]="['/sales-point', role]" style="margin-right: 10px">Punto de Venta</button>
+            <button mat-flat-button color="primary" [routerLink]="['/stock', role]" style="margin-right: 10px">Stock</button>
+            <button mat-flat-button color="primary">Reportes</button>
+        </div>
+        <div class="buttons-container">
+            <button mat-flat-button color="primary" style="margin-right: 10px">Cierre de Caja</button>
+            <button mat-flat-button color="primary" style="margin-right: 10px">Documentos</button>
+            <button mat-flat-button color="primary" [routerLink]="['/remission-guide', role]" style="margin-right: 10px">Guía de Remisión</button>
+            <button mat-flat-button color="primary" [routerLink]="['/stock-reception', role]">Recepción de Stock</button>
+        </div>
     </div>
     <div class="content-end">
-        <button mat-button (click)="signOut()" class="sign-out">Cerrar Sesión</button>
+        <button mat-flat-button color="primary" (click)="signOut()" style="background-color: #ff6464; margin: 0 15px 0 0;">Cerrar Sesión</button>
     </div>
 </div>

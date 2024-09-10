@@ -8,13 +8,6 @@ import {catchError, Observable, throwError} from "rxjs";
 export class BaseService<T> {
     basePath: string = 'http://localhost:3000/api/';
 
-    httpOptions: { headers: HttpHeaders } = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `${localStorage.getItem('token')}`
-        })
-    };
-
     constructor(public http: HttpClient) {}
 
     handleError(error: HttpErrorResponse): Observable<never> {
@@ -31,7 +24,10 @@ export class BaseService<T> {
     }
 
     getAll(): Observable<T> {
-        return this.http.get<T>(`${this.basePath}/list`, this.httpOptions)
-            .pipe(catchError(this.handleError));
+        return this.http.get<T>(`${this.basePath}/list`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
     }
 }

@@ -11,11 +11,9 @@
         <input matInput [type]="'password'" [(ngModel)]="user.password">
     </mat-form-field>
 
-    <button mat-button (click)="onSubmit()" style="border: solid 1px">Iniciar Sesión</button>
+    <button mat-flat-button color="primary" (click)="onSubmit()">Iniciar Sesión</button>
 
     <p style="margin: 20px 0 0 0">¿Olvidaste tu contraseña?</p>
     <p style="margin: 0">Comunícate al WhatsApp +51 940124181</p>
+    <p style="margin: 20px 0 0 0">Version 0.0.0</p>
 </div>
-<mat-toolbar color="primary" style="position: fixed">
-    <h1>Versión: 0.0.0</h1>
-</mat-toolbar>

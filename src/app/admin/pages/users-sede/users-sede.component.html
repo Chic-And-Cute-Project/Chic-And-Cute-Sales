@@ -2,8 +2,8 @@
     <h1 style="text-align: center">Vendedoras y Sedes</h1>
     <div class="row">
         <div class="user-form">
-            <div>
-                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 20px">
+            <div style="display: flex; justify-content: center;">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 20px">
                     <mat-label>Nombre</mat-label>
                     <input disabled matInput [(ngModel)]="user.name">
                 </mat-form-field>
@@ -12,14 +12,14 @@
                     <input disabled matInput [(ngModel)]="user.lastName">
                 </mat-form-field>
             </div>
-            <div>
-                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 20px">
+            <div style="display: flex; justify-content: center;">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 20px">
                     <mat-label>Usuario</mat-label>
                     <input disabled matInput [(ngModel)]="user.username">
                 </mat-form-field>
                 <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>Sede</mat-label>
-                    <mat-select [(value)]="user.sede">
+                    <mat-select [disabled]="saveButtonDisabled" [(value)]="user.sede">
                         <mat-option [value]="'Molina Plaza'">Molina Plaza</mat-option>
                         <mat-option [value]="'Open Plaza'">Open Plaza</mat-option>
                         <mat-option [value]="'Sin sede asignada'">Sin sede asignada</mat-option>
@@ -27,13 +27,13 @@
                 </mat-form-field>
             </div>
             <div style="text-align: center;">
-                <button mat-button [disabled]="saveButtonDisabled" (click)="updateUser()">Guardar</button>
+                <button mat-flat-button color="primary" [disabled]="saveButtonDisabled" (click)="updateUser()">Guardar</button>
             </div>
         </div>
         <div class="users">
             <div class="user-title">
                 <div class="user-title-item">
-                    <h2 style="margin: 20px 10px 20px 0">Usuarios</h2>
+                    <h2 style="margin-right: 10px;">Usuarios</h2>
                     <button mat-flat-button style="background-color: lightgreen" (click)="addUser()">+</button>
                 </div>
                 <div class="user-title-item">
@@ -44,7 +44,7 @@
                             <mat-icon>search</mat-icon>
                         </button>
                     </mat-form-field>
-                    <button mat-button (click)="reloadSearch()">Reiniciar Búsqueda</button>
+                    <button mat-flat-button color="primary" (click)="reloadSearch()">Reiniciar Búsqueda</button>
                 </div>
             </div>
             <h4 style="margin-left: 10px">Usuarios activos</h4>
@@ -65,6 +65,6 @@
         </div>
     </div>
     <div>
-        <button mat-button [routerLink]="['/home', role]" style="margin: 0 0 15px 15px">Regresar</button>
+        <button mat-flat-button color="primary" [routerLink]="['/home/Admin']" style="margin: 0 0 0 15px">Regresar</button>
     </div>
 </div>

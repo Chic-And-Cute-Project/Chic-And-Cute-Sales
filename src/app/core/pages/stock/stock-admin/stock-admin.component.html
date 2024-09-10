@@ -2,7 +2,7 @@
     <h1 style="text-align: center">Stock</h1>
     <div>
         <div>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 15px">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px">
                 <mat-label>Sede</mat-label>
                 <mat-select [(value)]="sedeSelected">
                     <mat-option [value]="'Molina Plaza'" (click)="reloadSearch()">Molina Plaza</mat-option>
@@ -11,13 +11,13 @@
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
-                <mat-label>Nombre Vendedor</mat-label>
+                <mat-label>Nombre Producto</mat-label>
                 <input matInput [(ngModel)]="productName">
                 <button mat-icon-button matSuffix (click)="searchSale()" style="border: 0;">
                     <mat-icon>search</mat-icon>
                 </button>
             </mat-form-field>
-            <button mat-button (click)="reloadSearch()">Reiniciar Búsqueda</button>
+            <button mat-flat-button color="primary" (click)="reloadSearch()">Reiniciar Búsqueda</button>
         </div>
         <div style="margin: 15px">
             <table mat-table [dataSource]="inventories" class="mat-elevation-z8">
@@ -42,6 +42,6 @@
         </div>
     </div>
     <div>
-        <button mat-button [routerLink]="['/home', role]" style="margin: 0 0 15px 15px">Regresar</button>
+        <button mat-flat-button color="primary" [routerLink]="['/home', role]" style="margin: 0 0 0 15px">Regresar</button>
     </div>
 </div>

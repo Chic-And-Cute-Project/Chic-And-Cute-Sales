@@ -1,22 +1,22 @@
 <div class="column">
     <div class="content-middle">
-        <ng-container *ngIf="hasSede; else elseTemplate">
-            <h1 style="margin: 0 0 20px 0">Bienvenidos</h1>
+        <ng-container *ngIf="this.user.sede != 'Sin sede asignada'; else elseTemplate">
+            <h1>Bienvenidos</h1>
             <div class="buttons-container">
-                <button mat-button [routerLink]="['/sales-point', role]">Punto de Venta</button>
-                <button mat-button [routerLink]="['/stock', role]">Stock</button>
-                <button mat-button>Reportes</button>
-                <button mat-button>Cierre de Caja</button>
-                <button mat-button>Documentos</button>
-                <button mat-button [routerLink]="['/stock-reception', role]">Recepción de Stock</button>
+                <button mat-flat-button color="primary" [routerLink]="['/sales-point', role]">Punto de Venta</button>
+                <button mat-flat-button color="primary" [routerLink]="['/stock', role]">Stock</button>
+                <button mat-flat-button color="primary">Reportes</button>
+                <button mat-flat-button color="primary">Cierre de Caja</button>
+                <button mat-flat-button color="primary">Documentos</button>
+                <button mat-flat-button color="primary" [routerLink]="['/stock-reception', role]">Recepción de Stock</button>
             </div>
         </ng-container>
         <ng-template #elseTemplate>
-            <h1 style="margin: 0 0 20px 0">No estás asignada a una sede</h1>
-            <h1 style="margin: 0">Contacta con administración si se trata de un error</h1>
+            <h1>No estás asignada a una sede</h1>
+            <h1>Contacta con administración si se trata de un error</h1>
         </ng-template>
     </div>
     <div class="content-end">
-        <button mat-button (click)="signOut()" class="sign-out">Cerrar Sesión</button>
+        <button mat-flat-button color="primary" (click)="signOut()" style="background-color: #ff6464; margin: 0 15px 0 0;">Cerrar Sesión</button>
     </div>
 </div>

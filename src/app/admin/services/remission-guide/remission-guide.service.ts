@@ -13,21 +13,25 @@ export class RemissionGuideService extends BaseService<RemissionGuideApiResponse
     constructor(http: HttpClient) {
         super(http);
         this.basePath = this.basePath + 'remission-guides';
-        this.httpOptions = {
+    }
+
+    create(item: RemissionGuide): Observable<RemissionGuideApiResponse> {
+        return this.http.post<RemissionGuideApiResponse>(this.basePath, JSON.stringify(item), {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
             })
-        };
-    }
-
-    create(item: RemissionGuide): Observable<RemissionGuideApiResponse> {
-        return this.http.post<RemissionGuideApiResponse>(this.basePath, JSON.stringify(item), this.httpOptions)
+        })
             .pipe(catchError(this.handleError));
     }
 
     updateState(remissionGuideId: string): Observable<RemissionGuideApiResponse> {
-        return this.http.put<RemissionGuideApiResponse>(`${this.basePath}?idRemissionGuide=${remissionGuideId}`, { status: "Aceptado" }, this.httpOptions)
+        return this.http.put<RemissionGuideApiResponse>(`${this.basePath}?idRemissionGuide=${remissionGuideId}`, { status: "Aceptado" }, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        })
             .pipe(catchError(this.handleError));
     }
 

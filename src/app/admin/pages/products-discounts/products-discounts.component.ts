@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../services/product/product.service";
 import {DiscountService} from "../../services/discount/discount.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -19,14 +18,12 @@ import {lastValueFrom} from "rxjs";
   styleUrl: './products-discounts.component.css'
 })
 export class ProductsDiscountsComponent implements OnInit{
-    role: string;
     products: Array<Product>;
     discounts: Array<Discount>;
 
     constructor(private productService: ProductService, private discountService: DiscountService,
                 private inventoryService: InventoryService, private snackBar: MatSnackBar,
-                private dialog: MatDialog, private route: ActivatedRoute) {
-        this.role = this.route.snapshot.params['role'];
+                private dialog: MatDialog) {
         this.products = [];
         this.discounts = [];
     }
@@ -69,7 +66,7 @@ export class ProductsDiscountsComponent implements OnInit{
 
         dialogRef.afterClosed().subscribe((result: { product: Product }) => {
             if (result) {
-                this.snackBar.open("Creando producto");
+                this.snackBar.open("Creando producto e inventario en sedes");
                 this.productService.create(result.product).subscribe({
                     next: async (response: ProductApiResponse) => {
                         const createInventoryMPResponse = this.inventoryService.create(

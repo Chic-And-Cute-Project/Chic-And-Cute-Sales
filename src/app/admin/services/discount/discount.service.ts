@@ -13,16 +13,13 @@ export class DiscountService extends BaseService<DiscountApiResponse>{
     constructor(http: HttpClient) {
         super(http);
         this.basePath = this.basePath + 'discounts';
-        this.httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
-            })
-        };
     }
 
     create(item: Discount): Observable<DiscountApiResponse> {
-        return this.http.post<DiscountApiResponse>(this.basePath, JSON.stringify(item), this.httpOptions)
-            .pipe(catchError(this.handleError));
+        return this.http.post<DiscountApiResponse>(this.basePath, JSON.stringify(item), {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
     }
 }

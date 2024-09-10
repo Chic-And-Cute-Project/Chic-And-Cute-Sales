@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthService} from "../../services/auth/auth.service";
+import {UserApiResponse} from "../../../security/models/apiResponses/userApiResponse";
+import {UserService} from "../../../core/services/user/user.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-page-not-found',
@@ -8,11 +10,23 @@ import {AuthService} from "../../services/auth/auth.service";
     styleUrls: ['./page-not-found.component.css']
 })
 export class PageNotFoundComponent {
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private userService: UserService, private snackBar: MatSnackBar,
+                private router: Router) {}
 
     return() {
-        if (this.authService.checkLogin()){
-            this.router.navigate(['/home']).then();
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.router.navigate(['/home', response.user.role]).then();
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
+                }
+            });
         } else {
             this.router.navigate(['/login']).then();
         }

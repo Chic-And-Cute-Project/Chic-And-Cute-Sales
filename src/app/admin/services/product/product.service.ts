@@ -13,16 +13,13 @@ export class ProductService extends BaseService<ProductApiResponse>{
     constructor(http: HttpClient) {
         super(http);
         this.basePath = this.basePath + 'products';
-        this.httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
-            })
-        };
     }
 
     create(item: Product): Observable<ProductApiResponse> {
-        return this.http.post<ProductApiResponse>(this.basePath, JSON.stringify(item), this.httpOptions)
-            .pipe(catchError(this.handleError));
+        return this.http.post<ProductApiResponse>(this.basePath, JSON.stringify(item), {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
     }
 }

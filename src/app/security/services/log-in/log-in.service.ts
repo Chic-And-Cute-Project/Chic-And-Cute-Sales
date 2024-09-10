@@ -12,19 +12,12 @@ export class LogInService extends BaseService<UserApiResponse>{
     constructor(http: HttpClient) {
         super(http);
         this.basePath = this.basePath + 'users/login';
-        this.httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
-            })
-        };
     }
 
     logIn(item: { username: string, password: string }): Observable<UserApiResponse> {
         return this.http.post<UserApiResponse>(this.basePath, JSON.stringify(item), {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
+                'Content-Type': 'application/json'
             })
         }).pipe(catchError(this.handleError));
     }

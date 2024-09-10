@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AuthService} from "../../../../shared/services/auth/auth.service";
 import {UserService} from "../../../services/user/user.service";
 import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../../../security/models/user";
 import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-home-admin',
@@ -16,28 +16,36 @@ export class HomeAdminComponent implements OnInit{
     url: string;
     user: User;
 
-    constructor(private userService: UserService, private authService: AuthService,
-                private communicationService: CommunicationService, private snackBar: MatSnackBar) {
+    constructor(private userService: UserService, private communicationService: CommunicationService,
+                private snackBar: MatSnackBar, private router: Router) {
         this.role = "";
         this.url = "";
-        this.user = { name: "Nombre", lastName : "Apellido", sede: "Administración" } as User;
+        this.user = {} as User;
     }
 
     ngOnInit(): void {
         this.url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/login';
-        this.userService.getObject().subscribe({
-            next: (response: UserApiResponse) => {
-                this.user = response.user;
-                this.communicationService.emitTitleChange({ name: this.user.name + " " + this.user.lastName, sede: this.user.sede });
-            },
-            error: (e) => {
-                this.snackBar.open(e.message, "Entendido", {duration: 2000});
-            }
-        });
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.user = response.user;
+                    this.communicationService.emitTitleChange({ name: this.user.name + " " + this.user.lastName, sede: this.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        this.router.navigate(['/login']).then();
+                        localStorage.clear();
+                    }
+                }
+            });
+        } else {
+            this.router.navigate(['/login']).then();
+        }
     }
 
     signOut() {
-        this.authService.logout();
+        localStorage.clear();
         window.location.assign(this.url);
     }
 }

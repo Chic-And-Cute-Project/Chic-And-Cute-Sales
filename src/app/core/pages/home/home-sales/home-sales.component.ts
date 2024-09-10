@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AuthService} from "../../../../shared/services/auth/auth.service";
 import {User} from "../../../../security/models/user";
 import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 import {UserService} from "../../../services/user/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-home-sales',
@@ -14,33 +14,38 @@ import {CommunicationService} from "../../../../shared/services/communicacion/co
 export class HomeSalesComponent implements OnInit{
     @Input() role: string;
     url: string;
-    hasSede: boolean;
     user: User;
 
-    constructor(private userService: UserService, private authService: AuthService,
-                private communicationService: CommunicationService, private snackBar: MatSnackBar) {
+    constructor(private userService: UserService, private communicationService: CommunicationService,
+                private snackBar: MatSnackBar, private router: Router) {
         this.role = "";
         this.url = "";
-        this.hasSede = false;
-        this.user = { name: "Nombre", lastName : "Apellido", sede: "Sin sede asignada" } as User;
+        this.user = {} as User;
     }
 
     ngOnInit(): void {
         this.url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/login';
-        this.userService.getObject().subscribe({
-            next: (response: UserApiResponse) => {
-                this.user = response.user;
-                this.communicationService.emitTitleChange({ name: this.user.name + " " + this.user.lastName, sede: this.user.sede });
-                this.hasSede = this.user.sede != "Sin sede asignada";
-            },
-            error: (e) => {
-                this.snackBar.open(e.message, "Entendido", {duration: 2000});
-            }
-        });
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.user = response.user;
+                    this.communicationService.emitTitleChange({ name: this.user.name + " " + this.user.lastName, sede: this.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
+                }
+            });
+        } else {
+            this.router.navigate(['/login']).then();
+        }
     }
 
     signOut() {
-        this.authService.logout();
+        localStorage.clear();
         window.location.assign(this.url);
     }
 }

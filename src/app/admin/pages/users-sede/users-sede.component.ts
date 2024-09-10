@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../../core/services/user/user.service";
 import {UserApiResponse} from "../../../security/models/apiResponses/userApiResponse";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -8,12 +7,11 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {AddUserDialogComponent} from "../../dialogs/add-user/add-user-dialog.component";
 
 @Component({
-    selector: 'app-sales-sede',
-    templateUrl: './sales-sede.component.html',
-    styleUrl: './sales-sede.component.css'
+    selector: 'app-users-sede',
+    templateUrl: './users-sede.component.html',
+    styleUrl: './users-sede.component.css'
 })
-export class SalesSedeComponent implements OnInit{
-    role: string;
+export class UsersSedeComponent implements OnInit{
     userName: string;
     saveButtonDisabled: boolean;
     user: User;
@@ -21,8 +19,7 @@ export class SalesSedeComponent implements OnInit{
     usersInactive: Array<User>;
 
     constructor(private userService: UserService, private snackBar: MatSnackBar,
-                private route: ActivatedRoute, private dialog: MatDialog) {
-        this.role = this.route.snapshot.params['role'];
+                private dialog: MatDialog) {
         this.userName = "";
         this.saveButtonDisabled = true;
         this.user = { name: "Nombre", lastName: "Apellido", username: "Usuario", sede: "Sin sede asignada" } as User;

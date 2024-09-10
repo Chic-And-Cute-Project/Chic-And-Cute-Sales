@@ -5,7 +5,7 @@ import {AddUser} from "../../models/dialogModels/add-user";
 @Component({
     selector: 'app-add-user',
     templateUrl: './add-user-dialog.component.html',
-    styleUrl: '../../pages/sales-sede/sales-sede.component.css'
+    styleUrl: '../../pages/users-sede/users-sede.component.css'
 })
 export class AddUserDialogComponent {
 
