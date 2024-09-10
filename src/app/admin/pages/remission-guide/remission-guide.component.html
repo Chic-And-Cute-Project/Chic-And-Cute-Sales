@@ -12,18 +12,20 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div *ngFor="let inventory of remissionGuide.products; let i = index" class="remission-guide-item">
-                <div style="display: flex; align-items: center">
-                    <mat-form-field subscriptSizing="dynamic" style="margin: 20px; width: 90px">
-                        <mat-label>Cantidad</mat-label>
-                        <input type="number" [disabled]="disableInventoryInput" matInput [(ngModel)]="inventory.quantity">
-                    </mat-form-field>
-                    <p>{{ inventory.product.fullName }}</p>
+            <form #f="ngForm">
+                <div *ngFor="let inventory of remissionGuide.products; let i = index" class="remission-guide-item">
+                    <div style="display: flex; align-items: center">
+                        <mat-form-field subscriptSizing="dynamic" style="margin: 20px; width: 90px">
+                            <mat-label>Cantidad</mat-label>
+                            <input type="number" min="1" [max]="inventory.maxQuantity" [disabled]="disableInventoryInput" matInput [(ngModel)]="inventory.quantity" name="quantity">
+                        </mat-form-field>
+                        <p>{{ inventory.product.fullName }}</p>
+                    </div>
+                    <button [disabled]="disableInventoryInput" mat-flat-button style="background-color: red" (click)="deleteFromArray(i)">-</button>
                 </div>
-                <button [disabled]="disableInventoryInput" mat-button (click)="deleteFromArray(i)" style="background-color: red">-</button>
-            </div>
+            </form>
             <div style="text-align: center">
-                <button mat-button (click)="nextStep()">Confirmar guía</button>
+                <button mat-flat-button [disabled]="!f.form.valid" color="primary" (click)="nextStep()">Confirmar guía</button>
             </div>
         </div>
         <div class="products">
@@ -33,11 +35,11 @@
                     <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
                         <mat-label>Nombre Producto</mat-label>
                         <input matInput [(ngModel)]="productName">
-                        <button mat-icon-button matSuffix (click)="searchSale()" style="border: 0;">
+                        <button mat-icon-button matSuffix (click)="searchProduct()" style="border: 0;">
                             <mat-icon>search</mat-icon>
                         </button>
                     </mat-form-field>
-                    <button mat-button (click)="reloadSearch(true)">Reiniciar Búsqueda</button>
+                    <button mat-flat-button color="primary" (click)="reloadSearch(true)" style="margin-right: 10px">Reiniciar Búsqueda</button>
                 </div>
                 <div *ngFor="let inventory of inventories" style="cursor: pointer; margin-left: 20px" (click)="selectProduct(inventory)">
                     <p>{{ inventory.product.fullName }}</p>
@@ -47,13 +49,13 @@
             <ng-template #elseTemplate>
                 <div style="margin: 20px">
                     <div style="margin-bottom: 20px">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 15px">
                             <mat-label>Fecha de Emisión</mat-label>
                             <input matInput [matDatepicker]="picker" [(ngModel)]="remissionGuide.date">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-left: 15px">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
                             <mat-label>Sede Destino</mat-label>
                             <mat-select [(value)]="remissionGuide.sedeTo">
                                 <mat-option *ngFor="let sede of sedesDestiny" [value]="sede">
@@ -62,12 +64,12 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <button mat-button (click)="createRemissionGuide()">Generar Guía</button>
+                    <button mat-flat-button color="primary" (click)="createRemissionGuide()">Generar Guía</button>
                 </div>
             </ng-template>
         </div>
     </div>
     <div>
-        <button mat-button [routerLink]="['/home', role]" style="margin: 0 0 15px 15px">Regresar</button>
+        <button mat-flat-button color="primary" [routerLink]="['/home/Admin']" style="margin: 0 0 0 15px">Regresar</button>
     </div>
 </div>

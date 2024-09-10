@@ -50,23 +50,25 @@ export class StockReceptionAdminComponent implements OnInit {
         this.remissionGuideSelected = true;
         this.remissionGuideAccepted = this.remissionGuide.status == "Aceptado";
 
-        const getInventoryToPromise = this.inventoryService.getBySede(this.remissionGuide.sedeTo);
-        let getInventoryToResponse =  await lastValueFrom(getInventoryToPromise);
+        if (!this.remissionGuideAccepted) {
+            const getInventoryToPromise = this.inventoryService.getBySede(this.remissionGuide.sedeTo);
+            let getInventoryToResponse =  await lastValueFrom(getInventoryToPromise);
 
-        const getInventoryFromPromise = this.inventoryService.getBySede(this.remissionGuide.sedeFrom);
-        let getInventoryFromResponse =  await lastValueFrom(getInventoryFromPromise);
+            const getInventoryFromPromise = this.inventoryService.getBySede(this.remissionGuide.sedeFrom);
+            let getInventoryFromResponse =  await lastValueFrom(getInventoryFromPromise);
 
-        for (let remissionGuideItem of this.remissionGuide.products) {
-            let inventoryToItem = getInventoryToResponse.inventories.find(inventory => inventory.product._id === remissionGuideItem.product._id);
-            let inventoryFromItem = getInventoryFromResponse.inventories.find(inventory => inventory.product._id === remissionGuideItem.product._id);
+            for (let remissionGuideItem of this.remissionGuide.products) {
+                let inventoryToItem = getInventoryToResponse.inventories.find(inventory => inventory.product._id === remissionGuideItem.product._id);
+                let inventoryFromItem = getInventoryFromResponse.inventories.find(inventory => inventory.product._id === remissionGuideItem.product._id);
 
-            if (inventoryToItem) {
-                inventoryToItem.quantity = inventoryToItem.quantity + remissionGuideItem.quantity;
-                this.inventoriesTo.push(inventoryToItem);
-            }
-            if (inventoryFromItem) {
-                inventoryFromItem.quantity = inventoryFromItem.quantity - remissionGuideItem.quantity;
-                this.inventoriesFrom.push(inventoryFromItem);
+                if (inventoryToItem) {
+                    inventoryToItem.quantity = inventoryToItem.quantity + remissionGuideItem.quantity;
+                    this.inventoriesTo.push(inventoryToItem);
+                }
+                if (inventoryFromItem) {
+                    inventoryFromItem.quantity = inventoryFromItem.quantity - remissionGuideItem.quantity;
+                    this.inventoriesFrom.push(inventoryFromItem);
+                }
             }
         }
     }

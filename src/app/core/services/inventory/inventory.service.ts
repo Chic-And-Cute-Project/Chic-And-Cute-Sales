@@ -51,11 +51,9 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
     getAvailableBySede(sede: string): Observable<InventoryApiResponse> {
         return this.http.get<InventoryApiResponse>(`${this.basePath}/availableSede?sede=${sede}`, {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
+                'Content-Type': 'application/json'
             })
-        })
-            .pipe(catchError(this.handleError));
+        }).pipe(catchError(this.handleError));
     }
 
     searchProducts(sede: string, productName: string): Observable<InventoryApiResponse> {

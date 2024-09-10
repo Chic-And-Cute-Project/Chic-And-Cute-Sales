@@ -98,7 +98,7 @@ export class SalesAdminComponent implements OnInit {
         }
     }
 
-    searchSale() {
+    searchProduct() {
         if (this.productName != "") {
             this.snackBar.open("Buscando procuctos");
             if (this.sale.sede == "Molina Plaza") {
@@ -135,7 +135,7 @@ export class SalesAdminComponent implements OnInit {
             }
         });
         if (!elementExisting) {
-            let saleDetail: SaleDetail = { product: inventory.product, quantity: 1, finalPrice: inventory.product.price, discount: 0 } as SaleDetail;
+            let saleDetail: SaleDetail = { product: inventory.product, quantity: 1, finalPrice: inventory.product.price, discount: 0, maxQuantity: inventory.quantity } as SaleDetail;
             this.sale.detail.push(saleDetail);
         }
     }
@@ -146,10 +146,7 @@ export class SalesAdminComponent implements OnInit {
 
     updateFinalPrice(saleDetail: SaleDetail) {
         let price = saleDetail.quantity * saleDetail.product.price;
-        console.log(price)
-        console.log(price * saleDetail.discount * 0.01)
         price = price - price * saleDetail.discount * 0.01;
-        console.log(price)
         saleDetail.finalPrice = Number(price.toFixed(2));
     }
 
@@ -158,6 +155,7 @@ export class SalesAdminComponent implements OnInit {
             this.sale.detail.forEach(saleDetail => {
                 this.finalPrice = this.finalPrice + saleDetail.finalPrice;
             });
+            this.finalPrice = Number(this.finalPrice.toFixed(2));
             this.paymentMethod.amount = this.finalPrice;
             this.disableInventoryInput = true;
             this.step = '2';
@@ -186,7 +184,8 @@ export class SalesAdminComponent implements OnInit {
         if (this.payedPrice == 0) {
             this.snackBar.open("Confirma los metodos de pago", "Entendido", {duration: 2000});
         } else {
-            this.snackBar.open("Creando pago");
+            this.snackBar.open("Creando pago", "Entendido", {duration: 2000});
+            console.log(this.sale)
         }
     }
 }

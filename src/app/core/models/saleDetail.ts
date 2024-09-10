@@ -5,4 +5,5 @@ export interface SaleDetail {
     quantity: number;
     discount: number;
     finalPrice: number;
+    maxQuantity: number;
 }

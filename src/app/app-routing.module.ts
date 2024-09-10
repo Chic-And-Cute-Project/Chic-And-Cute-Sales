@@ -18,7 +18,7 @@ const routes: Routes = [
     { path: 'users-sede', component: UsersSedeComponent},
     { path: 'products-discounts', component: ProductsDiscountsComponent},
     { path: 'stock/:role', component: StockPrincipalComponent},
-    { path: 'remission-guide/:role', component: RemissionGuideComponent},
+    { path: 'remission-guide', component: RemissionGuideComponent},
     { path: 'stock-reception/:role', component: StockReceptionPrincipalComponent},
     { path: 'sales-point/:role', component: SalesPrincipalComponent},
     { path: '', redirectTo: 'login', pathMatch: 'full'},
