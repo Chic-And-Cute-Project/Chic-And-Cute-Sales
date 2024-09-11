@@ -9,6 +9,8 @@ import {DiscountService} from "../../../../admin/services/discount/discount.serv
 import {DiscountApiResponse} from "../../../../admin/models/apiResponses/discountApiResponse";
 import {Discount} from "../../../../admin/models/discount";
 import {PaymentMethod} from "../../../models/paymentMethod";
+import {SaleService} from "../../../services/sale/sale.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sales-admin',
@@ -30,8 +32,9 @@ export class SalesAdminComponent implements OnInit {
     inventories: Array<Inventory>;
     discounts: Array<Discount>;
 
-    constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar,
-                private discountService: DiscountService) {
+    constructor(private inventoryService: InventoryService, private discountService: DiscountService,
+                private saleService: SaleService, private snackBar: MatSnackBar,
+                private router: Router) {
         this.role = "";
         this.productName = "";
         this.step = '1';
@@ -185,7 +188,15 @@ export class SalesAdminComponent implements OnInit {
             this.snackBar.open("Confirma los metodos de pago", "Entendido", {duration: 2000});
         } else {
             this.snackBar.open("Creando pago", "Entendido", {duration: 2000});
-            console.log(this.sale)
+            this.saleService.create(this.sale).subscribe({
+                next: () => {
+                    this.snackBar.dismiss();
+                    this.router.navigate(['/home/Admin']).then();
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
         }
     }
 }
