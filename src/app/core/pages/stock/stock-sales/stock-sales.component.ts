@@ -36,7 +36,7 @@ export class StockSalesComponent implements OnInit {
         });
     }
 
-    searchSale() {
+    searchProduct() {
         if (this.productName != "") {
             this.snackBar.open("Buscando procuctos");
             this.inventoryService.searchMyProducts(this.productName).subscribe({

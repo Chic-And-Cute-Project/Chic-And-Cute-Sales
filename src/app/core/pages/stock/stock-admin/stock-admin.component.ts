@@ -96,7 +96,7 @@ export class StockAdminComponent implements OnInit {
         });
     }
 
-    searchSale() {
+    searchProduct() {
         if (this.productName != "") {
             this.snackBar.open("Buscando procuctos");
             if (this.sedeSelected == "Fábrica") {

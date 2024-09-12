@@ -11,6 +11,7 @@ import {Discount} from "../../../../admin/models/discount";
 import {PaymentMethod} from "../../../models/paymentMethod";
 import {SaleService} from "../../../services/sale/sale.service";
 import {Router} from "@angular/router";
+import {lastValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-sales-admin',
@@ -29,6 +30,7 @@ export class SalesAdminComponent implements OnInit {
     returnPrice: number;
     sale: Sale;
     paymentMethod: PaymentMethod;
+    paymentMethod2: PaymentMethod;
     inventories: Array<Inventory>;
     discounts: Array<Discount>;
 
@@ -46,6 +48,7 @@ export class SalesAdminComponent implements OnInit {
         this.returnPrice = 0;
         this.sale = { sede: "Molina Plaza" } as Sale;
         this.paymentMethod = { type: "Efectivo" } as PaymentMethod;
+        this.paymentMethod2 = { type: "Visa", amount: 0 } as PaymentMethod;
         this.sale.detail = [];
         this.sale.paymentMethod = [];
         this.inventories = [];
@@ -168,19 +171,26 @@ export class SalesAdminComponent implements OnInit {
     }
 
     addNewPaymentMethod() {
-        this.sale.paymentMethod.push({ type: this.paymentMethod.type, amount: this.paymentMethod.amount });
-        this.paymentMethod = {} as PaymentMethod;
+        if (this.paymentMethod.type != "Efectivo") {
+            this.paymentMethod2.type = "Efectivo";
+        }
         this.newPaymentMethod = true;
     }
 
     savePaymentMethods() {
-        this.sale.paymentMethod.push({ type: this.paymentMethod.type, amount: this.paymentMethod.amount });
-        this.disablePaymentInput = true;
-        this.sale.paymentMethod.forEach(paymentMethod => {
-            this.payedPrice = this.payedPrice + paymentMethod.amount;
-        });
-        let price = this.payedPrice - this.finalPrice;
-        this.returnPrice = Number(price.toFixed(2));
+        let totalPrice: number = this.paymentMethod.amount + this.paymentMethod2.amount;
+        if (totalPrice >= this.finalPrice) {
+            this.sale.paymentMethod.push(this.paymentMethod);
+            if (this.newPaymentMethod) {
+                this.sale.paymentMethod.push(this.paymentMethod2);
+            }
+            this.disablePaymentInput = true;
+            this.payedPrice = totalPrice;
+            let price = this.payedPrice - this.finalPrice;
+            this.returnPrice = Number(price.toFixed(2));
+        } else {
+            this.snackBar.open("Montos incorrectos", "Entendido", {duration: 2000});
+        }
     }
 
     createPayment() {
@@ -189,9 +199,19 @@ export class SalesAdminComponent implements OnInit {
         } else {
             this.snackBar.open("Creando pago", "Entendido", {duration: 2000});
             this.saleService.create(this.sale).subscribe({
-                next: () => {
+                next: async () => {
+                    this.snackBar.open("Actualizando inventarios");
+                    for (let saleDetail of this.sale.detail) {
+                        let inventory = this.inventories.find(inventory => inventory.product._id === saleDetail.product._id);
+
+                        if (inventory) {
+                            inventory.quantity = inventory.quantity - saleDetail.quantity;
+                            const updateInventoryToPromise = this.inventoryService.update(inventory._id, inventory);
+                            await lastValueFrom(updateInventoryToPromise);
+                        }
+                    }
                     this.snackBar.dismiss();
-                    this.router.navigate(['/home/Admin']).then();
+                    this.router.navigate(['/home', this.role]).then();
                 },
                 error: (e) => {
                     this.snackBar.open(e.message, "Entendido", {duration: 2000});

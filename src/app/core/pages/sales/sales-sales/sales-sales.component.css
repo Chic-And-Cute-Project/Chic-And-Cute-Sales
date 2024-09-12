@@ -1,0 +1,31 @@
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.row {
+    display: flex;
+}
+
+.products {
+    background-color: lightgray;
+    border-radius: 15px;
+    width: 45%;
+    margin: 15px;
+}
+
+.sale {
+    width: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.sale-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

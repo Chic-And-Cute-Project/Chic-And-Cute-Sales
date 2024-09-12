@@ -62,38 +62,37 @@
                 </div>
             </ng-container>
             <ng-template #elseTemplate>
+                <form #f="ngForm">
+                    <div style="margin: 10px 0;">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px; width: 160px">
+                            <mat-label>Forma de Pago</mat-label>
+                            <mat-select [(value)]="paymentMethod.type">
+                                <mat-option [disabled]="disablePaymentInput" [value]="'Efectivo'">Efectivo</mat-option>
+                                <mat-option [disabled]="disablePaymentInput" [value]="'Visa'">Visa</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
+                            <mat-label>Monto</mat-label>
+                            <input type="number" matInput min="0.01" [disabled]="disablePaymentInput" [(ngModel)]="paymentMethod.amount" name="payment1">
+                        </mat-form-field>
+                        <button mat-flat-button color="primary" [disabled]="disablePaymentInput" (click)="addNewPaymentMethod()" style="margin-right: 10px">Agregar forma de pago</button>
+                    </div>
+                    <div *ngIf="newPaymentMethod" style="margin-bottom: 10px">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px; width: 160px">
+                            <mat-label>Forma de Pago</mat-label>
+                            <mat-select [(value)]="paymentMethod2.type">
+                                <mat-option [disabled]="disablePaymentInput" [value]="'Efectivo'">Efectivo</mat-option>
+                                <mat-option [disabled]="disablePaymentInput" [value]="'Visa'">Visa</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
+                            <mat-label>Monto</mat-label>
+                            <input type="number" matInput min="0.01" [disabled]="disablePaymentInput" [(ngModel)]="paymentMethod2.amount" name="payment2">
+                        </mat-form-field>
+                    </div>
+                </form>
                 <div style="margin-left: 10px">
-                    <h2>Total a Pagar S/.{{finalPrice}}</h2>
-                </div>
-                <div style="margin-bottom: 10px">
-                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px; width: 160px">
-                        <mat-label>Forma de Pago</mat-label>
-                        <mat-select [(value)]="newPaymentMethod ? sale.paymentMethod.at(0)?.type : paymentMethod.type">
-                            <mat-option [disabled]="disablePaymentInput" [value]="'Efectivo'">Efectivo</mat-option>
-                            <mat-option [disabled]="disablePaymentInput" [value]="'Visa'">Visa</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
-                        <mat-label>Monto</mat-label>
-                        <input type="number" matInput [disabled]="disablePaymentInput" [(ngModel)]="newPaymentMethod ? sale.paymentMethod.at(0)?.amount : paymentMethod.amount">
-                    </mat-form-field>
-                    <button mat-flat-button color="primary" (click)="addNewPaymentMethod()" style="margin-right: 10px">Agregar forma de pago</button>
-                </div>
-                <div *ngIf="newPaymentMethod" style="margin-bottom: 10px">
-                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px; width: 160px">
-                        <mat-label>Forma de Pago</mat-label>
-                        <mat-select [(value)]="paymentMethod.type">
-                            <mat-option [disabled]="disablePaymentInput" [value]="'Efectivo'">Efectivo</mat-option>
-                            <mat-option [disabled]="disablePaymentInput" [value]="'Visa'">Visa</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
-                        <mat-label>Monto</mat-label>
-                        <input type="number" matInput [disabled]="disablePaymentInput" [(ngModel)]="paymentMethod.amount">
-                    </mat-form-field>
-                </div>
-                <div style="margin-left: 10px">
-                    <button mat-flat-button color="primary" (click)="savePaymentMethods()">Guardar formas de pago</button>
+                    <button mat-flat-button color="primary" [disabled]="!f.form.valid" (click)="savePaymentMethods()">Guardar formas de pago</button>
                     <p>Total Pagado: S/. {{payedPrice}}</p>
                     <p>Total: S/. {{finalPrice}}</p>
                     <p>Vuelto: S/. {{returnPrice}}</p>
