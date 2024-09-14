@@ -38,6 +38,15 @@ import { StockReceptionSalesComponent } from './core/pages/stock-reception/stock
 import { SalesPrincipalComponent } from './core/pages/sales/sales-principal/sales-principal.component';
 import { SalesSalesComponent } from './core/pages/sales/sales-sales/sales-sales.component';
 import { SalesAdminComponent } from './core/pages/sales/sales-admin/sales-admin.component';
+import { ReportPrincipalComponent } from './core/pages/report/report-principal/report-principal.component';
+import { ReportAdminComponent } from './core/pages/report/report-admin/report-admin.component';
+import { ReportSalesComponent } from './core/pages/report/report-sales/report-sales.component';
+import { CloseSalesDayPrincipalComponent } from './core/pages/close-sales-day/close-sales-day-principal/close-sales-day-principal.component';
+import { CloseSalesDayAdminComponent } from './core/pages/close-sales-day/close-sales-day-admin/close-sales-day-admin.component';
+import { CloseSalesDaySalesComponent } from './core/pages/close-sales-day/close-sales-day-sales/close-sales-day-sales.component';
+import { DocumentsPrincipalComponent } from './core/pages/documents/documents-principal/documents-principal.component';
+import { DocumentsAdminComponent } from './core/pages/documents/documents-admin/documents-admin.component';
+import { DocumentsSalesComponent } from './core/pages/documents/documents-sales/documents-sales.component';
 
 @NgModule({
     declarations: [
@@ -62,7 +71,16 @@ import { SalesAdminComponent } from './core/pages/sales/sales-admin/sales-admin.
         StockReceptionSalesComponent,
         SalesPrincipalComponent,
         SalesSalesComponent,
-        SalesAdminComponent
+        SalesAdminComponent,
+        ReportPrincipalComponent,
+        ReportAdminComponent,
+        ReportSalesComponent,
+        CloseSalesDayPrincipalComponent,
+        CloseSalesDayAdminComponent,
+        CloseSalesDaySalesComponent,
+        DocumentsPrincipalComponent,
+        DocumentsAdminComponent,
+        DocumentsSalesComponent
     ],
     imports: [
         BrowserModule,

@@ -23,4 +23,13 @@ export class SaleService extends BaseService<SaleApiResponse>{
             })
         }).pipe(catchError(this.handleError));
     }
+
+    getByMyInfo(): Observable<SaleApiResponse> {
+        return this.http.get<SaleApiResponse>(`${this.basePath}/myInfo`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
+    }
 }

@@ -5,9 +5,9 @@
             <div class="buttons-container">
                 <button mat-flat-button color="primary" [routerLink]="['/sales-point', role]">Punto de Venta</button>
                 <button mat-flat-button color="primary" [routerLink]="['/stock', role]">Stock</button>
-                <button mat-flat-button color="primary">Reportes</button>
-                <button mat-flat-button color="primary">Cierre de Caja</button>
-                <button mat-flat-button color="primary">Documentos</button>
+                <button mat-flat-button color="primary" [routerLink]="['/reports', role]">Reportes</button>
+                <button mat-flat-button color="primary" [routerLink]="['/close-sales-day', role]">Cierre de Caja</button>
+                <button mat-flat-button color="primary" [routerLink]="['/documents', role]">Documentos</button>
                 <button mat-flat-button color="primary" [routerLink]="['/stock-reception', role]">Recepción de Stock</button>
             </div>
         </ng-container>

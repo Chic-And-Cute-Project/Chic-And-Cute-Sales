@@ -11,6 +11,11 @@ import {
     StockReceptionPrincipalComponent
 } from "./core/pages/stock-reception/stock-reception-principal/stock-reception-principal.component";
 import {SalesPrincipalComponent} from "./core/pages/sales/sales-principal/sales-principal.component";
+import {ReportPrincipalComponent} from "./core/pages/report/report-principal/report-principal.component";
+import {
+    CloseSalesDayPrincipalComponent
+} from "./core/pages/close-sales-day/close-sales-day-principal/close-sales-day-principal.component";
+import {DocumentsPrincipalComponent} from "./core/pages/documents/documents-principal/documents-principal.component";
 
 const routes: Routes = [
     { path: 'login', component: LogInComponent},
@@ -21,6 +26,9 @@ const routes: Routes = [
     { path: 'remission-guide', component: RemissionGuideComponent},
     { path: 'stock-reception/:role', component: StockReceptionPrincipalComponent},
     { path: 'sales-point/:role', component: SalesPrincipalComponent},
+    { path: 'reports/:role', component: ReportPrincipalComponent},
+    { path: 'close-sales-day/:role', component: CloseSalesDayPrincipalComponent},
+    { path: 'documents/:role', component: DocumentsPrincipalComponent},
     { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: '**', component: PageNotFoundComponent}
 ];
