@@ -24,11 +24,19 @@ export class SaleService extends BaseService<SaleApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    getByMyInfo(): Observable<SaleApiResponse> {
-        return this.http.get<SaleApiResponse>(`${this.basePath}/myInfo`, {
+    getByMyInfo(minDate: Date, maxDate: Date): Observable<SaleApiResponse> {
+        return this.http.get<SaleApiResponse>(`${this.basePath}/myInfo?minDate=${minDate}&maxDate=${maxDate}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    getByInfoFromAdmin(userId: string, sede: string, minDate: Date, maxDate: Date) {
+        return this.http.get<SaleApiResponse>(`${this.basePath}/infoAdmin?minDate=${minDate}&maxDate=${maxDate}&userId=${userId}&sede=${sede}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
             })
         }).pipe(catchError(this.handleError));
     }

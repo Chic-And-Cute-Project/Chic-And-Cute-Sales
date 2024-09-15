@@ -5,10 +5,7 @@ import {SaleService} from "../../../services/sale/sale.service";
 import {UserService} from "../../../services/user/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../../../security/models/user";
-import {Sale} from "../../../models/sale";
 import {SaleDetail} from "../../../models/saleDetail";
-import {SaleReport} from "../../../models/saleReport";
-import {Product} from "../../../../admin/models/product";
 
 @Component({
   selector: 'app-report-sales',
@@ -17,42 +14,37 @@ import {Product} from "../../../../admin/models/product";
 })
 export class ReportSalesComponent implements OnInit {
     @Input() role: string;
+    cashAmount: number;
+    cardAmount: number;
+    totalAmount: number;
     minDate: Date;
     maxDate: Date;
-    user: User;
-    salesReport: Array<SaleReport>;
-    sales: Array<Sale>;
+    saleDetails: Array<SaleDetail>;
 
-    constructor(private salesService: SaleService, private userService: UserService,
-                private snackBar: MatSnackBar) {
+    constructor(private salesService: SaleService, private snackBar: MatSnackBar) {
         this.role = "";
+        this.cashAmount = 0;
+        this.cardAmount = 0;
+        this.totalAmount = 0;
         this.minDate = new Date();
         this.minDate.setHours(0,0,0,0);
         this.maxDate = new Date();
-        this.minDate.setHours(0,0,0,0);
-        this.user = {} as User;
-        this.salesReport = [];
-        this.sales = [];
+        this.maxDate.setHours(0,0,0,0);
+        this.saleDetails = [];
     }
 
     ngOnInit(): void {
         this.refreshSales();
-        this.userService.getObject().subscribe({
-            next: (response: UserApiResponse) => {
-                this.user = response.user;
-            },
-            error: (e) => {
-                this.snackBar.open(e.message, "Entendido", {duration: 2000});
-            }
-        });
     }
 
     refreshSales() {
-        this.salesService.getByMyInfo().subscribe({
+        this.salesService.getByMyInfo(this.minDate, this.maxDate).subscribe({
             next: (response: SaleApiResponse) => {
                 this.snackBar.dismiss();
-                this.salesReport = response.salesReport;
-                console.log(this.salesReport);
+                this.saleDetails = response.saleDetails;
+                this.cardAmount = response.card;
+                this.cashAmount = response.cash;
+                this.totalAmount = this.cardAmount + this.cashAmount;
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -61,6 +53,10 @@ export class ReportSalesComponent implements OnInit {
     }
 
     searchSales() {
-
+        if (this.minDate <= this.maxDate) {
+            this.refreshSales();
+        } else {
+            this.snackBar.open("Error con las fechas ingresadas", "Entendido", {duration: 2000});
+        }
     }
 }

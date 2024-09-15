@@ -162,7 +162,23 @@ export class SalesSalesComponent implements OnInit {
 
     savePaymentMethods() {
         let totalPrice: number = this.paymentMethod.amount + this.paymentMethod2.amount;
-        if (totalPrice >= this.finalPrice) {
+        if (totalPrice > this.finalPrice) {
+            if (this.newPaymentMethod) {
+                this.snackBar.open("Colocar monto exacto", "Entendido", {duration: 2000});
+            } else {
+                if (this.paymentMethod.type == "Efectivo") {
+                    this.paymentMethod.amount = this.finalPrice;
+                    this.sale.paymentMethod.push(this.paymentMethod);
+
+                    this.disablePaymentInput = true;
+                    this.payedPrice = totalPrice;
+                    let price = this.payedPrice - this.finalPrice;
+                    this.returnPrice = Number(price.toFixed(2));
+                } else {
+                    this.snackBar.open("Colocar monto exacto", "Entendido", {duration: 2000});
+                }
+            }
+        } else if (totalPrice == this.finalPrice) {
             this.sale.paymentMethod.push(this.paymentMethod);
             if (this.newPaymentMethod) {
                 this.sale.paymentMethod.push(this.paymentMethod2);
@@ -172,7 +188,7 @@ export class SalesSalesComponent implements OnInit {
             let price = this.payedPrice - this.finalPrice;
             this.returnPrice = Number(price.toFixed(2));
         } else {
-            this.snackBar.open("Montos incorrectos", "Entendido", {duration: 2000});
+            this.snackBar.open("Montos insuficientes", "Entendido", {duration: 2000});
         }
     }
 

@@ -1,6 +1,70 @@
 <div class="column">
     <h1 style="text-align: center">Reportes</h1>
     <div>
+        <div>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px">
+                <mat-label>Vendedora</mat-label>
+                <mat-select [(value)]="user">
+                    <mat-option *ngFor="let user of users" [value]="user">
+                        {{user.username}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px">
+                <mat-label>Sede Destino</mat-label>
+                <mat-select [(value)]="sedeSelected">
+                    <mat-option *ngFor="let sede of sedes" [value]="sede">
+                        {{sede}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px">
+                <mat-label>Fecha de Inicio</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="minDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px">
+                <mat-label>Fecha de Fin</mat-label>
+                <input matInput [matDatepicker]="picker2" [(ngModel)]="maxDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="searchSales()">Buscar</button>
+        </div>
+        <div style="display: flex">
+            <div style="margin: 15px; width: 60%">
+                <table mat-table [dataSource]="saleDetails" class="mat-elevation-z8">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Nombre del Producto </th>
+                        <td mat-cell *matCellDef="let sale">{{sale.product.fullName}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantity">
+                        <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                        <td mat-cell *matCellDef="let sale">{{sale.quantity}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="finalPrice">
+                        <th mat-header-cell *matHeaderCellDef> Precio Final </th>
+                        <td mat-cell *matCellDef="let sale">{{sale.finalPrice}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['name', 'quantity', 'finalPrice']"></tr>
+                    <tr mat-row *matRowDef="let sale; columns: ['name', 'quantity', 'finalPrice'];"></tr>
+                </table>
+            </div>
+            <div class="payments-container">
+                <div>
+                    <h2>Forma de pago</h2>
+                    <h4>Visa {{cardAmount}}</h4>
+                    <h4>Efectivo {{cashAmount}}</h4>
+                </div>
+                <div>
+                    <h2>Total {{totalAmount}}</h2>
+                </div>
+            </div>
+        </div>
 
     </div>
     <div>

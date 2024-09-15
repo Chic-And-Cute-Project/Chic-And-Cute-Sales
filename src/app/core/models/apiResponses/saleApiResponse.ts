@@ -1,8 +1,10 @@
 import {Sale} from "../sale";
-import {SaleReport} from "../saleReport";
+import {SaleDetail} from "../saleDetail";
 
 export interface SaleApiResponse {
   sale: Sale;
   sales: Array<Sale>;
-  salesReport: Array<SaleReport>;
+  saleDetails: Array<SaleDetail>;
+  cash: number;
+  card: number;
 }
