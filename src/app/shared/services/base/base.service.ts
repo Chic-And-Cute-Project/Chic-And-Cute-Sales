@@ -6,7 +6,7 @@ import {catchError, Observable, throwError} from "rxjs";
     providedIn: 'root'
 })
 export class BaseService<T> {
-    basePath: string = 'http://localhost:3000/api/';
+    basePath: string = 'http://51.44.59.254:3002/api/';
 
     constructor(public http: HttpClient) {}
 
