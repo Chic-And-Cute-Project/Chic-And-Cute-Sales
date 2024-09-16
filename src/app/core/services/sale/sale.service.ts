@@ -40,4 +40,21 @@ export class SaleService extends BaseService<SaleApiResponse>{
             })
         }).pipe(catchError(this.handleError));
     }
+
+    getSalesByDate(date: Date) {
+        return this.http.get<SaleApiResponse>(`${this.basePath}/getSalesByDate?date=${date}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    getSalesByDateAndSede(sede: string, date: Date) {
+        return this.http.get<SaleApiResponse>(`${this.basePath}/getSalesByDateAndSede?date=${date}&sede=${sede}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
 }

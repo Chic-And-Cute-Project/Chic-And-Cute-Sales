@@ -1,1 +1,44 @@
-<p>close-sales-day-admin works!</p>
+<div class="column">
+    <h1 style="text-align: center">Cierre de Caja</h1>
+    <div style="display: flex;justify-content: center;">
+        <div style="width: 50%;">
+            <div style="margin-bottom: 15px">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                    <mat-label>Sede</mat-label>
+                    <mat-select [(value)]="closeSalesDay.sede">
+                        <mat-option *ngFor="let sede of sedes" [value]="sede">
+                            {{sede}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                    <mat-label>Fecha Cierre</mat-label>
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="date">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <button mat-flat-button color="primary" (click)="searchSales()">Buscar</button>
+            </div>
+            <div *ngFor="let sale of closeSalesDay.sales" class="sale">
+                <div>
+                    <p *ngFor="let saleDetail of sale.detail">{{saleDetail.product.fullName}}<span *ngIf="saleDetail.discount != 0" style="font-style: italic;"> Descuento: {{saleDetail.discount}}</span></p>
+                </div>
+                <div>
+                    <p *ngFor="let paymentMethod of sale.paymentMethod">{{paymentMethod.type + " S/." + paymentMethod.amount}}</p>
+                </div>
+            </div>
+            <div>
+                <p>Efectivo S/.{{closeSalesDay.cashAmount}}</p>
+                <p>Visa S/.{{closeSalesDay.cardAmount}}</p>
+                <p>Total S/.{{totalAmount}}</p>
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <button mat-flat-button color="primary" style="margin-bottom: 10px" (click)="saveCloseSalesDay()">Guardar Cierre de Caja</button>
+            <button mat-flat-button color="primary">Guardar Cierre de Caja y Generar Pdf</button>
+        </div>
+    </div>
+    <div>
+        <button mat-flat-button color="primary" [routerLink]="['/home', role]" style="margin: 0 0 0 15px">Regresar</button>
+    </div>
+</div>

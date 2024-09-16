@@ -1,1 +1,55 @@
-<p>documents-admin works!</p>
+<div class="column">
+    <h1 style="text-align: center">Documentos</h1>
+    <div style="display: flex;flex-direction: column">
+        <div style="margin-bottom: 15px; text-align: center">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                <mat-label>Sede</mat-label>
+                <mat-select [(value)]="sedeSelected">
+                    <mat-option *ngFor="let sede of sedes" [value]="sede">
+                        {{sede}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                <mat-label>Fecha Desde</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="minDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                <mat-label>Fecha Hasta</mat-label>
+                <input matInput [matDatepicker]="picker3" [(ngModel)]="maxDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="searchDocuments()">Buscar</button>
+        </div>
+        <div style="display:flex;justify-content: space-between">
+            <div style="width: 50%;">
+                <div *ngFor="let closeSalesDay of closeSalesDays" class="closeSalesDay" (click)="selectDocument(closeSalesDay)">
+                    <p style="margin-top: 0">Cierre de caja Nro: {{closeSalesDay._id}}</p>
+                    <p>Fecha: {{datePipe.transform(closeSalesDay.date, 'dd/MM/yyyy')}}</p>
+                    <p style="margin-bottom: 0">Emitido por: {{closeSalesDay.user.username}}</p>
+                </div>
+            </div>
+            <div *ngIf="closeSalesDay.show" style="width: 50%; margin: 10px">
+                <div *ngFor="let sale of closeSalesDay.sales" style="display: flex; justify-content: space-between">
+                    <div>
+                        <p *ngFor="let saleDetail of sale.detail">{{saleDetail.product.fullName}}<span *ngIf="saleDetail.discount != 0" style="font-style: italic;"> Descuento: {{saleDetail.discount}}</span></p>
+                    </div>
+                    <div>
+                        <p *ngFor="let paymentMethod of sale.paymentMethod">{{paymentMethod.type + " S/." + paymentMethod.amount}}</p>
+                    </div>
+                </div>
+                <div>
+                    <p>Efectivo S/.{{closeSalesDay.cashAmount}}</p>
+                    <p>Visa S/.{{closeSalesDay.cardAmount}}</p>
+                    <p>Total S/.{{closeSalesDay.totalAmount}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button mat-flat-button color="primary" [routerLink]="['/home', role]" style="margin: 0 0 0 15px">Regresar</button>
+    </div>
+</div>

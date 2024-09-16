@@ -1,10 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 import {SaleApiResponse} from "../../../models/apiResponses/saleApiResponse";
 import {SaleService} from "../../../services/sale/sale.service";
-import {UserService} from "../../../services/user/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {User} from "../../../../security/models/user";
 import {SaleDetail} from "../../../models/saleDetail";
 
 @Component({
@@ -30,6 +27,7 @@ export class ReportSalesComponent implements OnInit {
         this.minDate.setHours(0,0,0,0);
         this.maxDate = new Date();
         this.maxDate.setHours(0,0,0,0);
+        this.maxDate.setDate(this.minDate.getDate() + 1);
         this.saleDetails = [];
     }
 
@@ -38,18 +36,23 @@ export class ReportSalesComponent implements OnInit {
     }
 
     refreshSales() {
-        this.salesService.getByMyInfo(this.minDate, this.maxDate).subscribe({
-            next: (response: SaleApiResponse) => {
-                this.snackBar.dismiss();
-                this.saleDetails = response.saleDetails;
-                this.cardAmount = response.card;
-                this.cashAmount = response.cash;
-                this.totalAmount = this.cardAmount + this.cashAmount;
-            },
-            error: (e) => {
-                this.snackBar.open(e.message, "Entendido", {duration: 2000});
-            }
-        });
+        if (this.minDate < this.maxDate) {
+            this.snackBar.open("Buscando ventas");
+            this.salesService.getByMyInfo(this.minDate, this.maxDate).subscribe({
+                next: (response: SaleApiResponse) => {
+                    this.snackBar.dismiss();
+                    this.saleDetails = response.saleDetails;
+                    this.cardAmount = response.card;
+                    this.cashAmount = response.cash;
+                    this.totalAmount = this.cardAmount + this.cashAmount;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        } else {
+            this.snackBar.open("Fechas incorrectas", "Entendido", {duration: 2000});
+        }
     }
 
     searchSales() {

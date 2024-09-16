@@ -1,0 +1,15 @@
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90.62%;
+}
+
+.sale {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+    background-color: lightgray;
+    padding: 5px;
+    border-radius: 5px;
+}
