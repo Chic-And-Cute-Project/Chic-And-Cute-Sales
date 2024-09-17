@@ -6,7 +6,7 @@ import {catchError, Observable, throwError} from "rxjs";
     providedIn: 'root'
 })
 export class BaseService<T> {
-    basePath: string = 'http://51.44.59.254:3002/api/';
+    basePath: string = 'https://www.amoamel.com/chic/api/';
 
     constructor(public http: HttpClient) {}
 
