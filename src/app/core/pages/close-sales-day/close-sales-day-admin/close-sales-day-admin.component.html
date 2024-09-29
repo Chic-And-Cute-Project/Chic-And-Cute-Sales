@@ -1,7 +1,7 @@
 <div class="column">
     <h1 style="text-align: center">Cierre de Caja</h1>
     <div style="display: flex;justify-content: center;">
-        <div style="width: 50%;">
+        <div style="width: 60%;">
             <div style="margin-bottom: 15px">
                 <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 150px">
                     <mat-label>Sede</mat-label>
@@ -17,7 +17,7 @@
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
-                <button mat-flat-button color="primary" (click)="searchSales()">Buscar</button>
+                <button mat-flat-button (click)="searchSales()" style="background-color: #eae3db; color: #d1ae6f">Buscar</button>
             </div>
             <div *ngFor="let sale of closeSalesDay.sales" class="sale">
                 <div>
@@ -34,11 +34,11 @@
             </div>
         </div>
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <button mat-flat-button color="primary" style="margin-bottom: 10px" (click)="saveCloseSalesDay()">Guardar Cierre</button>
-            <button mat-flat-button color="primary">Guardar y Generar Pdf</button>
+            <button mat-flat-button style="margin-bottom: 10px; background-color: #eae3db; color: #d1ae6f" (click)="saveCloseSalesDay()">Guardar Cierre</button>
+            <button mat-flat-button style="background-color: #eae3db; color: #d1ae6f">Guardar y Generar Pdf</button>
         </div>
     </div>
     <div>
-        <button mat-flat-button color="primary" [routerLink]="['/home', role]" style="margin: 0 0 0 15px">Regresar</button>
+        <button mat-flat-button [routerLink]="['/home', role]" style="margin: 0 0 0 15px; background-color: #eae3db; color: #d1ae6f">Regresar</button>
     </div>
 </div>

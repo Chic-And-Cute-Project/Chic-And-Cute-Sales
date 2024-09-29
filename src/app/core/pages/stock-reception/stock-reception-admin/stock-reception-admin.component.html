@@ -24,7 +24,7 @@
                         <p>{{remissionGuideItem.quantity}}</p>
                     </div>
                 </div>
-                <button mat-flat-button color="primary" (click)="confirmRemissionGuide()" style="margin-top: 15px" [disabled]="remissionGuideAccepted">Confirmar Guía</button>
+                <button mat-flat-button (click)="confirmRemissionGuide()" style="margin-top: 15px; background-color: #eae3db; color: #d1ae6f" [disabled]="remissionGuideAccepted">Confirmar Guía</button>
             </ng-container>
             <ng-template #elseTemplate>
                 <div style="display: flex; justify-content: center;">
@@ -34,6 +34,6 @@
         </div>
     </div>
     <div>
-        <button mat-flat-button color="primary" [routerLink]="['/home', role]" style="margin: 0 0 0 15px">Regresar</button>
+        <button mat-flat-button [routerLink]="['/home', role]" style="margin: 0 0 0 15px; background-color: #eae3db; color: #d1ae6f">Regresar</button>
     </div>
 </div>

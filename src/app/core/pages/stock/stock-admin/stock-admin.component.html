@@ -17,7 +17,7 @@
                     <mat-icon>search</mat-icon>
                 </button>
             </mat-form-field>
-            <button mat-flat-button color="primary" (click)="reloadSearch()">Reiniciar Búsqueda</button>
+            <button mat-flat-button (click)="reloadSearch()" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
         </div>
         <div style="margin: 15px">
             <table mat-table [dataSource]="inventories" class="mat-elevation-z8">
@@ -42,6 +42,6 @@
         </div>
     </div>
     <div>
-        <button mat-flat-button color="primary" [routerLink]="['/home', role]" style="margin: 0 0 0 15px">Regresar</button>
+        <button mat-flat-button [routerLink]="['/home', role]" style="margin: 0 0 0 15px; background-color: #eae3db; color: #d1ae6f">Regresar</button>
     </div>
 </div>

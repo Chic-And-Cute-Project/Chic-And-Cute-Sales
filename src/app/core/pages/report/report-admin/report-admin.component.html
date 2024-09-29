@@ -30,7 +30,7 @@
                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
-            <button mat-flat-button color="primary" (click)="searchSales()">Buscar</button>
+            <button mat-flat-button (click)="searchSales()" style="background-color: #eae3db; color: #d1ae6f">Buscar</button>
         </div>
         <div style="display: flex">
             <div style="margin: 15px; width: 60%">
@@ -68,6 +68,6 @@
 
     </div>
     <div>
-        <button mat-flat-button color="primary" [routerLink]="['/home', role]" style="margin: 0 0 0 15px">Regresar</button>
+        <button mat-flat-button [routerLink]="['/home', role]" style="margin: 0 0 0 15px; background-color: #eae3db; color: #d1ae6f">Regresar</button>
     </div>
 </div>

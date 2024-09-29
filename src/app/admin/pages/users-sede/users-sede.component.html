@@ -27,7 +27,7 @@
                 </mat-form-field>
             </div>
             <div style="text-align: center;">
-                <button mat-flat-button color="primary" [disabled]="saveButtonDisabled" (click)="updateUser()">Guardar</button>
+                <button mat-flat-button [disabled]="saveButtonDisabled" (click)="updateUser()" style="background-color: #eae3db; color: #d1ae6f">Guardar</button>
             </div>
         </div>
         <div class="users">
@@ -37,14 +37,14 @@
                     <button mat-flat-button style="background-color: lightgreen" (click)="addUser()">+</button>
                 </div>
                 <div class="user-title-item">
-                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
-                        <mat-label>Nombre Vendedor</mat-label>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 150px">
+                        <mat-label>Nombre</mat-label>
                         <input matInput [(ngModel)]="userName">
                         <button mat-icon-button matSuffix (click)="searchSale()" style="border: 0;">
                             <mat-icon>search</mat-icon>
                         </button>
                     </mat-form-field>
-                    <button mat-flat-button color="primary" (click)="reloadSearch()">Reiniciar Búsqueda</button>
+                    <button mat-flat-button style="background-color: #eae3db; color: #d1ae6f" (click)="reloadSearch()">Reiniciar Búsqueda</button>
                 </div>
             </div>
             <h4 style="margin-left: 10px">Usuarios activos</h4>
@@ -65,6 +65,6 @@
         </div>
     </div>
     <div>
-        <button mat-flat-button color="primary" [routerLink]="['/home/Admin']" style="margin: 0 0 0 15px">Regresar</button>
+        <button mat-flat-button [routerLink]="['/home/Admin']" style="margin: 0 0 0 15px; background-color: #eae3db; color: #d1ae6f">Regresar</button>
     </div>
 </div>

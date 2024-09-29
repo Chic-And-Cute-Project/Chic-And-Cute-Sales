@@ -25,7 +25,7 @@
                 </div>
             </form>
             <div style="text-align: center">
-                <button mat-flat-button [disabled]="!f.form.valid" color="primary" (click)="nextStep()">Confirmar guía</button>
+                <button mat-flat-button [disabled]="!f.form.valid" (click)="nextStep()" style="background-color: #eae3db; color: #d1ae6f">Confirmar guía</button>
             </div>
         </div>
         <div class="products">
@@ -39,7 +39,7 @@
                             <mat-icon>search</mat-icon>
                         </button>
                     </mat-form-field>
-                    <button mat-flat-button color="primary" (click)="reloadSearch(true)" style="margin-right: 10px">Reiniciar Búsqueda</button>
+                    <button mat-flat-button (click)="reloadSearch(true)" style="margin-right: 10px; background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
                 </div>
                 <div *ngFor="let inventory of inventories" style="cursor: pointer; margin: 0 20px; display: flex; justify-content: space-between;" (click)="selectProduct(inventory)">
                     <p>{{ inventory.product.fullName }}</p>
@@ -64,12 +64,12 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <button mat-flat-button color="primary" (click)="createRemissionGuide()">Generar Guía</button>
+                    <button mat-flat-button (click)="createRemissionGuide()" style="background-color: #eae3db; color: #d1ae6f">Generar Guía</button>
                 </div>
             </ng-template>
         </div>
     </div>
     <div>
-        <button mat-flat-button color="primary" [routerLink]="['/home/Admin']" style="margin: 0 0 0 15px">Regresar</button>
+        <button mat-flat-button [routerLink]="['/home/Admin']" style="margin: 0 0 0 15px; background-color: #eae3db; color: #d1ae6f">Regresar</button>
     </div>
 </div>

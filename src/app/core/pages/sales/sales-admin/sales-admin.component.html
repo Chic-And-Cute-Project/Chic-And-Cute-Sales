@@ -40,7 +40,7 @@
                 </div>
             </form>
             <div style="text-align: center">
-                <button mat-flat-button [disabled]="!f.form.valid" color="primary" (click)="nextStep()">Confirmar venta</button>
+                <button mat-flat-button [disabled]="!f.form.valid" (click)="nextStep()" style="background-color: #eae3db; color: #d1ae6f">Confirmar venta</button>
             </div>
         </div>
         <div class="products">
@@ -55,7 +55,7 @@
                                 <mat-icon>search</mat-icon>
                             </button>
                         </mat-form-field>
-                        <button mat-flat-button color="primary" (click)="reloadSearch(true)">Reiniciar Búsqueda</button>
+                        <button mat-flat-button (click)="reloadSearch(true)" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
                     </div>
                 </div>
                 <div *ngFor="let inventory of inventories" style="cursor: pointer; margin: 0 20px; display: flex; justify-content: space-between;" (click)="selectProduct(inventory)">
@@ -78,7 +78,7 @@
                             <mat-label>Monto</mat-label>
                             <input type="number" matInput min="0" required [disabled]="disablePaymentInput" [(ngModel)]="paymentMethod.amount" name="payment1">
                         </mat-form-field>
-                        <button mat-flat-button color="primary" [disabled]="disablePaymentTypeInput" (click)="addNewPaymentMethod()" style="margin: 0 0 10px 10px">Agregar pago</button>
+                        <button mat-flat-button [disabled]="disablePaymentTypeInput" (click)="addNewPaymentMethod()" style="margin: 0 0 10px 10px; background-color: #eae3db; color: #d1ae6f">Agregar pago</button>
                     </div>
                     <div *ngIf="newPaymentMethod">
                         <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 10px; width: 100px">
@@ -95,16 +95,16 @@
                     </div>
                 </form>
                 <div style="margin-left: 10px">
-                    <button mat-flat-button color="primary" [disabled]="!f.form.valid" (click)="savePaymentMethods()">Guardar formas de pago</button>
+                    <button mat-flat-button [disabled]="!f.form.valid" (click)="savePaymentMethods()" style="background-color: #eae3db; color: #d1ae6f">Guardar formas de pago</button>
                     <p>Total Pagado: S/. {{payedPrice}}</p>
                     <p>Total: S/. {{finalPrice}}</p>
                     <p>Vuelto: S/. {{returnPrice}}</p>
-                    <button mat-flat-button color="primary" (click)="createPayment()" style="margin-bottom: 10px">Confirmar pago</button>
+                    <button mat-flat-button (click)="createPayment()" style="margin-bottom: 10px; background-color: #eae3db; color: #d1ae6f">Confirmar pago</button>
                 </div>
             </ng-template>
         </div>
     </div>
     <div>
-        <button mat-flat-button color="primary" [routerLink]="['/home', role]" style="margin: 0 0 0 15px">Regresar</button>
+        <button mat-flat-button [routerLink]="['/home', role]" style="margin: 0 0 0 15px; background-color: #eae3db; color: #d1ae6f">Regresar</button>
     </div>
 </div>
