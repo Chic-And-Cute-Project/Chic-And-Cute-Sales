@@ -1,8 +1,11 @@
 <mat-toolbar style="background-color: #eae3db">
-    <img src="../assets/logo.png" alt="Logo" style="height: 90%; border-radius: 10px">
-    <div>
-        <p style="margin: 0">{{name}}</p>
-        <p style="margin: 0">{{sede}}</p>
+    <div style="flex: 1;"></div>
+    <div style="flex: 1; display: flex; justify-content: center;">
+        <img src="../assets/logo.png" alt="Logo" style="width: 88px;">
+    </div>
+    <div style="flex: 1;text-align: end;">
+        <p style="margin: 0; color: #d1ae6f">{{name}}</p>
+        <p style="margin: 0; color: #d1ae6f">{{sede}}</p>
     </div>
 </mat-toolbar>
 <router-outlet/>

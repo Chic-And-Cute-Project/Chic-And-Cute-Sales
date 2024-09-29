@@ -17,7 +17,7 @@ import { HomePrincipalComponent } from './core/pages/home/home-principal/home-pr
 import { HomeAdminComponent } from './core/pages/home/home-admin/home-admin.component';
 import { UsersSedeComponent } from './admin/pages/users-sede/users-sede.component';
 import {MatSelectModule} from "@angular/material/select";
-import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
+import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import { AddUserDialogComponent } from './admin/dialogs/add-user/add-user-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { ProductsDiscountsComponent } from './admin/pages/products-discounts/products-discounts.component';
@@ -102,7 +102,8 @@ import { DocumentsSalesComponent } from './core/pages/documents/documents-sales/
     ],
     providers: [
         provideAnimationsAsync(),
-        DatePipe
+        DatePipe,
+        { provide: MAT_DATE_LOCALE, useValue: 'fr'},
     ],
     bootstrap: [AppComponent]
 })
