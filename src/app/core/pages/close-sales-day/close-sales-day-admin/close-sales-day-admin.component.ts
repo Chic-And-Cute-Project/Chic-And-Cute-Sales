@@ -5,6 +5,9 @@ import {SaleService} from "../../../services/sale/sale.service";
 import {CloseSalesDayService} from "../../../services/close-sales-day/close-sales-day.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {UserService} from "../../../services/user/user.service";
+import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
+import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 
 @Component({
   selector: 'app-close-sales-day-admin',
@@ -19,6 +22,7 @@ export class CloseSalesDayAdminComponent implements OnInit {
     sedes: Array<string>;
 
     constructor(private salesService: SaleService, private closeSalesDayService: CloseSalesDayService,
+                private userService: UserService, private communicationService: CommunicationService,
                 private snackBar: MatSnackBar, private router: Router) {
         this.role = "";
         this.totalAmount = 0;
@@ -29,6 +33,23 @@ export class CloseSalesDayAdminComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.communicationService.emitTitleChange({ name: response.user.name + " " + response.user.lastName, sede: response.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
+                }
+            });
+        } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
+            this.router.navigate(['/login']).then();
+        }
         this.refreshSales();
     }
 

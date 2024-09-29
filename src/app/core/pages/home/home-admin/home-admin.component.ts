@@ -34,12 +34,13 @@ export class HomeAdminComponent implements OnInit{
                 error: (e) => {
                     this.snackBar.open(e.message, "Entendido", {duration: 2000});
                     if (e.message == "Vuelva a iniciar sesión") {
-                        this.router.navigate(['/login']).then();
                         localStorage.clear();
+                        this.router.navigate(['/login']).then();
                     }
                 }
             });
         } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
             this.router.navigate(['/login']).then();
         }
     }

@@ -33,7 +33,6 @@ export class LogInComponent implements OnInit {
                     this.snackBar.open(e.message, "Entendido", {duration: 2000});
                     if (e.message == "Vuelva a iniciar sesión") {
                         localStorage.clear();
-                        this.router.navigate(['/login']).then();
                     }
                 }
             });

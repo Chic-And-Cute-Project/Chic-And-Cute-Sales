@@ -14,6 +14,7 @@ import {SaleDetail} from "../../../models/saleDetail";
 import {UserService} from "../../../services/user/user.service";
 import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 import {lastValueFrom} from "rxjs";
+import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
 
 @Component({
   selector: 'app-sales-sales',
@@ -38,7 +39,8 @@ export class SalesSalesComponent implements OnInit {
 
     constructor(private inventoryService: InventoryService, private discountService: DiscountService,
                 private userService: UserService, private saleService: SaleService,
-                private snackBar: MatSnackBar, private router: Router) {
+                private communicationService: CommunicationService, private snackBar: MatSnackBar,
+                private router: Router) {
         this.role = "";
         this.productName = "";
         this.step = '1';
@@ -58,19 +60,25 @@ export class SalesSalesComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.refreshInventories();
-        this.userService.getObject().subscribe({
-            next: (response: UserApiResponse) => {
-                this.sale.sede = response.user.sede;
-            },
-            error: (e) => {
-                this.snackBar.open(e.message, "Entendido", {duration: 2000});
-                if (e.message == "Vuelva a iniciar sesión") {
-                    localStorage.clear();
-                    this.router.navigate(['/login']).then();
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.sale.sede = response.user.sede;
+                    this.communicationService.emitTitleChange({ name: response.user.name + " " + response.user.lastName, sede: response.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
+            this.router.navigate(['/login']).then();
+        }
+        this.refreshInventories();
         this.discountService.getAll().subscribe({
             next: (response: DiscountApiResponse) => {
                 this.discounts = response.discounts;

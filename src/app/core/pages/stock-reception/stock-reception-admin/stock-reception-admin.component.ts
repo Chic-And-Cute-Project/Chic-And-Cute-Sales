@@ -8,6 +8,9 @@ import {InventoryService} from "../../../services/inventory/inventory.service";
 import {Inventory} from "../../../models/inventory";
 import {lastValueFrom} from "rxjs";
 import {Router} from "@angular/router";
+import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
+import {UserService} from "../../../services/user/user.service";
+import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
 
 @Component({
   selector: 'app-stock-reception-admin',
@@ -24,6 +27,7 @@ export class StockReceptionAdminComponent implements OnInit {
     inventoriesTo: Array<Inventory>;
 
     constructor(private remissionGuideService: RemissionGuideService, private inventoryService: InventoryService,
+                private userService: UserService, private communicationService: CommunicationService,
                 private snackBar: MatSnackBar, public datePipe: DatePipe,
                 private router: Router) {
         this.role = "";
@@ -36,6 +40,23 @@ export class StockReceptionAdminComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.communicationService.emitTitleChange({ name: response.user.name + " " + response.user.lastName, sede: response.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
+                }
+            });
+        } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
+            this.router.navigate(['/login']).then();
+        }
         this.remissionGuideService.getAll().subscribe({
             next: (response: RemissionGuideApiResponse) => {
                 this.remissionGuides = response.remissionGuides;

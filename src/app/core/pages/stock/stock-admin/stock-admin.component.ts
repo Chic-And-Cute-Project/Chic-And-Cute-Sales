@@ -5,6 +5,10 @@ import {Inventory} from "../../../models/inventory";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {EditInventoryDialogComponent} from "../../../dialogs/edit-inventory/edit-inventory-dialog.component";
+import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
+import {UserService} from "../../../services/user/user.service";
+import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-stock-admin',
@@ -17,8 +21,9 @@ export class StockAdminComponent implements OnInit {
     productName: string;
     inventories: Array<Inventory>;
 
-    constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar,
-                private dialog: MatDialog) {
+    constructor(private inventoryService: InventoryService, private userService: UserService,
+                private communicationService: CommunicationService, private snackBar: MatSnackBar,
+                private dialog: MatDialog, private router: Router) {
         this.role = "";
         this.productName = "";
         this.sedeSelected = "Fábrica";
@@ -26,6 +31,23 @@ export class StockAdminComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.communicationService.emitTitleChange({ name: response.user.name + " " + response.user.lastName, sede: response.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
+                }
+            });
+        } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
+            this.router.navigate(['/login']).then();
+        }
         this.refreshInventoryF();
     }
 

@@ -28,6 +28,7 @@ export class PageNotFoundComponent {
                 }
             });
         } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
             this.router.navigate(['/login']).then();
         }
     }

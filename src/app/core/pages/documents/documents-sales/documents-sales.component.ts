@@ -4,6 +4,10 @@ import {CloseSalesDayService} from "../../../services/close-sales-day/close-sale
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CloseSalesDayApiResponse} from "../../../models/apiResponses/closeSalesDayApiResponse";
 import {DatePipe} from "@angular/common";
+import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
+import {UserService} from "../../../services/user/user.service";
+import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-documents-sales',
@@ -17,8 +21,9 @@ export class DocumentsSalesComponent implements OnInit {
     closeSalesDay: CloseSalesDay;
     closeSalesDays: Array<CloseSalesDay>;
 
-    constructor(private closeSalesDayService: CloseSalesDayService, private snackBar: MatSnackBar,
-                public datePipe: DatePipe) {
+    constructor(private closeSalesDayService: CloseSalesDayService, private userService: UserService,
+                private communicationService: CommunicationService, private snackBar: MatSnackBar,
+                public datePipe: DatePipe, private router: Router) {
         this.role = "";
         this.minDate = new Date();
         this.minDate.setHours(0,0,0,0);
@@ -30,6 +35,23 @@ export class DocumentsSalesComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.communicationService.emitTitleChange({ name: response.user.name + " " + response.user.lastName, sede: response.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
+                }
+            });
+        } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
+            this.router.navigate(['/login']).then();
+        }
         this.refreshDocuments();
     }
 

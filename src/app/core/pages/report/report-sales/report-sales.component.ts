@@ -3,6 +3,10 @@ import {SaleApiResponse} from "../../../models/apiResponses/saleApiResponse";
 import {SaleService} from "../../../services/sale/sale.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SaleDetail} from "../../../models/saleDetail";
+import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
+import {UserService} from "../../../services/user/user.service";
+import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-report-sales',
@@ -18,7 +22,9 @@ export class ReportSalesComponent implements OnInit {
     maxDate: Date;
     saleDetails: Array<SaleDetail>;
 
-    constructor(private salesService: SaleService, private snackBar: MatSnackBar) {
+    constructor(private userService: UserService, private communicationService: CommunicationService,
+                private salesService: SaleService, private snackBar: MatSnackBar,
+                private router: Router) {
         this.role = "";
         this.cashAmount = 0;
         this.cardAmount = 0;
@@ -32,6 +38,23 @@ export class ReportSalesComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.communicationService.emitTitleChange({ name: response.user.name + " " + response.user.lastName, sede: response.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
+                }
+            });
+        } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
+            this.router.navigate(['/login']).then();
+        }
         this.refreshSales();
     }
 

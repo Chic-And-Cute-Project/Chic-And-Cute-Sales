@@ -5,6 +5,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../../security/models/user";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {AddUserDialogComponent} from "../../dialogs/add-user/add-user-dialog.component";
+import {CommunicationService} from "../../../shared/services/communicacion/communication.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-users-sede',
@@ -18,8 +20,9 @@ export class UsersSedeComponent implements OnInit{
     users: Array<User>;
     usersInactive: Array<User>;
 
-    constructor(private userService: UserService, private snackBar: MatSnackBar,
-                private dialog: MatDialog) {
+    constructor(private userService: UserService, private communicationService: CommunicationService,
+                private snackBar: MatSnackBar, private dialog: MatDialog,
+                private router: Router) {
         this.userName = "";
         this.saveButtonDisabled = true;
         this.user = { name: "Nombre", lastName: "Apellido", username: "Usuario", sede: "Sin sede asignada" } as User;
@@ -28,6 +31,23 @@ export class UsersSedeComponent implements OnInit{
     }
 
     ngOnInit(): void {
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.communicationService.emitTitleChange({ name: response.user.name + " " + response.user.lastName, sede: response.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
+                }
+            });
+        } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
+            this.router.navigate(['/login']).then();
+        }
         this.refreshUsers();
     }
 

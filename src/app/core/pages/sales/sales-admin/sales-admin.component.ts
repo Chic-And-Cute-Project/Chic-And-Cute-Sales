@@ -12,6 +12,9 @@ import {PaymentMethod} from "../../../models/paymentMethod";
 import {SaleService} from "../../../services/sale/sale.service";
 import {Router} from "@angular/router";
 import {lastValueFrom} from "rxjs";
+import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
+import {UserService} from "../../../services/user/user.service";
+import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
 
 @Component({
   selector: 'app-sales-admin',
@@ -35,7 +38,8 @@ export class SalesAdminComponent implements OnInit {
     discounts: Array<Discount>;
 
     constructor(private inventoryService: InventoryService, private discountService: DiscountService,
-                private saleService: SaleService, private snackBar: MatSnackBar,
+                private saleService: SaleService, private userService: UserService,
+                private communicationService: CommunicationService, private snackBar: MatSnackBar,
                 private router: Router) {
         this.role = "";
         this.productName = "";
@@ -56,6 +60,23 @@ export class SalesAdminComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (localStorage.getItem('token')) {
+            this.userService.getObject().subscribe({
+                next: (response: UserApiResponse) => {
+                    this.communicationService.emitTitleChange({ name: response.user.name + " " + response.user.lastName, sede: response.user.sede });
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    if (e.message == "Vuelva a iniciar sesión") {
+                        localStorage.clear();
+                        this.router.navigate(['/login']).then();
+                    }
+                }
+            });
+        } else {
+            this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
+            this.router.navigate(['/login']).then();
+        }
         this.refreshInventoryMP();
         this.discountService.getAll().subscribe({
             next: (response: DiscountApiResponse) => {
