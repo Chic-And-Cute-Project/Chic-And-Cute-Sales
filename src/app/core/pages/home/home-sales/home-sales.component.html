@@ -1,7 +1,7 @@
 <div class="column">
     <div class="content-middle">
         <ng-container *ngIf="this.user.sede != 'Sin sede asignada'; else elseTemplate">
-            <h1>Bienvenidos</h1>
+            <h1>Bienvenida</h1>
             <div class="buttons-container" style="margin-bottom: 15px">
                 <button mat-flat-button [routerLink]="['/sales-point', role]" style="margin-right: 10px; background-color: #eae3db; color: #d1ae6f">Punto de Venta</button>
                 <button mat-flat-button [routerLink]="['/stock', role]" style="margin-right: 10px; background-color: #eae3db; color: #d1ae6f">Stock</button>
