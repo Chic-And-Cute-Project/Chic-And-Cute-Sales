@@ -5,29 +5,29 @@
             <div>
                 <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-left: 15px">
                     <mat-label>Sede Origen</mat-label>
-                    <mat-select [(value)]="sale.sede">
-                        <mat-option [disabled]="disableInventoryInput" [value]="'Molina Plaza'" (click)="reloadSearch(false)">Molina Plaza</mat-option>
-                        <mat-option [disabled]="disableInventoryInput" [value]="'Open Plaza'" (click)="reloadSearch(false)">Open Plaza</mat-option>
+                    <mat-select [disabled]="disableInventoryInput" [(value)]="sale.sede">
+                        <mat-option [value]="'Molina Plaza'" (click)="reloadSearch(false)">Molina Plaza</mat-option>
+                        <mat-option [value]="'Open Plaza'" (click)="reloadSearch(false)">Open Plaza</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <form #f="ngForm">
                 <div *ngFor="let saleDetail of sale.detail; let i = index" class="sale-detail">
                     <div>
-                        <mat-form-field subscriptSizing="dynamic" style="margin-left: 15px; width: 90px">
+                        <mat-form-field subscriptSizing="dynamic" style="width: 90px">
                             <mat-label>Cantidad</mat-label>
-                            <input type="number" min="1" [max]="saleDetail.maxQuantity" [disabled]="disableInventoryInput" matInput [(ngModel)]="saleDetail.quantity" name="quantity" (ngModelChange)="updateFinalPrice(saleDetail)">
+                            <input type="number" min="1" [max]="saleDetail.maxQuantity" [disabled]="disableInventoryInput" matInput required [(ngModel)]="saleDetail.quantity" [name]="saleDetail.product.fullName" (ngModelChange)="updateFinalPrice(saleDetail)">
                         </mat-form-field>
                     </div>
                     <div>
                         <p>{{ saleDetail.product.fullName }}</p>
-                        <p>Unidad: S/.{{ saleDetail.product.price }}</p>
+                        <p>S/.{{ saleDetail.product.price }}</p>
                     </div>
                     <div>
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="width: 100px">
                             <mat-label>Descuento</mat-label>
-                            <mat-select [(value)]="saleDetail.discount">
-                                <mat-option [disabled]="disableInventoryInput" *ngFor="let discount of discounts" [value]="discount.quantity" (click)="updateFinalPrice(saleDetail)">
+                            <mat-select [disabled]="disableInventoryInput" [(value)]="saleDetail.discount">
+                                <mat-option *ngFor="let discount of discounts" [value]="discount.quantity" (click)="updateFinalPrice(saleDetail)">
                                     {{discount.name }}
                                 </mat-option>
                             </mat-select>
@@ -36,7 +36,7 @@
                     <div>
                         <p>S/.{{saleDetail.finalPrice}}</p>
                     </div>
-                    <button [disabled]="disableInventoryInput" mat-flat-button (click)="deleteFromArray(i)" style="background-color: red">-</button>
+                    <button [disabled]="disableInventoryInput" mat-flat-button (click)="deleteFromArray(i)" style="background-color: red">Quitar</button>
                 </div>
             </form>
             <div style="text-align: center">
@@ -45,49 +45,52 @@
         </div>
         <div class="products">
             <ng-container *ngIf="step == '1'; else elseTemplate">
-                <div style="display: flex; align-items: center;">
-                    <h2 style="margin: 20px 10px">Productos</h2>
-                    <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
-                        <mat-label>Nombre Producto</mat-label>
-                        <input matInput [(ngModel)]="productName">
-                        <button mat-icon-button matSuffix (click)="searchProduct()" style="border: 0;">
-                            <mat-icon>search</mat-icon>
-                        </button>
-                    </mat-form-field>
-                    <button mat-flat-button color="primary" (click)="reloadSearch(true)" style="margin-right: 10px">Reiniciar Búsqueda</button>
+                <div style="display: flex; flex-direction: column; margin: 15px">
+                    <h2 style="margin-top: 0">Productos</h2>
+                    <div style="display: flex; align-items: center;">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 150px">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput [(ngModel)]="productName">
+                            <button mat-icon-button matSuffix (click)="searchProduct()" style="border: 0;">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <button mat-flat-button color="primary" (click)="reloadSearch(true)">Reiniciar Búsqueda</button>
+                    </div>
                 </div>
-                <div *ngFor="let inventory of inventories" style="cursor: pointer; margin-left: 20px" (click)="selectProduct(inventory)">
+                <div *ngFor="let inventory of inventories" style="cursor: pointer; margin: 0 20px; display: flex; justify-content: space-between;" (click)="selectProduct(inventory)">
                     <p>{{ inventory.product.fullName }}</p>
-                    <p>Disponibilidad ({{ inventory.quantity }})</p>
+                    <p>({{ inventory.quantity }})</p>
+                    <p>S/. {{inventory.product.price}}</p>
                 </div>
             </ng-container>
             <ng-template #elseTemplate>
                 <form #f="ngForm">
-                    <div style="margin: 10px 0;">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px; width: 160px">
+                    <div>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 10px; width: 100px">
                             <mat-label>Forma de Pago</mat-label>
-                            <mat-select [(value)]="paymentMethod.type">
-                                <mat-option [disabled]="disablePaymentInput" [value]="'Efectivo'">Efectivo</mat-option>
-                                <mat-option [disabled]="disablePaymentInput" [value]="'Visa'">Visa</mat-option>
+                            <mat-select [disabled]="disablePaymentTypeInput" [(value)]="paymentMethod.type">
+                                <mat-option [value]="'Efectivo'">Efectivo</mat-option>
+                                <mat-option [value]="'Visa'">Visa</mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-bottom: 10px; width: 100px">
                             <mat-label>Monto</mat-label>
-                            <input type="number" matInput min="0.01" [disabled]="disablePaymentInput" [(ngModel)]="paymentMethod.amount" name="payment1">
+                            <input type="number" matInput min="0" required [disabled]="disablePaymentInput" [(ngModel)]="paymentMethod.amount" name="payment1">
                         </mat-form-field>
-                        <button mat-flat-button color="primary" [disabled]="disablePaymentInput" (click)="addNewPaymentMethod()" style="margin-right: 10px">Agregar forma de pago</button>
+                        <button mat-flat-button color="primary" [disabled]="disablePaymentTypeInput" (click)="addNewPaymentMethod()" style="margin: 0 0 10px 10px">Agregar pago</button>
                     </div>
-                    <div *ngIf="newPaymentMethod" style="margin-bottom: 10px">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px; width: 160px">
+                    <div *ngIf="newPaymentMethod">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 10px; width: 100px">
                             <mat-label>Forma de Pago</mat-label>
-                            <mat-select [(value)]="paymentMethod2.type">
-                                <mat-option [disabled]="disablePaymentInput" [value]="'Efectivo'">Efectivo</mat-option>
-                                <mat-option [disabled]="disablePaymentInput" [value]="'Visa'">Visa</mat-option>
+                            <mat-select [disabled]="disablePaymentTypeInput" [(value)]="paymentMethod2.type">
+                                <mat-option [value]="'Efectivo'">Efectivo</mat-option>
+                                <mat-option [value]="'Visa'">Visa</mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 160px">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-bottom: 10px; width: 100px">
                             <mat-label>Monto</mat-label>
-                            <input type="number" matInput min="0.01" [disabled]="disablePaymentInput" [(ngModel)]="paymentMethod2.amount" name="payment2">
+                            <input type="number" matInput min="0" required [disabled]="disablePaymentInput" [(ngModel)]="paymentMethod2.amount" name="payment2">
                         </mat-form-field>
                     </div>
                 </form>

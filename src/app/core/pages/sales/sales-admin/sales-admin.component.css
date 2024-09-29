@@ -12,12 +12,16 @@
 .products {
     background-color: lightgray;
     border-radius: 15px;
-    width: 45%;
-    margin: 15px;
+    width: 40%;
+    margin: 10px;
 }
 
 .sale {
-    width: 55%;
+    margin-left: 10px;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .sale-detail {

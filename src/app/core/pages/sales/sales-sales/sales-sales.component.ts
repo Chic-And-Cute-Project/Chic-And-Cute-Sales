@@ -26,6 +26,7 @@ export class SalesSalesComponent implements OnInit {
     productName: string;
     step: string;
     disableInventoryInput: boolean;
+    disablePaymentTypeInput: boolean;
     disablePaymentInput: boolean;
     newPaymentMethod: boolean;
     finalPrice: number;
@@ -45,6 +46,7 @@ export class SalesSalesComponent implements OnInit {
         this.productName = "";
         this.step = '1';
         this.disableInventoryInput = false;
+        this.disablePaymentTypeInput = false;
         this.disablePaymentInput = false;
         this.newPaymentMethod = false;
         this.finalPrice = 0;
@@ -162,10 +164,17 @@ export class SalesSalesComponent implements OnInit {
     }
 
     addNewPaymentMethod() {
-        if (this.paymentMethod.type != "Efectivo") {
-            this.paymentMethod2.type = "Efectivo";
+        if (this.paymentMethod.amount < this.finalPrice) {
+            if (this.paymentMethod.type != "Efectivo") {
+                this.paymentMethod2.type = "Efectivo";
+            }
+            let price = this.finalPrice - this.paymentMethod.amount;
+            this.paymentMethod2.amount = Number(price.toFixed(2));
+            this.newPaymentMethod = true;
+            this.disablePaymentTypeInput = true;
+        } else {
+            this.snackBar.open("El monto debe ser menor para agregar pago", "Entendido", {duration: 2000});
         }
-        this.newPaymentMethod = true;
     }
 
     savePaymentMethods() {
@@ -178,6 +187,7 @@ export class SalesSalesComponent implements OnInit {
                     this.paymentMethod.amount = this.finalPrice;
                     this.sale.paymentMethod.push(this.paymentMethod);
 
+                    this.disablePaymentTypeInput = true;
                     this.disablePaymentInput = true;
                     this.payedPrice = totalPrice;
                     let price = this.payedPrice - this.finalPrice;
@@ -191,6 +201,7 @@ export class SalesSalesComponent implements OnInit {
             if (this.newPaymentMethod) {
                 this.sale.paymentMethod.push(this.paymentMethod2);
             }
+            this.disablePaymentTypeInput = true;
             this.disablePaymentInput = true;
             this.payedPrice = totalPrice;
             let price = this.payedPrice - this.finalPrice;

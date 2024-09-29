@@ -3,11 +3,11 @@
         <ng-container *ngIf="this.user.sede != 'Sin sede asignada'; else elseTemplate">
             <h1>Bienvenidos</h1>
             <div class="buttons-container">
-                <button mat-flat-button color="primary" [routerLink]="['/sales-point', role]">Punto de Venta</button>
-                <button mat-flat-button color="primary" [routerLink]="['/stock', role]">Stock</button>
-                <button mat-flat-button color="primary" [routerLink]="['/reports', role]">Reportes</button>
-                <button mat-flat-button color="primary" [routerLink]="['/close-sales-day', role]">Cierre de Caja</button>
-                <button mat-flat-button color="primary" [routerLink]="['/documents', role]">Documentos</button>
+                <button mat-flat-button color="primary" [routerLink]="['/sales-point', role]" style="margin-right: 10px">Punto de Venta</button>
+                <button mat-flat-button color="primary" [routerLink]="['/stock', role]" style="margin-right: 10px">Stock</button>
+                <button mat-flat-button color="primary" [routerLink]="['/reports', role]" style="margin-right: 10px">Reportes</button>
+                <button mat-flat-button color="primary" [routerLink]="['/close-sales-day', role]" style="margin-right: 10px">Cierre de Caja</button>
+                <button mat-flat-button color="primary" [routerLink]="['/documents', role]" style="margin-right: 10px">Documentos</button>
                 <button mat-flat-button color="primary" [routerLink]="['/stock-reception', role]">Recepción de Stock</button>
             </div>
         </ng-container>

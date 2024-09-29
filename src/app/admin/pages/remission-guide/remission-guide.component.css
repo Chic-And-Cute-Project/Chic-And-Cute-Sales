@@ -14,12 +14,12 @@
 .products {
     background-color: lightgray;
     border-radius: 15px;
-    width: 40%;
+    width: 50%;
     margin: 15px;
 }
 
 .remission-guide {
-    width: 60%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

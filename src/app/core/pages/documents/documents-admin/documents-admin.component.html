@@ -2,7 +2,7 @@
     <h1 style="text-align: center">Documentos</h1>
     <div style="display: flex;flex-direction: column">
         <div style="margin-bottom: 15px; text-align: center">
-            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 150px">
                 <mat-label>Sede</mat-label>
                 <mat-select [(value)]="sedeSelected">
                     <mat-option *ngFor="let sede of sedes" [value]="sede">
@@ -10,13 +10,13 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 150px">
                 <mat-label>Fecha Desde</mat-label>
                 <input matInput [matDatepicker]="picker" [(ngModel)]="minDate">
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 150px">
                 <mat-label>Fecha Hasta</mat-label>
                 <input matInput [matDatepicker]="picker3" [(ngModel)]="maxDate">
                 <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>

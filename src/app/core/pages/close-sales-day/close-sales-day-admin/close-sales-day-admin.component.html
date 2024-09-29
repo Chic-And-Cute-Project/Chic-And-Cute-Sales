@@ -3,7 +3,7 @@
     <div style="display: flex;justify-content: center;">
         <div style="width: 50%;">
             <div style="margin-bottom: 15px">
-                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 150px">
                     <mat-label>Sede</mat-label>
                     <mat-select [(value)]="closeSalesDay.sede">
                         <mat-option *ngFor="let sede of sedes" [value]="sede">
@@ -11,7 +11,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 150px">
                     <mat-label>Fecha Cierre</mat-label>
                     <input matInput [matDatepicker]="picker" [(ngModel)]="date">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -34,8 +34,8 @@
             </div>
         </div>
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <button mat-flat-button color="primary" style="margin-bottom: 10px" (click)="saveCloseSalesDay()">Guardar Cierre de Caja</button>
-            <button mat-flat-button color="primary">Guardar Cierre de Caja y Generar Pdf</button>
+            <button mat-flat-button color="primary" style="margin-bottom: 10px" (click)="saveCloseSalesDay()">Guardar Cierre</button>
+            <button mat-flat-button color="primary">Guardar y Generar Pdf</button>
         </div>
     </div>
     <div>
