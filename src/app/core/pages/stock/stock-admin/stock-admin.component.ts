@@ -75,6 +75,18 @@ export class StockAdminComponent implements OnInit {
         });
     }
 
+    refreshInventoryW(): void {
+        this.inventoryService.getBySede("Web").subscribe({
+            next: (response: InventoryApiResponse) => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+            }
+        });
+    }
+
     refreshInventoryOP(): void {
         this.inventoryService.getBySede("Open Plaza").subscribe({
             next: (response: InventoryApiResponse) => {
@@ -122,7 +134,7 @@ export class StockAdminComponent implements OnInit {
         if (this.productName != "") {
             this.snackBar.open("Buscando procuctos");
             if (this.sedeSelected == "Fábrica") {
-                this.inventoryService.searchProducts("Fábrica", this.productName).subscribe({
+                this.inventoryService.searchProductsStock("Fábrica", this.productName).subscribe({
                     next: response => {
                         this.snackBar.dismiss();
                         this.inventories = response.inventories;
@@ -132,7 +144,7 @@ export class StockAdminComponent implements OnInit {
                     }
                 });
             } else if (this.sedeSelected == "Molina Plaza") {
-                this.inventoryService.searchProducts("Molina Plaza", this.productName).subscribe({
+                this.inventoryService.searchProductsStock("Molina Plaza", this.productName).subscribe({
                     next: response => {
                         this.snackBar.dismiss();
                         this.inventories = response.inventories;
@@ -142,7 +154,7 @@ export class StockAdminComponent implements OnInit {
                     }
                 });
             } else {
-                this.inventoryService.searchProducts("Open Plaza", this.productName).subscribe({
+                this.inventoryService.searchProductsStock("Open Plaza", this.productName).subscribe({
                     next: response => {
                         this.snackBar.dismiss();
                         this.inventories = response.inventories;
@@ -164,6 +176,8 @@ export class StockAdminComponent implements OnInit {
             this.refreshInventoryF();
         } else if (this.sedeSelected == "Molina Plaza") {
             this.refreshInventoryMP();
+        } else if (this.sedeSelected == "Web") {
+            this.refreshInventoryW();
         } else {
             this.refreshInventoryOP();
         }

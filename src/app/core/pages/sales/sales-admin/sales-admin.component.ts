@@ -131,7 +131,7 @@ export class SalesAdminComponent implements OnInit {
         if (this.productName != "") {
             this.snackBar.open("Buscando procuctos");
             if (this.sale.sede == "Molina Plaza") {
-                this.inventoryService.searchProducts("Molina Plaza", this.productName).subscribe({
+                this.inventoryService.searchProductsAvailable("Molina Plaza", this.productName).subscribe({
                     next: response => {
                         this.snackBar.dismiss();
                         this.inventories = response.inventories;
@@ -141,7 +141,7 @@ export class SalesAdminComponent implements OnInit {
                     }
                 });
             } else {
-                this.inventoryService.searchProducts("Open Plaza", this.productName).subscribe({
+                this.inventoryService.searchProductsAvailable("Open Plaza", this.productName).subscribe({
                     next: response => {
                         this.snackBar.dismiss();
                         this.inventories = response.inventories;

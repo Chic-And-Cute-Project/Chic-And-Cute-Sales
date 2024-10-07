@@ -92,7 +92,7 @@ export class SalesSalesComponent implements OnInit {
     }
 
     refreshInventories() {
-        this.inventoryService.getByMySede().subscribe({
+        this.inventoryService.getAvailableByMySede().subscribe({
             next: (response: InventoryApiResponse) => {
                 this.snackBar.dismiss();
                 this.inventories = response.inventories;
@@ -112,7 +112,7 @@ export class SalesSalesComponent implements OnInit {
     searchProduct() {
         if (this.productName != "") {
             this.snackBar.open("Buscando procuctos");
-            this.inventoryService.searchMyProducts(this.productName).subscribe({
+            this.inventoryService.searchMyProductsAvailable(this.productName).subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.snackBar.dismiss();
                     this.inventories = response.inventories;

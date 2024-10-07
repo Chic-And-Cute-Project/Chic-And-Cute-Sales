@@ -41,9 +41,11 @@
                     </mat-form-field>
                     <button mat-flat-button (click)="reloadSearch(true)" style="margin-right: 10px; background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
                 </div>
-                <div *ngFor="let inventory of inventories" style="cursor: pointer; margin: 0 20px; display: flex; justify-content: space-between;" (click)="selectProduct(inventory)">
-                    <p>{{ inventory.product.fullName }}</p>
-                    <p>({{ inventory.quantity }})</p>
+                <div class="products-list">
+                    <div *ngFor="let inventory of inventories" style="cursor: pointer; margin: 0 20px; display: flex; justify-content: space-between;" (click)="selectProduct(inventory)">
+                        <p>{{ inventory.product.fullName }}</p>
+                        <p>({{ inventory.quantity }})</p>
+                    </div>
                 </div>
             </ng-container>
             <ng-template #elseTemplate>

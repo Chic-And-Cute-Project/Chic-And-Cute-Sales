@@ -7,6 +7,7 @@
                 <mat-select [(value)]="sedeSelected">
                     <mat-option [value]="'Molina Plaza'" (click)="reloadSearch()">Molina Plaza</mat-option>
                     <mat-option [value]="'Open Plaza'" (click)="reloadSearch()">Open Plaza</mat-option>
+                    <mat-option [value]="'Web'" (click)="reloadSearch()">Web</mat-option>
                     <mat-option [value]="'Fábrica'" (click)="reloadSearch()">Fábrica</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -19,7 +20,7 @@
             </mat-form-field>
             <button mat-flat-button (click)="reloadSearch()" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
         </div>
-        <div style="margin: 15px">
+        <div class="inventories-container">
             <table mat-table [dataSource]="inventories" class="mat-elevation-z8">
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Nombre de Producto </th>

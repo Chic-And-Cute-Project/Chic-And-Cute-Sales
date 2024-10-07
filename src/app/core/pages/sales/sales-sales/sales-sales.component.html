@@ -49,10 +49,12 @@
                         <button mat-flat-button (click)="reloadSearch()" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
                     </div>
                 </div>
-                <div *ngFor="let inventory of inventories" style="cursor: pointer; margin: 0 20px; display: flex; justify-content: space-between;" (click)="selectProduct(inventory)">
-                    <p>{{ inventory.product.fullName }}</p>
-                    <p>({{ inventory.quantity }})</p>
-                    <p>S/. {{inventory.product.price}}</p>
+                <div class="products-list">
+                    <div *ngFor="let inventory of inventories" style="cursor: pointer; margin: 0 20px; display: flex; justify-content: space-between;" (click)="selectProduct(inventory)">
+                        <p>{{ inventory.product.fullName }}</p>
+                        <p>({{ inventory.quantity }})</p>
+                        <p>S/. {{inventory.product.price}}</p>
+                    </div>
                 </div>
             </ng-container>
             <ng-template #elseTemplate>

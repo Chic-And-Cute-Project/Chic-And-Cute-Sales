@@ -11,7 +11,7 @@
             </mat-form-field>
             <button mat-flat-button (click)="reloadSearch()" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
         </div>
-        <div style="margin: 15px">
+        <div class="inventories-container">
             <table mat-table [dataSource]="inventories" class="mat-elevation-z8">
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Nombre de Producto </th>

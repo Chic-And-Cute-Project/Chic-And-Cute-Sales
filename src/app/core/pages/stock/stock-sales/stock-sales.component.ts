@@ -62,7 +62,7 @@ export class StockSalesComponent implements OnInit {
     searchProduct() {
         if (this.productName != "") {
             this.snackBar.open("Buscando procuctos");
-            this.inventoryService.searchMyProducts(this.productName).subscribe({
+            this.inventoryService.searchMyProductsStock(this.productName).subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.snackBar.dismiss();
                     this.inventories = response.inventories;

@@ -22,14 +22,12 @@ import {Router} from "@angular/router";
   styleUrl: './products-discounts.component.css'
 })
 export class ProductsDiscountsComponent implements OnInit{
-    products: Array<Product>;
     discounts: Array<Discount>;
 
     constructor(private productService: ProductService, private discountService: DiscountService,
                 private inventoryService: InventoryService, private userService: UserService,
                 private communicationService: CommunicationService, private router: Router,
                 private snackBar: MatSnackBar, private dialog: MatDialog) {
-        this.products = [];
         this.discounts = [];
     }
 
@@ -51,19 +49,7 @@ export class ProductsDiscountsComponent implements OnInit{
             this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
             this.router.navigate(['/login']).then();
         }
-        this.refreshProducts();
         this.refreshDiscounts();
-    }
-
-    refreshProducts(): void {
-        this.productService.getAll().subscribe({
-            next: (response: ProductApiResponse) => {
-                this.products = response.products;
-            },
-            error: (e) => {
-                this.snackBar.open(e.message, "Entendido", {duration: 2000});
-            }
-        });
     }
 
     refreshDiscounts(): void {
@@ -106,8 +92,12 @@ export class ProductsDiscountsComponent implements OnInit{
                         );
                         await lastValueFrom(createInventoryFResponse);
 
+                        const createInventoryWResponse = this.inventoryService.create(
+                            {sede: "Web", product: response.product._id}
+                        );
+                        await lastValueFrom(createInventoryWResponse);
+
                         this.snackBar.dismiss();
-                        this.products.push(response.product);
                     },
                     error: (e) => {
                         this.snackBar.open(e.message, "Entendido", {duration: 2000});

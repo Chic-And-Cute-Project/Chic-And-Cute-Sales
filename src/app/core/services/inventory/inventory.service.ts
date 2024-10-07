@@ -56,16 +56,42 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    searchProducts(sede: string, productName: string): Observable<InventoryApiResponse> {
-        return this.http.get<InventoryApiResponse>(`${this.basePath}/search?productName=${productName}&sede=${sede}`, {
+    getAvailableByMySede(): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/myAvailableSede`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    searchProductsStock(sede: string, productName: string): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/searchStock?productName=${productName}&sede=${sede}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
         }).pipe(catchError(this.handleError));
     }
 
-    searchMyProducts(productName: string): Observable<InventoryApiResponse> {
-        return this.http.get<InventoryApiResponse>(`${this.basePath}/mySearch?productName=${productName}`, {
+    searchProductsAvailable(sede: string, productName: string): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/searchAvailable?productName=${productName}&sede=${sede}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    searchMyProductsStock(productName: string): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/mySearchStock?productName=${productName}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    searchMyProductsAvailable(productName: string): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/mySearchAvailable?productName=${productName}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`

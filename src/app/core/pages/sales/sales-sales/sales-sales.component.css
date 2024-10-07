@@ -16,6 +16,11 @@
     margin: 10px;
 }
 
+.products-list {
+    overflow-y: auto;
+    height: 400px;
+}
+
 .sale {
     margin-left: 10px;
     width: 60%;

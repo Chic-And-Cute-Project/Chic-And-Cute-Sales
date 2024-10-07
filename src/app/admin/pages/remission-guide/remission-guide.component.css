@@ -18,6 +18,11 @@
     margin: 15px;
 }
 
+.products-list {
+    overflow-y: auto;
+    height: 400px;
+}
+
 .remission-guide {
     width: 50%;
     display: flex;
