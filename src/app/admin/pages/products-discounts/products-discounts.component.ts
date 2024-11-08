@@ -125,7 +125,7 @@ export class ProductsDiscountsComponent implements OnInit{
                             {sede: "Web", product: response.product._id}
                         );
                         await lastValueFrom(createInventoryWResponse);
-
+                        this.productsSize = this.productsSize + 1;
                         this.snackBar.dismiss();
                     },
                     error: (e) => {
