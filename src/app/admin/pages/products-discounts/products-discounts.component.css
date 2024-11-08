@@ -16,9 +16,9 @@
     align-items: center;
 }
 
-.products-container {
-    margin-left: 15px;
-    overflow-y: auto;
-    border: solid 3px;
-    height: 250px;
+.product-discount {
+    width: 50%;
+    border: solid 1px;
+    border-radius: 5px;
+    margin: 0 5px;
 }

@@ -8,7 +8,7 @@ import {catchError, Observable, throwError} from "rxjs";
 export class BaseService<T> {
     //https://www.amoamel.com/chic/api/
     //http://localhost:3000/api/
-    basePath: string = 'https://www.amoamel.com/chic/api/';
+    basePath: string = 'http://localhost:3000/api/';
 
     constructor(public http: HttpClient) {}
 
@@ -27,6 +27,14 @@ export class BaseService<T> {
 
     getAll(): Observable<T> {
         return this.http.get<T>(`${this.basePath}/list`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    countDocuments(): Observable<T> {
+        return this.http.get<T>(`${this.basePath}/count`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })

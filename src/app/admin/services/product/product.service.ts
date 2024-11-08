@@ -22,4 +22,12 @@ export class ProductService extends BaseService<ProductApiResponse>{
             })
         }).pipe(catchError(this.handleError));
     }
+
+    getByPage(page: number): Observable<ProductApiResponse> {
+        return this.http.get<ProductApiResponse>(`${this.basePath}/listByPage?page=${page}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
 }

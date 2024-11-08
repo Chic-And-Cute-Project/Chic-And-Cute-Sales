@@ -47,6 +47,7 @@ import { CloseSalesDaySalesComponent } from './core/pages/close-sales-day/close-
 import { DocumentsPrincipalComponent } from './core/pages/documents/documents-principal/documents-principal.component';
 import { DocumentsAdminComponent } from './core/pages/documents/documents-admin/documents-admin.component';
 import { DocumentsSalesComponent } from './core/pages/documents/documents-sales/documents-sales.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
     declarations: [
@@ -99,6 +100,7 @@ import { DocumentsSalesComponent } from './core/pages/documents/documents-sales/
         MatIconModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatPaginatorModule
     ],
     providers: [
         provideAnimationsAsync(),

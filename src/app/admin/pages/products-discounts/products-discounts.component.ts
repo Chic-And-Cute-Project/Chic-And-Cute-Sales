@@ -15,6 +15,7 @@ import {UserApiResponse} from "../../../security/models/apiResponses/userApiResp
 import {UserService} from "../../../core/services/user/user.service";
 import {CommunicationService} from "../../../shared/services/communicacion/communication.service";
 import {Router} from "@angular/router";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-products-discounts',
@@ -22,13 +23,17 @@ import {Router} from "@angular/router";
   styleUrl: './products-discounts.component.css'
 })
 export class ProductsDiscountsComponent implements OnInit{
+    productsSize: number;
     discounts: Array<Discount>;
+    products: Array<Product>;
 
     constructor(private productService: ProductService, private discountService: DiscountService,
                 private inventoryService: InventoryService, private userService: UserService,
                 private communicationService: CommunicationService, private router: Router,
                 private snackBar: MatSnackBar, private dialog: MatDialog) {
+        this.productsSize = 0;
         this.discounts = [];
+        this.products =  [];
     }
 
     ngOnInit(): void {
@@ -50,6 +55,26 @@ export class ProductsDiscountsComponent implements OnInit{
             this.router.navigate(['/login']).then();
         }
         this.refreshDiscounts();
+        this.productService.countDocuments().subscribe({
+            next: (response: ProductApiResponse) => {
+                this.productsSize = response.count;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+            }
+        });
+        this.refreshProducts(0);
+    }
+
+    refreshProducts(page: number): void {
+        this.productService.getByPage(page).subscribe({
+            next: (response: ProductApiResponse) => {
+                this.products = response.products;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+            }
+        });
     }
 
     refreshDiscounts(): void {
@@ -61,6 +86,10 @@ export class ProductsDiscountsComponent implements OnInit{
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
             }
         });
+    }
+
+    handlePageEvent(e: PageEvent) {
+        this.refreshProducts(e.pageIndex);
     }
 
     createProduct() {
