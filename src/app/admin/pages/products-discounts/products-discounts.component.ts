@@ -55,6 +55,11 @@ export class ProductsDiscountsComponent implements OnInit{
             this.router.navigate(['/login']).then();
         }
         this.refreshDiscounts();
+        this.refreshProductsCount();
+        this.refreshProducts(0);
+    }
+
+    refreshProductsCount(): void {
         this.productService.countDocuments().subscribe({
             next: (response: ProductApiResponse) => {
                 this.productsSize = response.count;
@@ -63,7 +68,6 @@ export class ProductsDiscountsComponent implements OnInit{
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
             }
         });
-        this.refreshProducts(0);
     }
 
     refreshProducts(page: number): void {
@@ -125,7 +129,8 @@ export class ProductsDiscountsComponent implements OnInit{
                             {sede: "Web", product: response.product._id}
                         );
                         await lastValueFrom(createInventoryWResponse);
-                        this.productsSize = this.productsSize + 1;
+
+                        this.refreshProductsCount();
                         this.snackBar.dismiss();
                     },
                     error: (e) => {
