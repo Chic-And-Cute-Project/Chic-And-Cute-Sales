@@ -6,8 +6,9 @@
                 <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-left: 15px">
                     <mat-label>Sede Origen</mat-label>
                     <mat-select [disabled]="disableInventoryInput" [(value)]="sale.sede">
-                        <mat-option [value]="'Molina Plaza'" (click)="reloadSearch(false)">Molina Plaza</mat-option>
-                        <mat-option [value]="'Open Plaza'" (click)="reloadSearch(false)">Open Plaza</mat-option>
+                        <mat-option [value]="'Molina Plaza'" (click)="reloadSearch(true)">Molina Plaza</mat-option>
+                        <mat-option [value]="'Open Plaza'" (click)="reloadSearch(true)">Open Plaza</mat-option>
+                        <mat-option [value]="'Web'" (click)="reloadSearch(true)">Web</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -45,7 +46,7 @@
         </div>
         <div class="products">
             <ng-container *ngIf="step == '1'; else elseTemplate">
-                <div style="display: flex; flex-direction: column; margin: 15px">
+                <div style="display: flex; flex-direction: column; margin-bottom: 15px">
                     <h2 style="margin-top: 0">Productos</h2>
                     <div style="display: flex; align-items: center;">
                         <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px; width: 150px">
@@ -55,15 +56,34 @@
                                 <mat-icon>search</mat-icon>
                             </button>
                         </mat-form-field>
-                        <button mat-flat-button (click)="reloadSearch(true)" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
+                        <button mat-flat-button (click)="reloadSearch(false)" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
                     </div>
                 </div>
                 <div class="products-list">
-                    <div *ngFor="let inventory of inventories" style="cursor: pointer; margin: 0 20px; display: flex; justify-content: space-between;" (click)="selectProduct(inventory)">
-                        <p>{{ inventory.product.fullName }}</p>
-                        <p>({{ inventory.quantity }})</p>
-                        <p>S/. {{inventory.product.price}}</p>
-                    </div>
+                    <table mat-table [dataSource]="inventories" style="background-color: lightgray">
+                        <ng-container matColumnDef="fullName">
+                            <td mat-cell  *matCellDef="let inventory">{{inventory.product.fullName}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="quantity">
+                            <td mat-cell *matCellDef="let inventory">{{inventory.quantity}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="price">
+                            <td mat-cell *matCellDef="let inventory">S/. {{inventory.product.price}}</td>
+                        </ng-container>
+
+                        <tr mat-row *matRowDef="let inventory; columns: ['fullName', 'quantity', 'price'];" style="cursor: pointer; height: 30px" (click)="selectProduct(inventory)"></tr>
+                    </table>
+                    <mat-paginator
+                        (page)="handlePageEvent($event)"
+                        [length]="productsSize"
+                        [pageSize]="10"
+                        [pageIndex]="pageIndex"
+                        hidePageSize
+                        showFirstLastButtons
+                        style="background-color: lightgray">
+                    </mat-paginator>
                 </div>
             </ng-container>
             <ng-template #elseTemplate>
