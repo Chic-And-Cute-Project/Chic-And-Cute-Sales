@@ -99,7 +99,7 @@ export class SalesAdminComponent implements OnInit {
 
     refreshInventoryMP(page: number, firstRequest: boolean): void {
         if (firstRequest) {
-            this.inventoryService.countDocumentsBySede("Molina Plaza").subscribe({
+            this.inventoryService.countDocumentsAvailableBySede("Molina Plaza").subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.productsSize = response.count;
                 },
@@ -121,7 +121,7 @@ export class SalesAdminComponent implements OnInit {
 
     refreshInventoryOP(page: number, firstRequest: boolean): void {
         if (firstRequest) {
-            this.inventoryService.countDocumentsBySede("Open Plaza").subscribe({
+            this.inventoryService.countDocumentsAvailableBySede("Open Plaza").subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.productsSize = response.count;
                 },
@@ -143,7 +143,7 @@ export class SalesAdminComponent implements OnInit {
 
     refreshInventoryW(page: number, firstRequest: boolean): void {
         if (firstRequest) {
-            this.inventoryService.countDocumentsBySede("Web").subscribe({
+            this.inventoryService.countDocumentsAvailableBySede("Web").subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.productsSize = response.count;
                 },
@@ -165,7 +165,7 @@ export class SalesAdminComponent implements OnInit {
 
     searchInventoryMP(page: number, firstRequest: boolean): void {
         if (firstRequest) {
-            this.inventoryService.countDocumentsBySedeAndProduct("Molina Plaza", this.productName).subscribe({
+            this.inventoryService.countDocumentsAvailableBySedeAndProduct("Molina Plaza", this.productName).subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.productsSize = response.count;
                 },
@@ -187,7 +187,7 @@ export class SalesAdminComponent implements OnInit {
 
     searchInventoryOP(page: number, firstRequest: boolean): void {
         if (firstRequest) {
-            this.inventoryService.countDocumentsBySedeAndProduct("Open Plaza", this.productName).subscribe({
+            this.inventoryService.countDocumentsAvailableBySedeAndProduct("Open Plaza", this.productName).subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.productsSize = response.count;
                 },
@@ -209,7 +209,7 @@ export class SalesAdminComponent implements OnInit {
 
     searchInventoryW(page: number, firstRequest: boolean): void {
         if (firstRequest) {
-            this.inventoryService.countDocumentsBySedeAndProduct("Web", this.productName).subscribe({
+            this.inventoryService.countDocumentsAvailableBySedeAndProduct("Web", this.productName).subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.productsSize = response.count;
                 },

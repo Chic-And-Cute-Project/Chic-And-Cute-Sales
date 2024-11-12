@@ -56,7 +56,7 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    countDocumentsBySede(sede: string): Observable<InventoryApiResponse> {
+    countDocumentsAvailableBySede(sede: string): Observable<InventoryApiResponse> {
         return this.http.get<InventoryApiResponse>(`${this.basePath}/countBySedeAndAvailable?sede=${sede}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    countDocumentsByMySede(): Observable<InventoryApiResponse> {
+    countDocumentsAvailableByMySede(): Observable<InventoryApiResponse> {
         return this.http.get<InventoryApiResponse>(`${this.basePath}/countByMySedeAndAvailable`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    countDocumentsBySedeAndProduct(sede: string, productName: string): Observable<InventoryApiResponse> {
+    countDocumentsAvailableBySedeAndProduct(sede: string, productName: string): Observable<InventoryApiResponse> {
         return this.http.get<InventoryApiResponse>(`${this.basePath}/countBySedeAndProductAndAvailable?sede=${sede}&productName=${productName}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    countDocumentsByMySedeAndProduct(productName: string): Observable<InventoryApiResponse> {
+    countDocumentsAvailableByMySedeAndProduct(productName: string): Observable<InventoryApiResponse> {
         return this.http.get<InventoryApiResponse>(`${this.basePath}/countByMySedeAndProductAndAvailable?productName=${productName}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',

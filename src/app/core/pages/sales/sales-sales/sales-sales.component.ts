@@ -100,7 +100,7 @@ export class SalesSalesComponent implements OnInit {
 
     refreshInventories(page: number, firstRequest: boolean) {
         if (firstRequest) {
-            this.inventoryService.countDocumentsByMySede().subscribe({
+            this.inventoryService.countDocumentsAvailableByMySede().subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.productsSize = response.count;
                 },
@@ -122,7 +122,7 @@ export class SalesSalesComponent implements OnInit {
 
     searchInventory(page: number, firstRequest: boolean): void {
         if (firstRequest) {
-            this.inventoryService.countDocumentsByMySedeAndProduct(this.productName).subscribe({
+            this.inventoryService.countDocumentsAvailableByMySedeAndProduct(this.productName).subscribe({
                 next: (response: InventoryApiResponse) => {
                     this.productsSize = response.count;
                 },
