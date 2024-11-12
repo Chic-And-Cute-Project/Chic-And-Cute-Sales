@@ -15,6 +15,7 @@ import {UserService} from "../../../services/user/user.service";
 import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
 import {lastValueFrom} from "rxjs";
 import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-sales-sales',
@@ -29,6 +30,9 @@ export class SalesSalesComponent implements OnInit {
     disablePaymentTypeInput: boolean;
     disablePaymentInput: boolean;
     newPaymentMethod: boolean;
+    searchingMode: boolean;
+    productsSize: number;
+    pageIndex: number;
     finalPrice: number;
     payedPrice: number;
     returnPrice: number;
@@ -49,6 +53,9 @@ export class SalesSalesComponent implements OnInit {
         this.disablePaymentTypeInput = false;
         this.disablePaymentInput = false;
         this.newPaymentMethod = false;
+        this.searchingMode = false;
+        this.productsSize = 0;
+        this.pageIndex = 0;
         this.finalPrice = 0;
         this.payedPrice = 0;
         this.returnPrice = 0;
@@ -80,7 +87,7 @@ export class SalesSalesComponent implements OnInit {
             this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
             this.router.navigate(['/login']).then();
         }
-        this.refreshInventories();
+        this.refreshInventories(0, true);
         this.discountService.getAll().subscribe({
             next: (response: DiscountApiResponse) => {
                 this.discounts = response.discounts;
@@ -91,8 +98,18 @@ export class SalesSalesComponent implements OnInit {
         });
     }
 
-    refreshInventories() {
-        this.inventoryService.getAvailableByMySede().subscribe({
+    refreshInventories(page: number, firstRequest: boolean) {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsByMySede().subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.getAvailableByMySede(page).subscribe({
             next: (response: InventoryApiResponse) => {
                 this.snackBar.dismiss();
                 this.inventories = response.inventories;
@@ -103,24 +120,53 @@ export class SalesSalesComponent implements OnInit {
         });
     }
 
-    reloadSearch() {
-        this.productName = "";
-        this.snackBar.open("Actualizando");
-        this.refreshInventories();
-    }
-
-    searchProduct() {
-        if (this.productName != "") {
-            this.snackBar.open("Buscando procuctos");
-            this.inventoryService.searchMyProductsAvailable(this.productName).subscribe({
+    searchInventory(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsByMySedeAndProduct(this.productName).subscribe({
                 next: (response: InventoryApiResponse) => {
-                    this.snackBar.dismiss();
-                    this.inventories = response.inventories;
+                    this.productsSize = response.count;
                 },
                 error: (e) => {
                     this.snackBar.open(e.message, "Entendido", {duration: 2000});
                 }
             });
+        }
+        this.inventoryService.searchMyProductsAvailable(this.productName, page).subscribe({
+            next: response => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", { duration: 2000});
+            }
+        });
+    }
+
+    handlePageEvent(e: PageEvent) {
+        this.pageIndex = e.pageIndex;
+        if (this.searchingMode) {
+            this.searchInventory(e.pageIndex, false);
+        } else {
+            this.refreshInventories(e.pageIndex, false);
+        }
+    }
+
+    reloadSearch() {
+        if (this.searchingMode) {
+            this.pageIndex = 0;
+            this.searchingMode = false;
+            this.productName = "";
+            this.snackBar.open("Actualizando");
+            this.refreshInventories(0, true);
+        }
+    }
+
+    searchProduct() {
+        if (this.productName != "") {
+            this.pageIndex = 0;
+            this.searchingMode = true;
+            this.snackBar.open("Buscando procuctos");
+            this.searchInventory(0, true);
         } else {
             this.snackBar.open("Escribe un nombre", "Entendido", { duration: 2000});
         }

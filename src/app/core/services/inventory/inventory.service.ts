@@ -64,8 +64,17 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    getAvailableByMySede(): Observable<InventoryApiResponse> {
-        return this.http.get<InventoryApiResponse>(`${this.basePath}/myAvailableSede`, {
+    getAvailableByMySede(page: number): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/myAvailableSede?page=${page}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    countDocumentsByMySede(): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/countByMySedeAndAvailable`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
@@ -106,8 +115,17 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    searchMyProductsAvailable(productName: string): Observable<InventoryApiResponse> {
-        return this.http.get<InventoryApiResponse>(`${this.basePath}/mySearchAvailable?productName=${productName}`, {
+    searchMyProductsAvailable(productName: string, page: number): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/mySearchAvailable?productName=${productName}&page=${page}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    countDocumentsByMySedeAndProduct(productName: string): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/countByMySedeAndProductAndAvailable?productName=${productName}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
