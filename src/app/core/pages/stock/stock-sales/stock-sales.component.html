@@ -29,8 +29,16 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="['name', 'code', 'quantity']"></tr>
-                <tr mat-row *matRowDef="let inventory; columns: ['name', 'code', 'quantity'];"></tr>
+                <tr style="height: 30px" mat-row *matRowDef="let inventory; columns: ['name', 'code', 'quantity'];"></tr>
             </table>
+            <mat-paginator
+                (page)="handlePageEvent($event)"
+                [length]="productsSize"
+                [pageSize]="10"
+                [pageIndex]="pageIndex"
+                hidePageSize
+                showFirstLastButtons>
+            </mat-paginator>
         </div>
     </div>
     <div>
