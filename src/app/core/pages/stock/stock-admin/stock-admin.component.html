@@ -5,10 +5,10 @@
             <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px">
                 <mat-label>Sede</mat-label>
                 <mat-select [(value)]="sedeSelected">
-                    <mat-option [value]="'Molina Plaza'" (click)="reloadSearch()">Molina Plaza</mat-option>
-                    <mat-option [value]="'Open Plaza'" (click)="reloadSearch()">Open Plaza</mat-option>
-                    <mat-option [value]="'Web'" (click)="reloadSearch()">Web</mat-option>
-                    <mat-option [value]="'Fábrica'" (click)="reloadSearch()">Fábrica</mat-option>
+                    <mat-option [value]="'Molina Plaza'" (click)="reloadSearch(true)">Molina Plaza</mat-option>
+                    <mat-option [value]="'Open Plaza'" (click)="reloadSearch(true)">Open Plaza</mat-option>
+                    <mat-option [value]="'Web'" (click)="reloadSearch(true)">Web</mat-option>
+                    <mat-option [value]="'Fábrica'" (click)="reloadSearch(true)">Fábrica</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin-right: 10px">
@@ -18,7 +18,7 @@
                     <mat-icon>search</mat-icon>
                 </button>
             </mat-form-field>
-            <button mat-flat-button (click)="reloadSearch()" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
+            <button mat-flat-button (click)="reloadSearch(false)" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
         </div>
         <div class="inventories-container">
             <table mat-table [dataSource]="inventories" class="mat-elevation-z8">
@@ -38,8 +38,16 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="['name', 'code', 'quantity']"></tr>
-                <tr style="cursor: pointer" mat-row *matRowDef="let inventory; columns: ['name', 'code', 'quantity'];" (click)="editInventory(inventory)"></tr>
+                <tr style="cursor: pointer; height: 30px" mat-row *matRowDef="let inventory; columns: ['name', 'code', 'quantity'];" (click)="editInventory(inventory)"></tr>
             </table>
+            <mat-paginator
+                (page)="handlePageEvent($event)"
+                [length]="productsSize"
+                [pageSize]="10"
+                [pageIndex]="pageIndex"
+                hidePageSize
+                showFirstLastButtons>
+            </mat-paginator>
         </div>
     </div>
     <div>

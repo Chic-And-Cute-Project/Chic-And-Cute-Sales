@@ -23,8 +23,16 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    getBySede(sede: string): Observable<InventoryApiResponse> {
-        return this.http.get<InventoryApiResponse>(`${this.basePath}/sede?sede=${sede}`, {
+    getBySede(sede: string, page: number): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/sede?sede=${sede}&page=${page}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    countDocumentsBySede(sede: string): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/countBySede?sede=${sede}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
@@ -82,8 +90,16 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
         }).pipe(catchError(this.handleError));
     }
 
-    searchProductsStock(sede: string, productName: string): Observable<InventoryApiResponse> {
-        return this.http.get<InventoryApiResponse>(`${this.basePath}/searchStock?productName=${productName}&sede=${sede}`, {
+    searchProductsStock(sede: string, productName: string, page: number): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/searchStock?productName=${productName}&sede=${sede}&page=${page}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    countDocumentsBySedeAndProduct(sede: string, productName: string): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/countBySedeAndProduct?sede=${sede}&productName=${productName}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
