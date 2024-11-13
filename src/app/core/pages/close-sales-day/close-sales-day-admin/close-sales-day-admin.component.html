@@ -19,12 +19,14 @@
                 </mat-form-field>
                 <button mat-flat-button (click)="searchSales()" style="background-color: #eae3db; color: #d1ae6f">Buscar</button>
             </div>
-            <div *ngFor="let sale of closeSalesDay.sales" class="sale">
-                <div>
-                    <p *ngFor="let saleDetail of sale.detail">{{saleDetail.product.fullName}}<span *ngIf="saleDetail.discount != 0" style="font-style: italic;"> Descuento: {{saleDetail.discount}}</span></p>
-                </div>
-                <div>
-                    <p *ngFor="let paymentMethod of sale.paymentMethod">{{paymentMethod.type + " S/." + paymentMethod.amount}}</p>
+            <div style="height: 425px; overflow-y: auto;">
+                <div *ngFor="let sale of closeSalesDay.sales" class="sale">
+                    <div>
+                        <p *ngFor="let saleDetail of sale.detail">{{saleDetail.quantity}} {{saleDetail.product.fullName}}<span *ngIf="saleDetail.discount != 0" style="font-style: italic;"> Descuento: {{saleDetail.discount}}</span></p>
+                    </div>
+                    <div>
+                        <p *ngFor="let paymentMethod of sale.paymentMethod">{{paymentMethod.type + " S/." + paymentMethod.amount}}</p>
+                    </div>
                 </div>
             </div>
             <div>
@@ -33,7 +35,7 @@
                 <p>Total S/.{{totalAmount}}</p>
             </div>
         </div>
-        <div style="display: flex; flex-direction: column; align-items: center;">
+        <div class="buttons-container">
             <button mat-flat-button style="margin-bottom: 10px; background-color: #eae3db; color: #d1ae6f" (click)="saveCloseSalesDay()">Guardar Cierre</button>
             <button mat-flat-button style="background-color: #eae3db; color: #d1ae6f">Guardar y Generar Pdf</button>
         </div>
