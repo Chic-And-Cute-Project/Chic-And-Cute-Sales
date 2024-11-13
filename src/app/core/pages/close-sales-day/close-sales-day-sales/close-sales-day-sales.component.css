@@ -13,3 +13,11 @@
     padding: 5px;
     border-radius: 5px;
 }
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
