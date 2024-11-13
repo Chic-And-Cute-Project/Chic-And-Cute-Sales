@@ -64,7 +64,7 @@ export class ReportAdminComponent implements OnInit{
             this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
             this.router.navigate(['/login']).then();
         }
-        this.userService.getAllSales().subscribe({
+        this.userService.getAll().subscribe({
             next: (response: UserApiResponse) => {
                 this.users = response.users.filter( user => user.sede != "Sin sede asignada");
             },
