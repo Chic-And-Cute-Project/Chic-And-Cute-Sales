@@ -7,6 +7,5 @@
 
 .inventories-container {
     margin: 15px;
-    overflow-y: auto;
     border: solid 3px;
 }
