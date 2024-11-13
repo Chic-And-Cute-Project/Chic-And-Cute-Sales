@@ -33,7 +33,7 @@
             <button mat-flat-button (click)="searchSales()" style="background-color: #eae3db; color: #d1ae6f">Buscar</button>
         </div>
         <div style="display: flex">
-            <div style="margin: 15px; width: 60%">
+            <div class="report-table">
                 <table mat-table [dataSource]="saleDetails">
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Nombre del Producto </th>
@@ -51,7 +51,7 @@
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="['name', 'quantity', 'finalPrice']"></tr>
-                    <tr mat-row *matRowDef="let sale; columns: ['name', 'quantity', 'finalPrice'];"></tr>
+                    <tr mat-row *matRowDef="let sale; columns: ['name', 'quantity', 'finalPrice'];" style="height: 30px"></tr>
                 </table>
             </div>
             <div class="payments-container">
