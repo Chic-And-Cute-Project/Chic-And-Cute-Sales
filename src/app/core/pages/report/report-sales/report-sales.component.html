@@ -18,7 +18,7 @@
         </div>
         <div style="display: flex">
             <div style="margin: 15px; width: 60%">
-                <table mat-table [dataSource]="saleDetails" class="mat-elevation-z8">
+                <table mat-table [dataSource]="saleDetails">
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Nombre del Producto </th>
                         <td mat-cell *matCellDef="let sale">{{sale.product.fullName}}</td>
