@@ -10,6 +10,7 @@ import {RemissionGuideService} from "../../services/remission-guide/remission-gu
 import {UserApiResponse} from "../../../security/models/apiResponses/userApiResponse";
 import {UserService} from "../../../core/services/user/user.service";
 import {CommunicationService} from "../../../shared/services/communicacion/communication.service";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
     selector: 'app-remission-guide',
@@ -20,6 +21,9 @@ export class RemissionGuideComponent implements OnInit{
     productName: string;
     step: string;
     disableInventoryInput: boolean;
+    searchingMode: boolean;
+    productsSize: number;
+    pageIndex: number;
     remissionGuide: RemissionGuide;
     inventories: Array<Inventory>;
     sedesDestiny: Array<string>;
@@ -30,11 +34,14 @@ export class RemissionGuideComponent implements OnInit{
         this.productName = "";
         this.step = "1";
         this.disableInventoryInput = false;
+        this.searchingMode = false;
+        this.productsSize = 0;
+        this.pageIndex = 0;
         this.remissionGuide = {} as RemissionGuide;
         this.remissionGuide.sedeFrom = "Fábrica";
         this.remissionGuide.products = [];
         this.inventories = [];
-        this.sedesDestiny = ["Molina Plaza", "Open Plaza", "Fábrica"];
+        this.sedesDestiny = ["Molina Plaza", "Open Plaza", "Fábrica", "Web"];
     }
 
     ngOnInit(): void {
@@ -55,11 +62,21 @@ export class RemissionGuideComponent implements OnInit{
             this.snackBar.open("Vuelva a iniciar sesión", "Entendido", {duration: 2000});
             this.router.navigate(['/login']).then();
         }
-        this.refreshInventoryF();
+        this.refreshInventoryF(0, true);
     }
 
-    refreshInventoryF(): void {
-        this.inventoryService.getAvailableBySede("Fábrica").subscribe({
+    refreshInventoryF(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsAvailableBySede("Fábrica").subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.getAvailableBySede("Fábrica", page).subscribe({
             next: (response: InventoryApiResponse) => {
                 this.snackBar.dismiss();
                 this.inventories = response.inventories;
@@ -70,8 +87,18 @@ export class RemissionGuideComponent implements OnInit{
         });
     }
 
-    refreshInventoryMP(): void {
-        this.inventoryService.getAvailableBySede("Molina Plaza").subscribe({
+    refreshInventoryMP(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsAvailableBySede("Molina Plaza").subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.getAvailableBySede("Molina Plaza", page).subscribe({
             next: (response: InventoryApiResponse) => {
                 this.snackBar.dismiss();
                 this.inventories = response.inventories;
@@ -82,8 +109,18 @@ export class RemissionGuideComponent implements OnInit{
         });
     }
 
-    refreshInventoryOP(): void {
-        this.inventoryService.getAvailableBySede("Open Plaza").subscribe({
+    refreshInventoryOP(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsAvailableBySede("Open Plaza").subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.getAvailableBySede("Open Plaza", page).subscribe({
             next: (response: InventoryApiResponse) => {
                 this.snackBar.dismiss();
                 this.inventories = response.inventories;
@@ -92,6 +129,141 @@ export class RemissionGuideComponent implements OnInit{
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
             }
         });
+    }
+
+    refreshInventoryW(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsAvailableBySede("Web").subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.getAvailableBySede("Web", page).subscribe({
+            next: (response: InventoryApiResponse) => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+            }
+        });
+    }
+
+    searchInventoryF(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsAvailableBySedeAndProduct("Fábrica", this.productName).subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.searchProductsAvailable("Fábrica", this.productName, page).subscribe({
+            next: response => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", { duration: 2000});
+            }
+        });
+    }
+
+    searchInventoryMP(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsAvailableBySedeAndProduct("Molina Plaza", this.productName).subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.searchProductsAvailable("Molina Plaza", this.productName, page).subscribe({
+            next: response => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", { duration: 2000});
+            }
+        });
+    }
+
+    searchInventoryOP(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsAvailableBySedeAndProduct("Open Plaza", this.productName).subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.searchProductsAvailable("Open Plaza", this.productName, page).subscribe({
+            next: response => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", { duration: 2000});
+            }
+        });
+    }
+
+    searchInventoryW(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsAvailableBySedeAndProduct("Web", this.productName).subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.searchProductsAvailable("Web", this.productName, page).subscribe({
+            next: response => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", { duration: 2000});
+            }
+        });
+    }
+
+    handlePageEvent(e: PageEvent) {
+        this.pageIndex = e.pageIndex;
+        if (this.searchingMode) {
+            if (this.remissionGuide.sedeFrom == "Fábrica") {
+                this.searchInventoryF(e.pageIndex, false);
+            } else if (this.remissionGuide.sedeFrom == "Molina Plaza") {
+                this.searchInventoryMP(e.pageIndex, false);
+            } else if (this.remissionGuide.sedeFrom == "Open Plaza") {
+                this.searchInventoryOP(e.pageIndex, false);
+            } else {
+                this.searchInventoryW(e.pageIndex, false);
+            }
+        } else {
+            if (this.remissionGuide.sedeFrom == "Fábrica") {
+                this.refreshInventoryF(e.pageIndex, false);
+            } else if (this.remissionGuide.sedeFrom == "Molina Plaza") {
+                this.refreshInventoryMP(e.pageIndex, false);
+            } else if (this.remissionGuide.sedeFrom == "Open Plaza") {
+                this.refreshInventoryOP(e.pageIndex, false);
+            } else {
+                this.refreshInventoryW(e.pageIndex, false);
+            }
+        }
     }
 
     selectProduct(inventoryToAdd: Inventory) {
@@ -123,55 +295,54 @@ export class RemissionGuideComponent implements OnInit{
 
     searchProduct() {
         if (this.productName != "") {
+            this.pageIndex = 0;
+            this.searchingMode = true;
             this.snackBar.open("Buscando procuctos");
             if (this.remissionGuide.sedeFrom == "Fábrica") {
-                this.inventoryService.searchProductsAvailable("Fábrica", this.productName).subscribe({
-                    next: response => {
-                        this.snackBar.dismiss();
-                        this.inventories = response.inventories;
-                    },
-                    error: (e) => {
-                        this.snackBar.open(e.message, "Entendido", { duration: 2000});
-                    }
-                });
+                this.searchInventoryF(0, true);
             } else if (this.remissionGuide.sedeFrom == "Molina Plaza") {
-                this.inventoryService.searchProductsAvailable("Molina Plaza", this.productName).subscribe({
-                    next: response => {
-                        this.snackBar.dismiss();
-                        this.inventories = response.inventories;
-                    },
-                    error: (e) => {
-                        this.snackBar.open(e.message, "Entendido", { duration: 2000});
-                    }
-                });
+                this.searchInventoryMP(0, true);
+            } else if (this.remissionGuide.sedeFrom == "Open Plaza") {
+                this.searchInventoryOP(0, true);
             } else {
-                this.inventoryService.searchProductsAvailable("Open Plaza", this.productName).subscribe({
-                    next: response => {
-                        this.snackBar.dismiss();
-                        this.inventories = response.inventories;
-                    },
-                    error: (e) => {
-                        this.snackBar.open(e.message, "Entendido", { duration: 2000});
-                    }
-                });
+                this.searchInventoryW(0, true);
             }
         } else {
             this.snackBar.open("Escribe un nombre", "Entendido", { duration: 2000});
         }
     }
 
-    reloadSearch(searching: boolean) {
-        if (!searching) {
+    reloadSearch(changeSede: boolean) {
+        if (changeSede) {
+            this.pageIndex = 0;
+            this.productName = "";
             this.remissionGuide.products = [];
-        }
-        this.productName = "";
-        this.snackBar.open("Actualizando");
-        if (this.remissionGuide.sedeFrom == "Fábrica") {
-            this.refreshInventoryF();
-        } else if (this.remissionGuide.sedeFrom == "Molina Plaza") {
-            this.refreshInventoryMP();
+            this.snackBar.open("Actualizando");
+            if (this.remissionGuide.sedeFrom == "Fábrica") {
+                this.refreshInventoryF(0, true);
+            } else if (this.remissionGuide.sedeFrom == "Molina Plaza") {
+                this.refreshInventoryMP(0, true);
+            } else if (this.remissionGuide.sedeFrom == "Open Plaza") {
+                this.refreshInventoryOP(0, true);
+            } else {
+                this.refreshInventoryW(0, true);
+            }
         } else {
-            this.refreshInventoryOP();
+            if (this.searchingMode) {
+                this.pageIndex = 0;
+                this.searchingMode = false;
+                this.productName = "";
+                this.snackBar.open("Actualizando");
+                if (this.remissionGuide.sedeFrom == "Fábrica") {
+                    this.refreshInventoryMP(0, true);
+                } else if (this.remissionGuide.sedeFrom == "Molina Plaza") {
+                    this.refreshInventoryMP(0, true);
+                } else if (this.remissionGuide.sedeFrom == "Open Plaza") {
+                    this.refreshInventoryOP(0, true);
+                } else {
+                    this.refreshInventoryW(0, true);
+                }
+            }
         }
     }
 
