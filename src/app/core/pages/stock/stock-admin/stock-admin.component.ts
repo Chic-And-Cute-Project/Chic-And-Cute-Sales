@@ -275,13 +275,13 @@ export class StockAdminComponent implements OnInit {
                     next: () => {
                         this.snackBar.dismiss();
                         if (this.sedeSelected == "Fábrica") {
-                            this.refreshInventoryF(0, true);
+                            this.refreshInventoryF(0, false);
                         } else if (this.sedeSelected == "Molina Plaza") {
-                            this.refreshInventoryMP(0, true);
+                            this.refreshInventoryMP(0, false);
                         } else if (this.sedeSelected == "Open Plaza") {
-                            this.refreshInventoryOP(0, true);
+                            this.refreshInventoryOP(0, false);
                         } else {
-                            this.refreshInventoryW(0, true);
+                            this.refreshInventoryW(0, false);
                         }
                     },
                     error: (e) => {
