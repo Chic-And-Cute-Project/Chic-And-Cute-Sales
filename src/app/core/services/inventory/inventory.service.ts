@@ -166,4 +166,12 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
             })
         }).pipe(catchError(this.handleError));
     }
+
+    getProductBySede(sede: string, productId: string): Observable<InventoryApiResponse> {
+        return this.http.get<InventoryApiResponse>(`${this.basePath}/productIdAndSede?sede=${sede}&productId=${productId}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
 }
