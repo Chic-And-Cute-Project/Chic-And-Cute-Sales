@@ -23,8 +23,6 @@ export class StockReceptionSalesComponent implements OnInit {
     remissionGuideAccepted: boolean;
     remissionGuide: RemissionGuide;
     remissionGuides: Array<RemissionGuide>;
-    inventoriesFrom: Array<Inventory>;
-    inventoriesTo: Array<Inventory>;
 
     constructor(private remissionGuideService: RemissionGuideService, private inventoryService: InventoryService,
                 private userService: UserService, private communicationService: CommunicationService,
@@ -35,8 +33,6 @@ export class StockReceptionSalesComponent implements OnInit {
         this.remissionGuideAccepted = false;
         this.remissionGuide = {} as RemissionGuide;
         this.remissionGuides = [];
-        this.inventoriesFrom = [];
-        this.inventoriesTo = [];
     }
 
     ngOnInit(): void {
@@ -67,42 +63,33 @@ export class StockReceptionSalesComponent implements OnInit {
         });
     }
 
-    async selectRemissionGuide() {
+    selectRemissionGuide() {
         this.remissionGuideSelected = true;
         this.remissionGuideAccepted = this.remissionGuide.status == "Aceptado";
-
-        if (!this.remissionGuideAccepted) {
-            const getInventoryToPromise = this.inventoryService.getBySede(this.remissionGuide.sedeTo);
-            let getInventoryToResponse = await lastValueFrom(getInventoryToPromise);
-
-            const getInventoryFromPromise = this.inventoryService.getBySede(this.remissionGuide.sedeFrom);
-            let getInventoryFromResponse = await lastValueFrom(getInventoryFromPromise);
-
-            for (let remissionGuideItem of this.remissionGuide.products) {
-                let inventoryToItem = getInventoryToResponse.inventories.find(inventory => inventory.product._id === remissionGuideItem.product._id);
-                let inventoryFromItem = getInventoryFromResponse.inventories.find(inventory => inventory.product._id === remissionGuideItem.product._id);
-
-                if (inventoryToItem) {
-                    inventoryToItem.quantity = inventoryToItem.quantity + remissionGuideItem.quantity;
-                    this.inventoriesTo.push(inventoryToItem);
-                }
-                if (inventoryFromItem) {
-                    inventoryFromItem.quantity = inventoryFromItem.quantity - remissionGuideItem.quantity;
-                    this.inventoriesFrom.push(inventoryFromItem);
-                }
-            }
-        }
     }
 
     async confirmRemissionGuide() {
         this.snackBar.open("Actualizando inventarios");
-        for (let inventory of this.inventoriesTo) {
-            const updateInventoryToPromise = this.inventoryService.update(inventory._id, inventory);
+        for (let remissionGuideItem of this.remissionGuide.products) {
+            //Obtener inventario actual de sede destino
+            const getInventoryByProductAndSedeToPromise = this.inventoryService.getProductBySede(this.remissionGuide.sedeTo, remissionGuideItem.product._id);
+            let inventoryByProductAndSedeToResponse =  await lastValueFrom(getInventoryByProductAndSedeToPromise);
+            let inventoryTo = inventoryByProductAndSedeToResponse.inventory;
+
+            //Agregacion y actualizacion de stock en sede destino
+            inventoryTo.quantity = inventoryTo.quantity + remissionGuideItem.quantity;
+            const updateInventoryToPromise = this.inventoryService.update(inventoryTo._id, inventoryTo);
             await lastValueFrom(updateInventoryToPromise);
-        }
-        for (let inventory of this.inventoriesFrom) {
-            const updateInventoryToPromise = this.inventoryService.update(inventory._id, inventory);
-            await lastValueFrom(updateInventoryToPromise);
+
+            //Obtener inventario actual de sede origen
+            const getInventoryByProductAndSedeFromPromise = this.inventoryService.getProductBySede(this.remissionGuide.sedeFrom, remissionGuideItem.product._id);
+            let inventoryByProductAndSedeFromResponse =  await lastValueFrom(getInventoryByProductAndSedeFromPromise);
+            let inventoryFrom = inventoryByProductAndSedeFromResponse.inventory;
+
+            //Disminucion y actualizacion de stock en sede origen
+            inventoryFrom.quantity = inventoryFrom.quantity - remissionGuideItem.quantity;
+            const updateInventoryFromPromise = this.inventoryService.update(inventoryFrom._id, inventoryFrom);
+            await lastValueFrom(updateInventoryFromPromise);
         }
         this.remissionGuideService.updateState(this.remissionGuide._id).subscribe({
             next: () => {
