@@ -23,8 +23,6 @@ export class StockReceptionAdminComponent implements OnInit {
     remissionGuideAccepted: boolean;
     remissionGuide: RemissionGuide;
     remissionGuides: Array<RemissionGuide>;
-    inventoriesFrom: Array<Inventory>;
-    inventoriesTo: Array<Inventory>;
 
     constructor(private remissionGuideService: RemissionGuideService, private inventoryService: InventoryService,
                 private userService: UserService, private communicationService: CommunicationService,
@@ -35,8 +33,6 @@ export class StockReceptionAdminComponent implements OnInit {
         this.remissionGuideAccepted = false;
         this.remissionGuide = {} as RemissionGuide;
         this.remissionGuides = [];
-        this.inventoriesFrom = [];
-        this.inventoriesTo = [];
     }
 
     ngOnInit(): void {
