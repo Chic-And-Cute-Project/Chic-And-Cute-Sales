@@ -4,6 +4,8 @@ import {ProductApiResponse} from "../../models/apiResponses/productApiResponse";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable} from "rxjs";
 import {Product} from "../../models/product";
+import {Inventory} from "../../../core/models/inventory";
+import {InventoryApiResponse} from "../../../core/models/apiResponses/inventoryApiResponse";
 
 @Injectable({
     providedIn: 'root'
@@ -33,6 +35,14 @@ export class ProductService extends BaseService<ProductApiResponse>{
 
     deleteProduct(productId: string): Observable<ProductApiResponse> {
         return this.http.delete<ProductApiResponse>(`${this.basePath}?productId=${productId}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    update(productId: string, product: Product): Observable<ProductApiResponse> {
+        return this.http.put<ProductApiResponse>(`${this.basePath}?productId=${productId}`, product, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })

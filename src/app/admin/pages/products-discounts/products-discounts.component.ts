@@ -16,7 +16,7 @@ import {UserService} from "../../../core/services/user/user.service";
 import {CommunicationService} from "../../../shared/services/communicacion/communication.service";
 import {Router} from "@angular/router";
 import {PageEvent} from "@angular/material/paginator";
-import {DeleteProductDialogComponent} from "../../dialogs/delete-product/delete-product-dialog.component";
+import {ManageProductDialogComponent} from "../../dialogs/delete-product/manage-product-dialog.component";
 
 @Component({
   selector: 'app-products-discounts',
@@ -178,25 +178,31 @@ export class ProductsDiscountsComponent implements OnInit{
             product: {...product}
         }
 
-        const dialogRef = this.dialog.open(DeleteProductDialogComponent, dialogConfig);
+        const dialogRef = this.dialog.open(ManageProductDialogComponent, dialogConfig);
 
-        dialogRef.afterClosed().subscribe(async (result: { product: Product }) => {
+        dialogRef.afterClosed().subscribe(async (result: { manageType: string, product: Product }) => {
             if (result) {
-                this.snackBar.open("Eliminando producto de sedes");
-                const deleteInventoryMPResponse = this.inventoryService.deleteBySedeAndProductId("Molina Plaza", result.product._id);
-                await lastValueFrom(deleteInventoryMPResponse);
-                const deleteInventoryOPResponse = this.inventoryService.deleteBySedeAndProductId("Open Plaza", result.product._id);
-                await lastValueFrom(deleteInventoryOPResponse);
-                const deleteInventoryFResponse = this.inventoryService.deleteBySedeAndProductId("Fábrica", result.product._id);
-                await lastValueFrom(deleteInventoryFResponse);
-                const deleteInventoryWResponse = this.inventoryService.deleteBySedeAndProductId("Web", result.product._id);
-                await lastValueFrom(deleteInventoryWResponse);
+                if (result.manageType == "Update") {
+                    this.snackBar.open("Actualizando precio del producto");
+                    const updateProductResponse = this.productService.update(result.product._id, result.product);
+                    await lastValueFrom(updateProductResponse);
+                } else {
+                    this.snackBar.open("Eliminando producto de sedes");
+                    const deleteInventoryMPResponse = this.inventoryService.deleteBySedeAndProductId("Molina Plaza", result.product._id);
+                    await lastValueFrom(deleteInventoryMPResponse);
+                    const deleteInventoryOPResponse = this.inventoryService.deleteBySedeAndProductId("Open Plaza", result.product._id);
+                    await lastValueFrom(deleteInventoryOPResponse);
+                    const deleteInventoryFResponse = this.inventoryService.deleteBySedeAndProductId("Fábrica", result.product._id);
+                    await lastValueFrom(deleteInventoryFResponse);
+                    const deleteInventoryWResponse = this.inventoryService.deleteBySedeAndProductId("Web", result.product._id);
+                    await lastValueFrom(deleteInventoryWResponse);
 
-                const deleteProductPromise = this.productService.deleteProduct(result.product._id);
-                await lastValueFrom(deleteProductPromise);
+                    const deleteProductPromise = this.productService.deleteProduct(result.product._id);
+                    await lastValueFrom(deleteProductPromise);
 
+                    this.refreshProductsCount();
+                }
                 this.refreshProducts(this.pageIndex);
-                this.refreshProductsCount();
                 this.snackBar.dismiss();
             }
         });

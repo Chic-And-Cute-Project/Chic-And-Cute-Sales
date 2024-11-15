@@ -1,5 +1,5 @@
 import {Product} from "../product";
 
-export interface DeleteProduct {
+export interface ManageProduct {
     product: Product;
 }

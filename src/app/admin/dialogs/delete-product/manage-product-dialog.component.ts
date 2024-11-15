@@ -1,19 +1,19 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {DeleteProduct} from "../../models/dialogModels/delete-product";
+import {ManageProduct} from "../../models/dialogModels/manage-product";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-delete-product',
-    templateUrl: './delete-product-dialog.component.html',
+    templateUrl: './manage-product-dialog.component.html',
     styleUrl: '../../pages/products-discounts/products-discounts.component.css'
 })
-export class DeleteProductDialogComponent {
+export class ManageProductDialogComponent {
     validator: boolean;
 
     constructor(
-        public dialogRef: MatDialogRef<DeleteProductDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: DeleteProduct,
+        public dialogRef: MatDialogRef<ManageProductDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: ManageProduct,
         private snackBar: MatSnackBar
     ) {
         this.validator = false;
@@ -23,9 +23,13 @@ export class DeleteProductDialogComponent {
         this.dialogRef.close();
     }
 
-    save() {
+    saveUpdate() {
+        this.dialogRef.close({manageType: "Update", product: this.data.product});
+    }
+
+    saveDelete() {
         if (this.validator) {
-            this.dialogRef.close({product: this.data.product});
+            this.dialogRef.close({manageType: "Delete", product: this.data.product});
         } else {
             this.snackBar.open("Seleccionar la casilla para eliminar", "Entendido", {duration: 5000});
         }
