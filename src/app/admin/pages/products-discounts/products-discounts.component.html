@@ -23,12 +23,13 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="['code', 'fullName', 'price']"></tr>
-                <tr mat-row *matRowDef="let inventory; columns: ['code', 'fullName', 'price'];" style="height: 30px;"></tr>
+                <tr mat-row *matRowDef="let product; columns: ['code', 'fullName', 'price'];" style="cursor: pointer; height: 30px;" (click)="deleteProduct(product)"></tr>
             </table>
             <mat-paginator
                 (page)="handlePageEvent($event)"
                 [length]="productsSize"
                 [pageSize]="10"
+                [pageIndex]="pageIndex"
                 hidePageSize
                 showFirstLastButtons
                 style="margin-bottom: 5px">
@@ -51,7 +52,7 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="['code', 'fullName']"></tr>
-                <tr mat-row *matRowDef="let inventory; columns: ['code', 'fullName'];" style="height: 30px;"></tr>
+                <tr mat-row *matRowDef="let discount; columns: ['code', 'fullName'];" style="height: 30px;"></tr>
             </table>
         </div>
     </div>

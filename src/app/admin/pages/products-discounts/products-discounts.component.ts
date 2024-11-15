@@ -16,6 +16,7 @@ import {UserService} from "../../../core/services/user/user.service";
 import {CommunicationService} from "../../../shared/services/communicacion/communication.service";
 import {Router} from "@angular/router";
 import {PageEvent} from "@angular/material/paginator";
+import {DeleteProductDialogComponent} from "../../dialogs/delete-product/delete-product-dialog.component";
 
 @Component({
   selector: 'app-products-discounts',
@@ -24,6 +25,7 @@ import {PageEvent} from "@angular/material/paginator";
 })
 export class ProductsDiscountsComponent implements OnInit{
     productsSize: number;
+    pageIndex: number;
     discounts: Array<Discount>;
     products: Array<Product>;
 
@@ -32,6 +34,7 @@ export class ProductsDiscountsComponent implements OnInit{
                 private communicationService: CommunicationService, private router: Router,
                 private snackBar: MatSnackBar, private dialog: MatDialog) {
         this.productsSize = 0;
+        this.pageIndex = 0;
         this.discounts = [];
         this.products =  [];
     }
@@ -93,6 +96,7 @@ export class ProductsDiscountsComponent implements OnInit{
     }
 
     handlePageEvent(e: PageEvent) {
+        this.pageIndex = e.pageIndex;
         this.refreshProducts(e.pageIndex);
     }
 
@@ -130,6 +134,7 @@ export class ProductsDiscountsComponent implements OnInit{
                         );
                         await lastValueFrom(createInventoryWResponse);
 
+                        this.refreshProducts(this.pageIndex);
                         this.refreshProductsCount();
                         this.snackBar.dismiss();
                     },
@@ -162,6 +167,37 @@ export class ProductsDiscountsComponent implements OnInit{
                         this.snackBar.open(e.message, "Entendido", {duration: 2000});
                     }
                 });
+            }
+        });
+    }
+
+    deleteProduct(product: Product) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.data = {
+            product: {...product}
+        }
+
+        const dialogRef = this.dialog.open(DeleteProductDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(async (result: { product: Product }) => {
+            if (result) {
+                this.snackBar.open("Eliminando producto de sedes");
+                const deleteInventoryMPResponse = this.inventoryService.deleteBySedeAndProductId("Molina Plaza", result.product._id);
+                await lastValueFrom(deleteInventoryMPResponse);
+                const deleteInventoryOPResponse = this.inventoryService.deleteBySedeAndProductId("Open Plaza", result.product._id);
+                await lastValueFrom(deleteInventoryOPResponse);
+                const deleteInventoryFResponse = this.inventoryService.deleteBySedeAndProductId("Fábrica", result.product._id);
+                await lastValueFrom(deleteInventoryFResponse);
+                const deleteInventoryWResponse = this.inventoryService.deleteBySedeAndProductId("Web", result.product._id);
+                await lastValueFrom(deleteInventoryWResponse);
+
+                const deleteProductPromise = this.productService.deleteProduct(result.product._id);
+                await lastValueFrom(deleteProductPromise);
+
+                this.refreshProducts(this.pageIndex);
+                this.refreshProductsCount();
+                this.snackBar.dismiss();
             }
         });
     }

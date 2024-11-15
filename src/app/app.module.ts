@@ -48,6 +48,8 @@ import { DocumentsPrincipalComponent } from './core/pages/documents/documents-pr
 import { DocumentsAdminComponent } from './core/pages/documents/documents-admin/documents-admin.component';
 import { DocumentsSalesComponent } from './core/pages/documents/documents-sales/documents-sales.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {DeleteProductDialogComponent} from "./admin/dialogs/delete-product/delete-product-dialog.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
     declarations: [
@@ -81,7 +83,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
         CloseSalesDaySalesComponent,
         DocumentsPrincipalComponent,
         DocumentsAdminComponent,
-        DocumentsSalesComponent
+        DocumentsSalesComponent,
+        DeleteProductDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -100,7 +103,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
         MatIconModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatCheckboxModule
     ],
     providers: [
         provideAnimationsAsync(),

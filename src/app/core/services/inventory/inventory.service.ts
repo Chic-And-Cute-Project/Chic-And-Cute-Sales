@@ -174,4 +174,12 @@ export class InventoryService extends BaseService<InventoryApiResponse>{
             })
         }).pipe(catchError(this.handleError));
     }
+
+    deleteBySedeAndProductId(sede: string, productId: string): Observable<InventoryApiResponse> {
+        return this.http.delete<InventoryApiResponse>(`${this.basePath}?sede=${sede}&productId=${productId}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
 }

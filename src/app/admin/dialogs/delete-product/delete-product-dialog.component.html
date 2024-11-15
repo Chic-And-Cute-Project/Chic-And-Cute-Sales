@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Eliminar producto</h1>
+<div mat-dialog-content style="padding: 20px">
+    <mat-checkbox [(ngModel)]="validator">Eliminar producto de todas las sedes</mat-checkbox>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="close()">Close</button>
+    <button mat-button (click)="save()">Guardar</button>
+</div>

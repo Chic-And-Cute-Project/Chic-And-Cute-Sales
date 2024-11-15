@@ -30,4 +30,12 @@ export class ProductService extends BaseService<ProductApiResponse>{
             })
         }).pipe(catchError(this.handleError));
     }
+
+    deleteProduct(productId: string): Observable<ProductApiResponse> {
+        return this.http.delete<ProductApiResponse>(`${this.basePath}?productId=${productId}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
 }
