@@ -188,18 +188,37 @@ export class ProductsDiscountsComponent implements OnInit{
 
         const dialogRef = this.dialog.open(AddDiscountDialogComponent, dialogConfig);
 
-        dialogRef.afterClosed().subscribe((result: { discount: Discount }) => {
+        dialogRef.afterClosed().subscribe(async (result: { discount: Discount }) => {
             if (result) {
                 this.snackBar.open("Creando descuento");
-                this.discountService.create(result.discount).subscribe({
-                    next: (response: DiscountApiResponse) => {
-                        this.snackBar.dismiss();
-                        this.discounts.push(response.discount);
-                    },
-                    error: (e) => {
-                        this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                if (!result.discount.productCode) {
+                    this.discountService.create(result.discount).subscribe({
+                        next: () => {
+                            this.snackBar.dismiss();
+                            this.refreshDiscounts();
+                        },
+                        error: (e) => {
+                            this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                        }
+                    });
+                } else {
+                    const getProductByCodeResponse = this.productService.getByCode(result.discount.productCode);
+                    let productByCodeResponse =  await lastValueFrom(getProductByCodeResponse);
+                    if (productByCodeResponse) {
+                        result.discount.productId = productByCodeResponse.product._id;
+                        this.discountService.create(result.discount).subscribe({
+                            next: () => {
+                                this.snackBar.dismiss();
+                                this.refreshDiscounts();
+                            },
+                            error: (e) => {
+                                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                            }
+                        });
+                    } else {
+                        this.snackBar.open("No existe producto con ese código", "Entendido", {duration: 5000});
                     }
-                });
+                }
             }
         });
     }

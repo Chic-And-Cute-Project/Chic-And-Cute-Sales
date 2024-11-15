@@ -15,10 +15,11 @@
                         <p>S/.{{ saleDetail.product.price }}</p>
                     </div>
                     <div>
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="width: 100px">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="width: 200px">
                             <mat-label>Descuento</mat-label>
                             <mat-select [disabled]="disableInventoryInput" [(value)]="saleDetail.discount">
-                                <mat-option *ngFor="let discount of discounts" [value]="discount.quantity" (click)="updateFinalPrice(saleDetail)">
+                                <mat-option value="0" (click)="updateFinalPrice(saleDetail)">--</mat-option>
+                                <mat-option [disabled]="discount.productId && discount.productId !== saleDetail.product._id" *ngFor="let discount of discounts" [value]="discount.quantity" (click)="updateFinalPrice(saleDetail)">
                                     {{discount.name }}
                                 </mat-option>
                             </mat-select>

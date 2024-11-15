@@ -8,9 +8,16 @@
     </div>
     <div>
         <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Cantidad del Descuento</mat-label>
+            <mat-label>Descuento</mat-label>
             <input matInput required type="number" [(ngModel)]="data.discount.quantity">
             <mat-hint>Colocar el valor sin el %</mat-hint>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Código del producto</mat-label>
+            <input matInput [(ngModel)]="data.discount.productCode">
+            <mat-hint>Opcional</mat-hint>
         </mat-form-field>
     </div>
 </div>

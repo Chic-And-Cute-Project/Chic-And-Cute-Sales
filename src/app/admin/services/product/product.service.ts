@@ -64,4 +64,12 @@ export class ProductService extends BaseService<ProductApiResponse>{
             })
         }).pipe(catchError(this.handleError));
     }
+
+    getByCode(productCode: string): Observable<ProductApiResponse> {
+        return this.http.get<ProductApiResponse>(`${this.basePath}/code?productCode=${productCode}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
 }
