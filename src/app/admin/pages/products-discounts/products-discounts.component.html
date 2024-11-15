@@ -62,7 +62,7 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="['code', 'fullName']"></tr>
-                <tr mat-row *matRowDef="let discount; columns: ['code', 'fullName'];" style="height: 30px;"></tr>
+                <tr mat-row *matRowDef="let discount; columns: ['code', 'fullName'];" style="cursor: pointer; height: 30px;" (click)="updateDiscount(discount)"></tr>
             </table>
         </div>
     </div>

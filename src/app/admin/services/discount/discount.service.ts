@@ -22,4 +22,12 @@ export class DiscountService extends BaseService<DiscountApiResponse>{
             })
         }).pipe(catchError(this.handleError));
     }
+
+    update(discountId: string, discount: Discount): Observable<DiscountApiResponse> {
+        return this.http.put<DiscountApiResponse>(`${this.basePath}?discountId=${discountId}`, discount, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
 }

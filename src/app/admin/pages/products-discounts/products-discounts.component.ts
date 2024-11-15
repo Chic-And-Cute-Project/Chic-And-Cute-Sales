@@ -17,6 +17,7 @@ import {CommunicationService} from "../../../shared/services/communicacion/commu
 import {Router} from "@angular/router";
 import {PageEvent} from "@angular/material/paginator";
 import {ManageProductDialogComponent} from "../../dialogs/delete-product/manage-product-dialog.component";
+import {UpdateDiscountDialogComponent} from "../../dialogs/update-discount/update-discount-dialog.component";
 
 @Component({
   selector: 'app-products-discounts',
@@ -268,5 +269,30 @@ export class ProductsDiscountsComponent implements OnInit{
             this.snackBar.open("Actualizando");
             this.refreshProducts(0, true);
         }
+    }
+
+    updateDiscount(discount: Discount) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.data = {
+            discount: {...discount}
+        }
+
+        const dialogRef = this.dialog.open(UpdateDiscountDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe((result: { discount: Discount }) => {
+            if (result) {
+                this.snackBar.open("Actualizando descuento");
+                this.discountService.update(result.discount._id, result.discount).subscribe({
+                    next: () => {
+                        this.snackBar.dismiss();
+                        this.refreshDiscounts();
+                    },
+                    error: (e) => {
+                        this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                    }
+                });
+            }
+        });
     }
 }

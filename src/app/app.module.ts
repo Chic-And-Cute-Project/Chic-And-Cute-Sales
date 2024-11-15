@@ -50,6 +50,7 @@ import { DocumentsSalesComponent } from './core/pages/documents/documents-sales/
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {ManageProductDialogComponent} from "./admin/dialogs/delete-product/manage-product-dialog.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {UpdateDiscountDialogComponent} from "./admin/dialogs/update-discount/update-discount-dialog.component";
 
 @NgModule({
     declarations: [
@@ -84,7 +85,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         DocumentsPrincipalComponent,
         DocumentsAdminComponent,
         DocumentsSalesComponent,
-        ManageProductDialogComponent
+        ManageProductDialogComponent,
+        UpdateDiscountDialogComponent
     ],
     imports: [
         BrowserModule,
