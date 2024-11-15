@@ -5,7 +5,7 @@
             <mat-label>Guía de Remisión</mat-label>
             <mat-select [(value)]="remissionGuide">
                 <mat-option *ngFor="let remissionGuide of remissionGuides" [value]="remissionGuide" (click)="selectRemissionGuide()">
-                    {{remissionGuide.sedeFrom + " - " + remissionGuide.sedeTo + " / " + datePipe.transform(remissionGuide.date, 'dd/MM/yyyy')}}
+                    Identificador: {{remissionGuide.identifier}}
                 </mat-option>
             </mat-select>
         </mat-form-field>

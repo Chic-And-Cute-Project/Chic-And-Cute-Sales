@@ -7,4 +7,5 @@ export interface RemissionGuide {
     sedeTo: string;
     products: Array<RemissionGuideItem>;
     status: string;
+    identifier: string;
 }

@@ -83,6 +83,12 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+                    <div style="margin-bottom: 15px">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Identificador</mat-label>
+                            <input matInput required [(ngModel)]="remissionGuide.identifier">
+                        </mat-form-field>
+                    </div>
                     <button mat-flat-button (click)="createRemissionGuide()" style="background-color: #eae3db; color: #d1ae6f">Generar Guía</button>
                 </div>
             </ng-template>
