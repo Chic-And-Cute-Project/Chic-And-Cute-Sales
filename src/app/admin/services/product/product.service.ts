@@ -4,8 +4,6 @@ import {ProductApiResponse} from "../../models/apiResponses/productApiResponse";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable} from "rxjs";
 import {Product} from "../../models/product";
-import {Inventory} from "../../../core/models/inventory";
-import {InventoryApiResponse} from "../../../core/models/apiResponses/inventoryApiResponse";
 
 @Injectable({
     providedIn: 'root'
@@ -45,6 +43,24 @@ export class ProductService extends BaseService<ProductApiResponse>{
         return this.http.put<ProductApiResponse>(`${this.basePath}?productId=${productId}`, product, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    searchProducts(productName: string, page: number): Observable<ProductApiResponse> {
+        return this.http.get<ProductApiResponse>(`${this.basePath}/search?productName=${productName}&page=${page}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            })
+        }).pipe(catchError(this.handleError));
+    }
+
+    countDocumentsByMyProduct(productName: string): Observable<ProductApiResponse> {
+        return this.http.get<ProductApiResponse>(`${this.basePath}/countByProduct?productName=${productName}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
             })
         }).pipe(catchError(this.handleError));
     }

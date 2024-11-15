@@ -26,6 +26,8 @@ import {ManageProductDialogComponent} from "../../dialogs/delete-product/manage-
 export class ProductsDiscountsComponent implements OnInit{
     productsSize: number;
     pageIndex: number;
+    productName: string;
+    searchingMode: boolean;
     discounts: Array<Discount>;
     products: Array<Product>;
 
@@ -35,6 +37,8 @@ export class ProductsDiscountsComponent implements OnInit{
                 private snackBar: MatSnackBar, private dialog: MatDialog) {
         this.productsSize = 0;
         this.pageIndex = 0;
+        this.productName = "";
+        this.searchingMode = false;
         this.discounts = [];
         this.products =  [];
     }
@@ -58,14 +62,24 @@ export class ProductsDiscountsComponent implements OnInit{
             this.router.navigate(['/login']).then();
         }
         this.refreshDiscounts();
-        this.refreshProductsCount();
-        this.refreshProducts(0);
+        this.refreshProducts(0, true);
     }
 
-    refreshProductsCount(): void {
-        this.productService.countDocuments().subscribe({
+    refreshProducts(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.productService.countDocuments().subscribe({
+                next: (response: ProductApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.productService.getByPage(page).subscribe({
             next: (response: ProductApiResponse) => {
-                this.productsSize = response.count;
+                this.snackBar.dismiss();
+                this.products = response.products;
             },
             error: (e) => {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -73,13 +87,24 @@ export class ProductsDiscountsComponent implements OnInit{
         });
     }
 
-    refreshProducts(page: number): void {
-        this.productService.getByPage(page).subscribe({
-            next: (response: ProductApiResponse) => {
+    searchProducts(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.productService.countDocumentsByMyProduct(this.productName).subscribe({
+                next: (response: ProductApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.productService.searchProducts(this.productName, page).subscribe({
+            next: response => {
+                this.snackBar.dismiss();
                 this.products = response.products;
             },
             error: (e) => {
-                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                this.snackBar.open(e.message, "Entendido", { duration: 2000});
             }
         });
     }
@@ -97,7 +122,7 @@ export class ProductsDiscountsComponent implements OnInit{
 
     handlePageEvent(e: PageEvent) {
         this.pageIndex = e.pageIndex;
-        this.refreshProducts(e.pageIndex);
+        this.refreshProducts(e.pageIndex, false);
     }
 
     createProduct() {
@@ -134,8 +159,11 @@ export class ProductsDiscountsComponent implements OnInit{
                         );
                         await lastValueFrom(createInventoryWResponse);
 
-                        this.refreshProducts(this.pageIndex);
-                        this.refreshProductsCount();
+                        if (this.searchingMode) {
+                            this.searchProducts(this.pageIndex, true);
+                        } else {
+                            this.refreshProducts(this.pageIndex, true);
+                        }
                         this.snackBar.dismiss();
                     },
                     error: (e) => {
@@ -171,7 +199,7 @@ export class ProductsDiscountsComponent implements OnInit{
         });
     }
 
-    deleteProduct(product: Product) {
+    manageProduct(product: Product) {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;
         dialogConfig.data = {
@@ -186,6 +214,12 @@ export class ProductsDiscountsComponent implements OnInit{
                     this.snackBar.open("Actualizando precio del producto");
                     const updateProductResponse = this.productService.update(result.product._id, result.product);
                     await lastValueFrom(updateProductResponse);
+
+                    if (this.searchingMode) {
+                        this.searchProducts(this.pageIndex, false);
+                    } else {
+                        this.refreshProducts(this.pageIndex, false);
+                    }
                 } else {
                     this.snackBar.open("Eliminando producto de sedes");
                     const deleteInventoryMPResponse = this.inventoryService.deleteBySedeAndProductId("Molina Plaza", result.product._id);
@@ -200,11 +234,35 @@ export class ProductsDiscountsComponent implements OnInit{
                     const deleteProductPromise = this.productService.deleteProduct(result.product._id);
                     await lastValueFrom(deleteProductPromise);
 
-                    this.refreshProductsCount();
+                    if (this.searchingMode) {
+                        this.searchProducts(this.pageIndex, true);
+                    } else {
+                        this.refreshProducts(this.pageIndex, true);
+                    }
                 }
-                this.refreshProducts(this.pageIndex);
                 this.snackBar.dismiss();
             }
         });
+    }
+
+    searchProduct() {
+        if (this.productName != "") {
+            this.pageIndex = 0;
+            this.searchingMode = true;
+            this.snackBar.open("Buscando procuctos");
+            this.searchProducts(0, true);
+        } else {
+            this.snackBar.open("Escribe un nombre", "Entendido", { duration: 2000});
+        }
+    }
+
+    reloadSearch() {
+        if (this.searchingMode) {
+            this.pageIndex = 0;
+            this.searchingMode = false;
+            this.productName = "";
+            this.snackBar.open("Actualizando");
+            this.refreshProducts(0, true);
+        }
     }
 }

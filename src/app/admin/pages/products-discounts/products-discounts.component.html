@@ -6,6 +6,16 @@
                 <h3 style="margin: 20px 10px">Productos</h3>
                 <button mat-flat-button style="background-color: lightgreen" (click)="createProduct()">+</button>
             </div>
+            <div>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" style="margin: 0 10px">
+                    <mat-label>Nombre Producto</mat-label>
+                    <input matInput [(ngModel)]="productName">
+                    <button mat-icon-button matSuffix (click)="searchProduct()" style="border: 0;">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </mat-form-field>
+                <button mat-flat-button (click)="reloadSearch()" style="background-color: #eae3db; color: #d1ae6f">Reiniciar Búsqueda</button>
+            </div>
             <table mat-table [dataSource]="products">
                 <ng-container matColumnDef="code">
                     <th mat-header-cell *matHeaderCellDef>Código</th>
@@ -23,7 +33,7 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="['code', 'fullName', 'price']"></tr>
-                <tr mat-row *matRowDef="let product; columns: ['code', 'fullName', 'price'];" style="cursor: pointer; height: 30px;" (click)="deleteProduct(product)"></tr>
+                <tr mat-row *matRowDef="let product; columns: ['code', 'fullName', 'price'];" style="cursor: pointer; height: 30px;" (click)="manageProduct(product)"></tr>
             </table>
             <mat-paginator
                 (page)="handlePageEvent($event)"
