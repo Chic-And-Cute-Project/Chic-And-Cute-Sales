@@ -122,7 +122,11 @@ export class ProductsDiscountsComponent implements OnInit{
 
     handlePageEvent(e: PageEvent) {
         this.pageIndex = e.pageIndex;
-        this.refreshProducts(e.pageIndex, false);
+        if (this.searchingMode) {
+            this.searchProducts(e.pageIndex, false);
+        } else {
+            this.refreshProducts(e.pageIndex, false);
+        }
     }
 
     createProduct() {
