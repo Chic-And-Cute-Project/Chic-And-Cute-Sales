@@ -7,5 +7,8 @@ export interface SaleApiResponse {
   saleDetails: Array<SaleDetail>;
   cash: number;
   card: number;
+
   salesCount: number;
+  cardCounter: number;
+  cashCounter: number;
 }

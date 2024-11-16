@@ -17,6 +17,8 @@ import {UserApiResponse} from "../../../../security/models/apiResponses/userApiR
 export class CloseSalesDayAdminComponent implements OnInit {
     @Input() role: string;
     totalAmount: number;
+    cardCounter: number;
+    cashCounter: number;
     date: Date;
     closeSalesDay: CloseSalesDay;
     sedes: Array<string>;
@@ -26,6 +28,8 @@ export class CloseSalesDayAdminComponent implements OnInit {
                 private snackBar: MatSnackBar, private router: Router) {
         this.role = "";
         this.totalAmount = 0;
+        this.cardCounter = 0;
+        this.cashCounter = 0;
         this.date = new Date();
         this.date.setHours(0,0,0,0);
         this.closeSalesDay = { sede: "Molina Plaza" } as CloseSalesDay;
@@ -60,6 +64,8 @@ export class CloseSalesDayAdminComponent implements OnInit {
                 this.closeSalesDay.sales = response.sales;
                 this.closeSalesDay.cashAmount = response.cash;
                 this.closeSalesDay.cardAmount = response.card;
+                this.cashCounter = response.cashCounter;
+                this.cardCounter = response.cardCounter;
                 this.totalAmount = this.closeSalesDay.cashAmount + this.closeSalesDay.cardAmount;
             },
             error: (e) => {

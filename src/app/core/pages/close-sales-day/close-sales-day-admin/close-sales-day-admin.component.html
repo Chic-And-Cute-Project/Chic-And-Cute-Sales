@@ -29,10 +29,16 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <p>Efectivo S/.{{closeSalesDay.cashAmount}}</p>
-                <p>Visa S/.{{closeSalesDay.cardAmount}}</p>
-                <p>Total S/.{{totalAmount}}</p>
+            <div style="display: flex">
+                <div>
+                    <p>Efectivo S/.{{closeSalesDay.cashAmount}}</p>
+                    <p>Visa S/.{{closeSalesDay.cardAmount}}</p>
+                    <p>Total S/.{{totalAmount}}</p>
+                </div>
+                <div  style="margin-left: 15px">
+                    <p>Pagos con efectivo: {{cashCounter}}</p>
+                    <p>Pagos con tarjeta: {{cardCounter}}</p>
+                </div>
             </div>
         </div>
         <div class="buttons-container">
