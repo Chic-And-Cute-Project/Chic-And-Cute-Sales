@@ -59,7 +59,7 @@ export class SalesAdminComponent implements OnInit {
         this.finalPrice = 0;
         this.payedPrice = 0;
         this.returnPrice = 0;
-        this.sale = { sede: "Molina Plaza" } as Sale;
+        this.sale = { sede: "Molina Plaza", date: new Date() } as Sale;
         this.paymentMethod = { type: "Efectivo" } as PaymentMethod;
         this.paymentMethod2 = { type: "Visa", amount: 0 } as PaymentMethod;
         this.sale.detail = [];
