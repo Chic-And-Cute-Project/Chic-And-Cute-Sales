@@ -15,6 +15,7 @@ import {Router} from "@angular/router";
 })
 export class ReportSalesComponent implements OnInit {
     @Input() role: string;
+    salesCount: number;
     cashAmount: number;
     cardAmount: number;
     totalAmount: number;
@@ -26,6 +27,7 @@ export class ReportSalesComponent implements OnInit {
                 private salesService: SaleService, private snackBar: MatSnackBar,
                 private router: Router) {
         this.role = "";
+        this.salesCount = 0;
         this.cashAmount = 0;
         this.cardAmount = 0;
         this.totalAmount = 0;
@@ -65,6 +67,7 @@ export class ReportSalesComponent implements OnInit {
                 next: (response: SaleApiResponse) => {
                     this.snackBar.dismiss();
                     this.saleDetails = response.saleDetails;
+                    this.salesCount = response.salesCount;
                     this.cardAmount = response.card;
                     this.cashAmount = response.cash;
                     this.totalAmount = this.cardAmount + this.cashAmount;
