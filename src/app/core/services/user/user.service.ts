@@ -15,16 +15,16 @@ export class UserService extends BaseService<UserApiResponse>{
         this.basePath = this.basePath + 'users';
     }
 
-    getAllSales(): Observable<UserApiResponse> {
-        return this.http.get<UserApiResponse>(`${this.basePath}/getAllSales`, {
+    create(user: User): Observable<UserApiResponse> {
+        return this.http.post<UserApiResponse>(`${this.basePath}/register`, JSON.stringify(user), {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
         }).pipe(catchError(this.handleError));
     }
 
-    create(user: User): Observable<UserApiResponse> {
-        return this.http.post<UserApiResponse>(`${this.basePath}/register`, JSON.stringify(user), {
+    getAllSales(): Observable<UserApiResponse> {
+        return this.http.get<UserApiResponse>(`${this.basePath}/getAllSales`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })

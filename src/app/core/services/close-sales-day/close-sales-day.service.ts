@@ -34,7 +34,7 @@ export class CloseSalesDayService extends BaseService<CloseSalesDayApiResponse>{
     }
 
     getByMySede(minDate: Date, maxDate: Date): Observable<CloseSalesDayApiResponse> {
-        return this.http.get<CloseSalesDayApiResponse>(`${this.basePath}/mySede?minDate=${minDate}&maxDate=${maxDate}`, {
+        return this.http.get<CloseSalesDayApiResponse>(`${this.basePath}/mySede?minDate=${minDate.toISOString()}&maxDate=${maxDate.toISOString()}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
@@ -43,7 +43,7 @@ export class CloseSalesDayService extends BaseService<CloseSalesDayApiResponse>{
     }
 
     getBySede(sede: string, minDate: Date, maxDate: Date): Observable<CloseSalesDayApiResponse> {
-        return this.http.get<CloseSalesDayApiResponse>(`${this.basePath}/sede?sede=${sede}&minDate=${minDate}&maxDate=${maxDate}`, {
+        return this.http.get<CloseSalesDayApiResponse>(`${this.basePath}/sede?sede=${sede}&minDate=${minDate.toISOString()}&maxDate=${maxDate.toISOString()}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })

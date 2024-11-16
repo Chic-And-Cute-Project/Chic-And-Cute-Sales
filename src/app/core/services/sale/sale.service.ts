@@ -25,7 +25,7 @@ export class SaleService extends BaseService<SaleApiResponse>{
     }
 
     getByMyInfo(minDate: Date, maxDate: Date): Observable<SaleApiResponse> {
-        return this.http.get<SaleApiResponse>(`${this.basePath}/myInfo?minDate=${minDate}&maxDate=${maxDate}`, {
+        return this.http.get<SaleApiResponse>(`${this.basePath}/myInfo?minDate=${minDate.toISOString()}&maxDate=${maxDate.toISOString()}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
@@ -34,7 +34,7 @@ export class SaleService extends BaseService<SaleApiResponse>{
     }
 
     getByInfoFromAdmin(userId: string, sede: string, minDate: Date, maxDate: Date) {
-        return this.http.get<SaleApiResponse>(`${this.basePath}/infoAdmin?minDate=${minDate}&maxDate=${maxDate}&userId=${userId}&sede=${sede}`, {
+        return this.http.get<SaleApiResponse>(`${this.basePath}/infoAdmin?minDate=${minDate.toISOString()}&maxDate=${maxDate.toISOString()}&userId=${userId}&sede=${sede}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
@@ -42,7 +42,7 @@ export class SaleService extends BaseService<SaleApiResponse>{
     }
 
     getSalesByDate(date: Date) {
-        return this.http.get<SaleApiResponse>(`${this.basePath}/getSalesByDate?date=${date}`, {
+        return this.http.get<SaleApiResponse>(`${this.basePath}/getSalesByDate?date=${date.toISOString()}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
@@ -51,7 +51,7 @@ export class SaleService extends BaseService<SaleApiResponse>{
     }
 
     getSalesByDateAndSede(sede: string, date: Date) {
-        return this.http.get<SaleApiResponse>(`${this.basePath}/getSalesByDateAndSede?date=${date}&sede=${sede}`, {
+        return this.http.get<SaleApiResponse>(`${this.basePath}/getSalesByDateAndSede?date=${date.toISOString()}&sede=${sede}`, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
