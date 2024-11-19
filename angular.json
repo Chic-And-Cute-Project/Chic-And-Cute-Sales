@@ -38,7 +38,10 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "jspdf"
+            ]
           },
           "configurations": {
             "production": {
@@ -54,7 +57,12 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "externalDependencies": [
+                "canvg",
+                "dompurify",
+                "html2canvas"
+              ]
             },
             "development": {
               "optimization": false,
