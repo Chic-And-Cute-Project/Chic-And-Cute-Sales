@@ -21,15 +21,21 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <p>Efectivo S/.{{closeSalesDay.cashAmount}}</p>
-                <p>Visa S/.{{closeSalesDay.cardAmount}}</p>
-                <p>Total S/.{{totalAmount}}</p>
+            <div style="display: flex">
+                <div>
+                    <p>Efectivo S/.{{closeSalesDay.cashAmount}}</p>
+                    <p>Visa S/.{{closeSalesDay.cardAmount}}</p>
+                    <p>Total S/.{{totalAmount}}</p>
+                </div>
+                <div  style="margin-left: 15px">
+                    <p>Pagos con efectivo: {{cashCounter}}</p>
+                    <p>Pagos con tarjeta: {{cardCounter}}</p>
+                </div>
             </div>
         </div>
         <div class="buttons-container">
             <button mat-flat-button style="margin-bottom: 10px; background-color: #eae3db; color: #d1ae6f" (click)="saveCloseSalesDay()">Guardar Cierre</button>
-            <button mat-flat-button style="background-color: #eae3db; color: #d1ae6f">Guardar y Generar Pdf</button>
+            <button mat-flat-button style="background-color: #eae3db; color: #d1ae6f" (click)="printPdf()">Generar Pdf</button>
         </div>
     </div>
     <div>

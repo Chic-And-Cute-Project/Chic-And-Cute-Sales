@@ -8,6 +8,8 @@ import {Router} from "@angular/router";
 import {UserService} from "../../../services/user/user.service";
 import {CommunicationService} from "../../../../shared/services/communicacion/communication.service";
 import {UserApiResponse} from "../../../../security/models/apiResponses/userApiResponse";
+import * as jspdf from "jspdf";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-close-sales-day-admin',
@@ -16,6 +18,7 @@ import {UserApiResponse} from "../../../../security/models/apiResponses/userApiR
 })
 export class CloseSalesDayAdminComponent implements OnInit {
     @Input() role: string;
+    username: string;
     totalAmount: number;
     cardCounter: number;
     cashCounter: number;
@@ -25,8 +28,10 @@ export class CloseSalesDayAdminComponent implements OnInit {
 
     constructor(private salesService: SaleService, private closeSalesDayService: CloseSalesDayService,
                 private userService: UserService, private communicationService: CommunicationService,
-                private snackBar: MatSnackBar, private router: Router) {
+                private snackBar: MatSnackBar, private router: Router,
+                private datePipe: DatePipe) {
         this.role = "";
+        this.username = "";
         this.totalAmount = 0;
         this.cardCounter = 0;
         this.cashCounter = 0;
@@ -41,6 +46,7 @@ export class CloseSalesDayAdminComponent implements OnInit {
             this.userService.getObject().subscribe({
                 next: (response: UserApiResponse) => {
                     this.communicationService.emitTitleChange({ name: response.user.name + " " + response.user.lastName, sede: response.user.sede });
+                    this.username = response.user.username;
                 },
                 error: (e) => {
                     this.snackBar.open(e.message, "Entendido", {duration: 2000});
@@ -89,5 +95,18 @@ export class CloseSalesDayAdminComponent implements OnInit {
                 this.snackBar.open(e.message, "Entendido", {duration: 2000});
             }
         });
+    }
+
+    printPdf() {
+        let doc = new jspdf.jsPDF({ format: "a7" });
+        doc.setFontSize(10);
+        doc.text(`Vendedor: ${this.username}`, 5, 10);
+        doc.text(`Sede: ${this.closeSalesDay.sede}`, 5, 20);
+        doc.text(`Fecha de cierre: ${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}`, 5, 30);
+        doc.text("Reporte de ventas", 37, 40, { align: "center"});
+        doc.text(`Efectivo (${this.cashCounter})\t S/.${this.closeSalesDay.cashAmount}`, 5, 50);
+        doc.text(`Visa (${this.cardCounter})\t\t S/.${this.closeSalesDay.cardAmount}`, 5, 60);
+        doc.text(`Total \t\t S/.${this.totalAmount}`, 5, 70);
+        doc.save('Cierre de caja');
     }
 }
