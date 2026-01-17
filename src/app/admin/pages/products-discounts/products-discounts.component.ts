@@ -164,6 +164,21 @@ export class ProductsDiscountsComponent implements OnInit{
                         );
                         await lastValueFrom(createInventoryWResponse);
 
+                        const createInventorySBResponse = this.inventoryService.create(
+                          {sede: "Saga Begonia", product: response.product._id}
+                        );
+                        await lastValueFrom(createInventorySBResponse);
+
+                        const createInventorySJPResponse = this.inventoryService.create(
+                          {sede: "Saga Jockey Plaza", product: response.product._id}
+                        );
+                        await lastValueFrom(createInventorySJPResponse);
+
+                        const createInventorySMResponse = this.inventoryService.create(
+                          {sede: "Saga Miraflores", product: response.product._id}
+                        );
+                        await lastValueFrom(createInventorySMResponse);
+
                         if (this.searchingMode) {
                             this.searchProducts(this.pageIndex, true);
                         } else {
@@ -273,7 +288,7 @@ export class ProductsDiscountsComponent implements OnInit{
         if (this.productName != "") {
             this.pageIndex = 0;
             this.searchingMode = true;
-            this.snackBar.open("Buscando procuctos");
+            this.snackBar.open("Buscando productos");
             this.searchProducts(0, true);
         } else {
             this.snackBar.open("Escribe un nombre", "Entendido", { duration: 2000});

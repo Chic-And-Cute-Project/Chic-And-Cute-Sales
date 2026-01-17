@@ -8,7 +8,7 @@ import {catchError, Observable, throwError} from "rxjs";
 export class BaseService<T> {
     //https://www.amoamel.com/chic/api/
     //http://localhost:3000/api/
-    basePath: string = 'https://www.amoamel.com/chic/api/';
+    basePath: string = 'https://www.aurumtech.site/chic/api/';
 
     constructor(public http: HttpClient) {}
 

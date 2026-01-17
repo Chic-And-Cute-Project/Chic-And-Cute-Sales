@@ -146,6 +146,72 @@ export class StockAdminComponent implements OnInit {
         });
     }
 
+    refreshInventorySB(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsBySede("Saga Begonia").subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.getBySede("Saga Begonia", page).subscribe({
+            next: (response: InventoryApiResponse) => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+            }
+        });
+    }
+
+    refreshInventorySJP(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsBySede("Saga Jockey Plaza").subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.getBySede("Saga Jockey Plaza", page).subscribe({
+            next: (response: InventoryApiResponse) => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+            }
+        });
+    }
+
+    refreshInventorySM(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsBySede("Saga Miraflores").subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.getBySede("Saga Miraflores", page).subscribe({
+            next: (response: InventoryApiResponse) => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", {duration: 2000});
+            }
+        });
+    }
+
     searchInventoryF(page: number, firstRequest: boolean): void {
         if (firstRequest) {
             this.inventoryService.countDocumentsBySedeAndProduct("Fábrica", this.productName).subscribe({
@@ -234,6 +300,72 @@ export class StockAdminComponent implements OnInit {
         });
     }
 
+    searchInventorySB(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsBySedeAndProduct("Saga Begonia", this.productName).subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.searchProductsStock("Saga Begonia", this.productName, page).subscribe({
+            next: response => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", { duration: 2000});
+            }
+        });
+    }
+
+    searchInventorySJP(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsBySedeAndProduct("Saga Jockey Plaza", this.productName).subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.searchProductsStock("Saga Jockey Plaza", this.productName, page).subscribe({
+            next: response => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", { duration: 2000});
+            }
+        });
+    }
+
+    searchInventorySM(page: number, firstRequest: boolean): void {
+        if (firstRequest) {
+            this.inventoryService.countDocumentsBySedeAndProduct("Saga Miraflores", this.productName).subscribe({
+                next: (response: InventoryApiResponse) => {
+                    this.productsSize = response.count;
+                },
+                error: (e) => {
+                    this.snackBar.open(e.message, "Entendido", {duration: 2000});
+                }
+            });
+        }
+        this.inventoryService.searchProductsStock("Saga Miraflores", this.productName, page).subscribe({
+            next: response => {
+                this.snackBar.dismiss();
+                this.inventories = response.inventories;
+            },
+            error: (e) => {
+                this.snackBar.open(e.message, "Entendido", { duration: 2000});
+            }
+        });
+    }
+
     handlePageEvent(e: PageEvent) {
         this.pageIndex = e.pageIndex;
         if (this.searchingMode) {
@@ -243,6 +375,12 @@ export class StockAdminComponent implements OnInit {
                 this.searchInventoryOP(e.pageIndex, false);
             } else if (this.sedeSelected == "Fábrica") {
                 this.searchInventoryF(e.pageIndex, false);
+            } else if (this.sedeSelected == "Saga Begonia") {
+                this.searchInventorySB(e.pageIndex, false);
+            } else if (this.sedeSelected == "Saga Jockey Plaza") {
+                this.searchInventorySJP(e.pageIndex, false);
+            } else if (this.sedeSelected == "Saga Miraflores") {
+                this.searchInventorySM(e.pageIndex, false);
             } else {
                 this.searchInventoryW(e.pageIndex, false);
             }
@@ -253,6 +391,12 @@ export class StockAdminComponent implements OnInit {
                 this.refreshInventoryOP(e.pageIndex, false);
             } else if (this.sedeSelected == "Fábrica") {
                 this.refreshInventoryF(e.pageIndex, false);
+            } else if (this.sedeSelected == "Saga Begonia") {
+                this.refreshInventorySB(e.pageIndex, false);
+            } else if (this.sedeSelected == "Saga Jockey Plaza") {
+                this.refreshInventorySJP(e.pageIndex, false);
+            } else if (this.sedeSelected == "Saga Miraflores") {
+                this.refreshInventorySM(e.pageIndex, false);
             } else {
                 this.refreshInventoryW(e.pageIndex, false);
             }
@@ -280,6 +424,12 @@ export class StockAdminComponent implements OnInit {
                             this.refreshInventoryMP(0, false);
                         } else if (this.sedeSelected == "Open Plaza") {
                             this.refreshInventoryOP(0, false);
+                        } else if (this.sedeSelected == "Saga Begonia") {
+                            this.refreshInventorySB(0, false);
+                        } else if (this.sedeSelected == "Saga Jockey Plaza") {
+                            this.refreshInventorySJP(0, false);
+                        } else if (this.sedeSelected == "Saga Miraflores") {
+                            this.refreshInventorySM(0, false);
                         } else {
                             this.refreshInventoryW(0, false);
                         }
@@ -296,13 +446,19 @@ export class StockAdminComponent implements OnInit {
         if (this.productName != "") {
             this.pageIndex = 0;
             this.searchingMode = true;
-            this.snackBar.open("Buscando procuctos");
+            this.snackBar.open("Buscando productos");
             if (this.sedeSelected == "Molina Plaza") {
                 this.searchInventoryMP(0, true);
             } else if (this.sedeSelected == "Open Plaza") {
                 this.searchInventoryOP(0, true);
             } else if (this.sedeSelected == "Fábrica") {
                 this.searchInventoryF(0, true);
+            } else if (this.sedeSelected == "Saga Begonia") {
+                this.searchInventorySB(0, true);
+            } else if (this.sedeSelected == "Saga Jockey Plaza") {
+                this.searchInventorySJP(0, true);
+            } else if (this.sedeSelected == "Saga Miraflores") {
+                this.searchInventorySM(0, true);
             } else {
                 this.searchInventoryW(0, true);
             }
@@ -322,6 +478,12 @@ export class StockAdminComponent implements OnInit {
                 this.refreshInventoryMP(0, true);
             } else if (this.sedeSelected == "Web") {
                 this.refreshInventoryW(0, true);
+            } else if (this.sedeSelected == "Saga Begonia") {
+                this.refreshInventorySB(0, true);
+            } else if (this.sedeSelected == "Saga Jockey Plaza") {
+                this.refreshInventorySJP(0, true);
+            } else if (this.sedeSelected == "Saga Miraflores") {
+                this.refreshInventorySM(0, true);
             } else {
                 this.refreshInventoryOP(0, true);
             }
@@ -337,6 +499,12 @@ export class StockAdminComponent implements OnInit {
                     this.refreshInventoryMP(0, true);
                 } else if (this.sedeSelected == "Web") {
                     this.refreshInventoryW(0, true);
+                } else if (this.sedeSelected == "Saga Begonia") {
+                    this.refreshInventorySB(0, true);
+                } else if (this.sedeSelected == "Saga Jockey Plaza") {
+                    this.refreshInventorySJP(0, true);
+                } else if (this.sedeSelected == "Saga Miraflores") {
+                    this.refreshInventorySM(0, true);
                 } else {
                     this.refreshInventoryOP(0, true);
                 }
