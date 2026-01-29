@@ -419,19 +419,19 @@ export class StockAdminComponent implements OnInit {
                     next: () => {
                         this.snackBar.dismiss();
                         if (this.sedeSelected == "Fábrica") {
-                            this.refreshInventoryF(0, false);
+                            this.refreshInventoryF(this.pageIndex, false);
                         } else if (this.sedeSelected == "Molina Plaza") {
-                            this.refreshInventoryMP(0, false);
+                            this.refreshInventoryMP(this.pageIndex, false);
                         } else if (this.sedeSelected == "Open Plaza") {
-                            this.refreshInventoryOP(0, false);
+                            this.refreshInventoryOP(this.pageIndex, false);
                         } else if (this.sedeSelected == "Saga Begonia") {
-                            this.refreshInventorySB(0, false);
+                            this.refreshInventorySB(this.pageIndex, false);
                         } else if (this.sedeSelected == "Saga Jockey Plaza") {
-                            this.refreshInventorySJP(0, false);
+                            this.refreshInventorySJP(this.pageIndex, false);
                         } else if (this.sedeSelected == "Saga Miraflores") {
-                            this.refreshInventorySM(0, false);
+                            this.refreshInventorySM(this.pageIndex, false);
                         } else {
-                            this.refreshInventoryW(0, false);
+                            this.refreshInventoryW(this.pageIndex, false);
                         }
                     },
                     error: (e) => {
