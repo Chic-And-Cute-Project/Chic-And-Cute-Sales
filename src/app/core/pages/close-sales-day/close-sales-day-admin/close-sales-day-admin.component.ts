@@ -38,7 +38,7 @@ export class CloseSalesDayAdminComponent implements OnInit {
         this.date = new Date();
         this.date.setHours(0,0,0,0);
         this.closeSalesDay = { sede: "Molina Plaza" } as CloseSalesDay;
-        this.sedes = ["Molina Plaza", "Open Plaza", "Web"];
+        this.sedes = ["Molina Plaza", "Open Plaza", "Web", "Saga Begonia", "Saga Jockey Plaza"];
     }
 
     ngOnInit(): void {

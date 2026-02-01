@@ -45,7 +45,7 @@ export class ReportAdminComponent implements OnInit{
         this.user = {} as User;
         this.saleDetails = [];
         this.users = [];
-        this.sedes = ["Molina Plaza", "Open Plaza", "Web"];
+        this.sedes = ["Molina Plaza", "Open Plaza", "Web", "Saga Begonia", "Saga Jockey Plaza"];
     }
 
     ngOnInit(): void {
