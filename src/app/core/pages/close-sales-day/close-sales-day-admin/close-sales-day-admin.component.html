@@ -22,7 +22,7 @@
             <div style="height: 425px; overflow-y: auto;">
                 <div *ngFor="let sale of closeSalesDay.sales" class="sale">
                     <div>
-                        <p *ngFor="let saleDetail of sale.detail">{{saleDetail.quantity}} {{saleDetail.product.fullName}}<span *ngIf="saleDetail.discount != 0" style="font-style: italic;"> Descuento: {{saleDetail.discount}}</span></p>
+                        <p *ngFor="let saleDetail of sale.detail">{{saleDetail.quantity}} {{saleDetail.product.code}}<span *ngIf="saleDetail.discount != 0" style="font-style: italic;"> Descuento: {{saleDetail.discount}}</span></p>
                     </div>
                     <div>
                         <p *ngFor="let paymentMethod of sale.paymentMethod">{{paymentMethod.type + " S/." + paymentMethod.amount}}</p>
